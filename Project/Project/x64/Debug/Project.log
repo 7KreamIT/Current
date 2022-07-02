@@ -1,7 +1,4 @@
-﻿  Functions.cpp
-  Main.cpp
-E:\Coding\Current\Project\Project\Main.cpp(33,45): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-E:\Coding\Current\Project\Project\Main.cpp(46,57): error C2664: "std::string object::findSeparator(std::string [],int,int,std::string)": невозможно преобразовать аргумент 1 из "char" в "std::string []"
-E:\Coding\Current\Project\Project\Main.cpp(46,37): message : Для преобразования из целого типа в указатель требуется reinterpret_cast, приведение в стиле С или приведение в стиле функции в круглых скобках
-E:\Coding\Current\Project\Project\Main.cpp(14,16): message : см. объявление "object::findSeparator"
-  Создание кода...
+﻿  Main.cpp
+E:\Coding\Current\Project\Project\Main.cpp(216,10): warning C4156: удаление массива без использования формы оператора "delete", предусмотренной для массива; подставлена предусмотренная форма оператора
+E:\Coding\Current\Project\Project\Main.cpp(216,10): warning C4154: удаление массива; выполнено преобразование к указателю
+  Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe

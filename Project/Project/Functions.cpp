@@ -8,3 +8,13 @@
 #include <Windows.h>     //для Русского языка
 #include "Header.h"	     //мой заголовок
 using namespace std;
+
+/* пытался сделать цикл в функции
+string object::findSeparator(string objectString[], int i, int j, string word)
+{
+	while (objectString[i][j] != ';') word += objectString[i][j++];
+	j++;
+	return word;
+}
+*/
+
