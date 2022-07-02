@@ -1,0 +1,6 @@
+﻿  Functions.cpp
+  Main.cpp
+E:\Coding\Current\Project\Project\Main.cpp(25,45): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+E:\Coding\Current\Project\Project\Main.cpp(18,12): warning C4101: k: неиспользованная локальная переменная
+  Создание кода...
+  Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe
