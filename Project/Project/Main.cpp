@@ -7,11 +7,17 @@
 #include <tchar.h>       //для чтения файла
 #include <Windows.h>     //для Русского языка
 #include "Header.h"	     //мой заголовок
-#include "Functions.cpp" //мои функции
 using namespace std;
 const int n = 87; //кол-во строк (i - переменная цикла)
 const int m = 28; //кол-во столбцов (j - переменная цикла)
-string findSemicolon(string word, int i, int j);
+
+string object::findSeparator(string objectString[n], int i, int j, string word)
+{
+	while (objectString[i][j] != ';') word += objectString[i][j++];
+	j++;
+	return word;
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Russian"); //поддержка Русского языка
@@ -37,6 +43,7 @@ int main()
 	for (i = 1; i < n; i++)
 	{
 		j = 0;
+		A->findSeparator(objectString[i][j], i, j, A[i].number);
 		while (objectString[i][j] != ';') A[i].number += objectString[i][j++]; j++; //01
 		while (objectString[i][j] != ';') A[i].model += objectString[i][j++]; j++; //02
 		while (objectString[i][j] != ';') A[i].place += objectString[i][j++]; j++; //03

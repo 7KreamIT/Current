@@ -5,6 +5,7 @@ using namespace std;
 class object
 {
 public:
+	string findSeparator(string objectString[], int i, int j, string word);
 	string number; //порядковый номер установки
 	string model; //название модели
 	string place;    //похожие
