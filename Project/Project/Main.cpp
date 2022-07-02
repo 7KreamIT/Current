@@ -7,12 +7,16 @@
 #include <tchar.h>       //для чтения файла
 #include <Windows.h>     //для Русского языка
 #include "Header.h"	     //мой заголовок
+#include <ctime>		 //для вывода времени
 using namespace std;
 const int n = 87; //кол-во строк (i - переменная цикла)
 const int m = 28; //кол-во столбцов (j - переменная цикла)
 
 int main()
 {
+	//вывод времени(может в int):
+	SYSTEMTIME t;	  //для времени
+	GetLocalTime(&t); //для времени
 	setlocale(LC_ALL, "Russian"); //поддержка Русского языка
 	SetConsoleCP(1251);           //поддержка Русского языка
 	SetConsoleOutputCP(1251);     //поддержка Русского языка
@@ -26,17 +30,15 @@ int main()
 		//lengthString[i] = objectString[i].length(); //вычисляет кол-во символов в строке
 	}
 	fin.close(); //закрытие файла
-	cout << "Окей, летс го!" << endl;
-	cout << "Проверка 1: " << lengthString[5] << " ***" << endl;
-	cout << "Проверка 2: " << objectString[3] << " ***" << endl;
 
-	//заполнение структуры
-	
+	//cout << "Проверка 1: " << lengthString[5] << " ***" << endl;
+	//cout << "Проверка 2: " << objectString[3] << " ***" << endl;
+
+	//заполнение структуры:	
 	object A[n];
 	for (i = 0; i < n; i++) //нулевая строка это заголовки
 	{
 		j = 0;
-		//A->findSeparator(objectString[i][j], i, j, A[i].number); //попытка сделать цикл в функции
 		while (objectString[i][j] != ';')  A[i].number		 += objectString[i][j++]; j++; //01
 		while (objectString[i][j] != ';')  A[i].model		 += objectString[i][j++]; j++; //02
 		while (objectString[i][j] != ';')  A[i].place		 += objectString[i][j++]; j++; //03
@@ -66,17 +68,18 @@ int main()
 		while (objectString[i][j] != ';')  A[i].Belt3		 += objectString[i][j++]; j++; //27
 										   A[i].SHD		     += objectString[i][j];        //28
 	}
-	cout << "Проверка 3: " << A[3].SHD  << " ***" << endl;
 
+	//cout << "Проверка 3: " << A[3].SHD  << " ***" << endl;
 
-	// Опрос: (должен быть функцией)
+	/*
+	// Опрос: 
 	int qWhat = 17;       //вопрос: Что?
 	string aWhat;         //ответ: Что?
 	while (qWhat == 17)
 	{
-		cout << "Начало программы." << endl;
+		cout << "Окей, летс го!" << endl;
 		cout << "Что за устройство?" << endl;
-		cout << "0 - Назад" << endl;
+		cout << "0 - Назад (Назад дороги нет)" << endl;
 		cout << "1 - Компрессор" << endl;
 		cout << "2 - Воздуходувка" << endl;
 		cout << "3 - Осушитель" << endl;
@@ -84,6 +87,7 @@ int main()
 		switch (qWhat)
 		{
 		case 0:
+			qWhat = 17;
 			//придумать алгоритм возврата к предыдущему разделу
 			break;
 		case 1:
@@ -100,10 +104,15 @@ int main()
 			break;
 		}
 	}
+
+	system("cls");
+	cout << aWhat << " " << endl;
+
 	int qWhere = 17;       //вопрос: Где?
 	string aWhere;         //ответ: Где?
-	int qWhereFirst = 17;  //уточнение первого
-	string aWhereFirst;    //уточнение первого
+	int qWhereFirst  = 17; //уточнение первого
+	int qWhereSecond = 17; //уточнение второго
+	int qWhereThird  = 17; //уточнение третьего
 	while (qWhere == 17)
 	{
 		cout << "Где находится? (Пешая доступность)" << endl;
@@ -116,11 +125,12 @@ int main()
 		cout << "6 - Пульпанасосная" << endl;
 		cout << "7 - Сгущение" << endl;
 		cout << "8 - Станция Комбинатская" << endl;
-		cout << "9 - Другое" << endl; //доп ветка
+		cout << "9 - Перегрузка" << endl; //доп ветка
 		cin >> qWhere;
 		switch (qWhere)
 		{
 		case 0:
+			qWhere = 17; //костыль
 			//придумать алгоритм возврата к предыдущему разделу
 			break;
 		case 1:
@@ -136,6 +146,7 @@ int main()
 				switch (qWhereFirst)
 				{
 				case 0:
+					qWhere = 17; //костыль
 					//придумать алгоритм возврата к предыдущему разделу
 					break;
 				case 1:
@@ -150,36 +161,128 @@ int main()
 				case 4:
 					aWhere = "-3 м";
 					break;
-
 				default:
 					qWhere = 17;
 					break;
 				}
 			}
 		case 2:
-			//!!!!!!!!!!!!!!!!!!!!!!!!КОНЕЦ!!!!!!!!!!!!!!!!!!!!
+			aWhere = "ДОФ";
 			break;
 		case 3:
+			aWhere = "Шихта";
+			break;
+		case 4:
+			cout << "Какой бункер из двух?" << endl;
+			cout << "0 - Назад" << endl; //Придумать алгоритм возврата
+			cout << "1 - Первый (Ближе)" << endl;
+			cout << "2 - Второй (Дальше)" << endl;
+			cin >> qWhereSecond;
+			switch (qWhereSecond)
+			{
+			case 0:
+				qWhere = 17; //костыль
+				//придумать алгоритм возврата к предыдущему разделу
+				break;
+			case 1:
+				aWhere = "ГП 1";
+				break;
+			case 2:
+				aWhere = "ГП 2";
+				break;
+			default:
+				qWhere = 17;
+				break;
+			}
+			break;
+		case 5:
+			aWhere = "Перегр.";
+			break;
+		case 6:
+			aWhere = "Пульп.";
+			break;
+		case 7:
+			cout << "Какое сгущение-то?" << endl;
+			cout << "0 - Назад" << endl; //Придумать алгоритм возврата
+			cout << "1 - Ну то, что рядом с ДОФом" << endl;
+			cout << "2 - Новое" << endl;
+			cin >> qWhereThird;
+			switch (qWhereThird)
+			{
+			case 0:
+				qWhere = 17; //костыль
+				//придумать алгоритм возврата к предыдущему разделу
+				break;
+			case 1:
+				aWhere = "Сгущ.";
+				break;
+			case 2:
+				aWhere = "Нов.сгущ.";
+				break;
+			default:
+				qWhere = 17;
+				break;
+			}
+			break;
+		case 8:
+			aWhere = "Комб-ая";
+			break;
+		case 9:
+			aWhere = "Перегр.";
 			break;
 		default:
 			qWhere = 17;
 			break;
 		}
 	}
-	cout << endl << "Проверка 2:" << aWhere << endl << "***" << endl;
+	
+	system("cls");
+	cout << aWhat << " на " << aWhere << " " << endl;
+	*/
 
-	int qWhen = 17;        //вопрос: Когда? 0;
-	cout << "Когда сделано ТО?" << endl;
-	cout << "1 - Сегодня" << endl;
-	cout << "2 - Вчера" << endl;
-	cout << "3 - Позавчера" << endl;
-	cout << "4 - Ввести дату" << endl; //доп ветка
-	cout << "0 - Назад" << endl;
-	cin >> qWhen;
+	int qWhen = 17; //вопрос: Когда?
+	int aWhen = 0; //вопрос: Когда?
+	while (qWhen == 17)
+	{
+		cout << "Когда сделано ТО?" << endl;
+		cout << "0 - Назад" << endl;
+		cout << "1 - Сегодня" << endl;
+		cout << "2 - Вчера" << endl;
+		cout << "3 - Позавчера" << endl;
+		cout << "4 - Ввести дату" << endl; //доп ветка
+		cin >> qWhen;
+		switch (qWhen)
+		{
+		case 0:
+			qWhen = 17; //костыль
+			//придумать алгоритм возврата к предыдущему разделу
+			break;
+		case 1:
+			cout << t.wDay << endl;
+			cout << t.wMonth << endl;
+			cout << t.wYear << endl;
+			//cout << t.wHour << endl;   //а ещё можно часы
+			//cout << t.wMinute << endl; //а ещё можно минуты
+			//cout << t.wSecond << endl; //а ещё можно секунды
+			************************************КОНЕЦ********************************
+			break;
+		case 2:
+			aWhen;
+			break;
+		case 3:
+			aWhen;
+			break;
+		case 4:
+			aWhen;
+			break;
+		default:
+			qWhen = 17;
+			break;
+		}
+	}
 
 	//вывод в файл:
 	ofstream fWrite("FileOut.csv"); //объявим вывод в файл csv
-	cout << "Считанная матрица: " << endl;
 	for (i = 0; i < n; i++)
 	{
 		fWrite << A[i].number		<< ";"; //01

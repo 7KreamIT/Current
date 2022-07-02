@@ -5,7 +5,6 @@ using namespace std;
 class object
 {
 public:
-	//string findSeparator(string objectString[], int i, int j, string word); //попытка сделать цикл в функции
 	~object(){}; //деструктор
 	string number; //порядковый номер установки
 	string model; //название модели

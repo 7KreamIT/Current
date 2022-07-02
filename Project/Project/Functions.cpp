@@ -7,14 +7,5 @@
 #include <tchar.h>       //для чтения файла
 #include <Windows.h>     //для Русского языка
 #include "Header.h"	     //мой заголовок
+#include <ctime>		 //для вывода времени
 using namespace std;
-
-/* пытался сделать цикл в функции
-string object::findSeparator(string objectString[], int i, int j, string word)
-{
-	while (objectString[i][j] != ';') word += objectString[i][j++];
-	j++;
-	return word;
-}
-*/
-
