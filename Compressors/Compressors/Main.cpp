@@ -1,4 +1,3 @@
-//ver 020722
 #include <iostream>    //для потока консоли
 #include <fstream>     //для потока файла
 #include <conio.h>     //для cout
@@ -35,80 +34,73 @@ int main()
 	for (i = 1; i < n; i++)
 	{
 		j = 0;
-		while (objectString[i][j] != ';') A[i].number		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].model		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].place		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].oil			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].tools		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].password		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].qtAF		    += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].qtOF		    += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].qtOS         += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].qtBelt		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].info         += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].lastDateTO   += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].lastHoursTO  += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].owner        += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].serialNumber += objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].AF1			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].AF2			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].AF3			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].OF1			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].OF2			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].OF3			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].OS1			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].OS2			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].OS3			+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].Belt1		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].Belt2		+= objectString[i][j++]; j++;
-		while (objectString[i][j] != ';') A[i].Belt3		+= objectString[i][j++]; j++;
-		A[i].SHD = objectString[i][j];
+		while (objectString[i][j] != ';') A[i].number		+= objectString[i][j++]; j++; //01
+		while (objectString[i][j] != ';') A[i].model		+= objectString[i][j++]; j++; //02
+		while (objectString[i][j] != ';') A[i].place		+= objectString[i][j++]; j++; //03
+		while (objectString[i][j] != ';') A[i].oil			+= objectString[i][j++]; j++; //04
+		while (objectString[i][j] != ';') A[i].tools		+= objectString[i][j++]; j++; //05
+		while (objectString[i][j] != ';') A[i].password		+= objectString[i][j++]; j++; //06
+		while (objectString[i][j] != ';') A[i].qtAF		    += objectString[i][j++]; j++; //07
+		while (objectString[i][j] != ';') A[i].qtOF		    += objectString[i][j++]; j++; //08
+		while (objectString[i][j] != ';') A[i].qtOS         += objectString[i][j++]; j++; //09
+		while (objectString[i][j] != ';') A[i].qtBelt		+= objectString[i][j++]; j++; //10
+		while (objectString[i][j] != ';') A[i].info         += objectString[i][j++]; j++; //11
+		while (objectString[i][j] != ';') A[i].lastDateTO   += objectString[i][j++]; j++; //12
+		while (objectString[i][j] != ';') A[i].lastHoursTO  += objectString[i][j++]; j++; //13
+		while (objectString[i][j] != ';') A[i].owner        += objectString[i][j++]; j++; //14
+		while (objectString[i][j] != ';') A[i].serialNumber += objectString[i][j++]; j++; //15
+		while (objectString[i][j] != ';') A[i].AF1			+= objectString[i][j++]; j++; //16
+		while (objectString[i][j] != ';') A[i].AF2			+= objectString[i][j++]; j++; //17
+		while (objectString[i][j] != ';') A[i].AF3			+= objectString[i][j++]; j++; //18
+		while (objectString[i][j] != ';') A[i].OF1			+= objectString[i][j++]; j++; //19
+		while (objectString[i][j] != ';') A[i].OF2			+= objectString[i][j++]; j++; //20
+		while (objectString[i][j] != ';') A[i].OF3			+= objectString[i][j++]; j++; //21
+		while (objectString[i][j] != ';') A[i].OS1			+= objectString[i][j++]; j++; //22
+		while (objectString[i][j] != ';') A[i].OS2			+= objectString[i][j++]; j++; //23
+		while (objectString[i][j] != ';') A[i].OS3			+= objectString[i][j++]; j++; //24
+		while (objectString[i][j] != ';') A[i].Belt1		+= objectString[i][j++]; j++; //25
+		while (objectString[i][j] != ';') A[i].Belt2		+= objectString[i][j++]; j++; //26
+		while (objectString[i][j] != ';') A[i].Belt3		+= objectString[i][j++]; j++; //27
+		A[i].SHD = objectString[i][j];													  //28
 	}
 	cout << "Проверка 3: " << endl << A[86].info << endl << "***" << endl;
 
-	/*
-	ofstream fWrite("Test1out.csv"); //объявим вывод в файл csv
-
-	//cout << "*" << A[2].serialNumber << "*" << endl;
-
+	//вывод в файл:
+	ofstream fWrite("FileOut.csv"); //объявим вывод в файл csv
 	cout << "Считанная матрица: " << endl;
 	for (i = 0; i < n; i++)
 	{
-		for (j = 0; j < m; j++)
-		{
-			fWrite << A[i].number;
-			fWrite << A[i].model[30];
-			fWrite << A[i].place[15];
-			fWrite << A[i].oil[15];
-			fWrite << A[i].tools[15];
-			fWrite << A[i].password[15];
-			fWrite << A[i].qtAF[4];
-			fWrite << A[i].qtOF[4];
-			fWrite << A[i].qtOS[4];
-			fWrite << A[i].qtBelt[4];
-			fWrite << A[i].info[300];
-			fWrite << A[i].lastDateTO;
-			fWrite << A[i].lastHoursTO;
-			fWrite << A[i].owner[20];
-			fWrite << A[i].serialNumber[20];
-			fWrite << A[i].AF1[30];
-			fWrite << A[i].AF2[30];
-			fWrite << A[i].AF3[30];
-			fWrite << A[i].OF1[30];
-			fWrite << A[i].OF2[30];
-			fWrite << A[i].OF3[30];
-			fWrite << A[i].OS1[30];
-			fWrite << A[i].OS2[30];
-			fWrite << A[i].OS3[30];
-			fWrite << A[i].Belt1[30];
-			fWrite << A[i].Belt2[30];
-			fWrite << A[i].Belt3[30];
-			fWrite << A[i].SHD;
-		}
+		fWrite << A[i].number		 <<";"; //01
+		fWrite << A[i].model		 <<";"; //02
+		fWrite << A[i].place		 <<";"; //03
+		fWrite << A[i].oil			 <<";"; //04
+		fWrite << A[i].tools		 <<";"; //05
+		fWrite << A[i].password	     <<";"; //06
+		fWrite << A[i].qtAF			 <<";"; //07
+		fWrite << A[i].qtOF		     <<";"; //08
+		fWrite << A[i].qtOS		     <<";"; //09
+		fWrite << A[i].qtBelt		 <<";"; //10
+		fWrite << A[i].info		     <<";"; //11
+		fWrite << A[i].lastDateTO	 <<";"; //12
+		fWrite << A[i].lastHoursTO	 <<";"; //13
+		fWrite << A[i].owner		 <<";"; //14
+		fWrite << A[i].serialNumber  <<";"; //15
+		fWrite << A[i].AF1			 <<";"; //16
+		fWrite << A[i].AF2			 <<";"; //17
+		fWrite << A[i].AF3			 <<";"; //18
+		fWrite << A[i].OF1			 <<";"; //19
+		fWrite << A[i].OF2			 <<";"; //20
+		fWrite << A[i].OF3			 <<";"; //21
+		fWrite << A[i].OS1			 <<";"; //22
+		fWrite << A[i].OS2			 <<";"; //23
+		fWrite << A[i].OS3			 <<";"; //24
+		fWrite << A[i].Belt1		 <<";"; //25
+		fWrite << A[i].Belt2		 <<";"; //26
+		fWrite << A[i].Belt3		 <<";"; //27
+		fWrite << A[i].SHD			 <<";"; //28
 		fWrite << endl;
 	}
 	fWrite << endl;
-	*/
 
 	// Опрос: (должен быть функцией)
 	int qWhat = 17;       //вопрос: Что?
@@ -209,7 +201,7 @@ int main()
 		}
 	}
 	cout << endl << "Проверка 2:" << aWhere << endl << "***" << endl;
-	//system("cls"); //чистит экран вывода	
+	
 	int qWhen = 17;        //вопрос: Когда? 0;
 	cout << "Когда сделано ТО?" << endl;
 	cout << "1 - Сегодня" << endl;
@@ -219,5 +211,7 @@ int main()
 	cout << "0 - Назад" << endl;
 	cin >> qWhen;
 
+
+	//system("cls"); //чистит экран вывода	
 	return (0);
 }

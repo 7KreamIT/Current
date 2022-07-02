@@ -1,4 +1,4 @@
 ﻿  Main.cpp
-E:\Coding\Compressors\Compressors\Main.cpp(25,45): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-E:\Coding\Compressors\Compressors\Main.cpp(18,12): warning C4101: k: неиспользованная локальная переменная
-  Compressors.vcxproj -> E:\Coding\Compressors\x64\Debug\Compressors.exe
+G:\Мой диск\В доступе\Projects\Compressors\Compressors\Main.cpp(25,45): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+G:\Мой диск\В доступе\Projects\Compressors\Compressors\Main.cpp(18,12): warning C4101: k: неиспользованная локальная переменная
+  Compressors.vcxproj -> G:\Мой диск\В доступе\Projects\Compressors\x64\Debug\Compressors.exe
