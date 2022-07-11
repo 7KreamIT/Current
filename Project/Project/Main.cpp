@@ -27,12 +27,9 @@ int main()
 	for (i = 0; i < n; i++)
 	{
 		getline(fin, objectString[i]); //читает строку
-		//lengthString[i] = objectString[i].length(); //вычисляет кол-во символов в строке
+		//lengthString[i] = objectString[i].length(); //вычисляет кол-во символов в строке (мб и пригодится)
 	}
 	fin.close(); //закрытие файла
-
-	//cout << "Проверка 1: " << lengthString[5] << " ***" << endl;
-	//cout << "Проверка 2: " << objectString[3] << " ***" << endl;
 
 	//заполнение структуры:	
 	object A[n];
@@ -69,17 +66,20 @@ int main()
 										   A[i].SHD		     += objectString[i][j];        //28
 	}
 
-	//cout << "Проверка 3: " << A[3].SHD  << " ***" << endl;
-
-	/*
 	// Опрос: 
-	int qWhat = 17;       //вопрос: Что?
-	string aWhat;         //ответ: Что?
+	int qWhat = 17;        //вопрос: Что?
+	int qWhere = 0;        //вопрос: Где?
+	string aWhat;          //ответ: Что?
+	string aWhere;         //ответ: Где?
+	int qWhereFirst = 17;  //уточнение первого
+	int qWhereSecond = 17; //уточнение второго
+	int qWhereThird = 17;  //уточнение третьего
+	//цикл на выходе из которого имеем aWhat и уточнённый aWhere:
 	while (qWhat == 17)
 	{
-		cout << "Окей, летс го!" << endl;
+		cout << "Начало программы!" << endl;
 		cout << "Что за устройство?" << endl;
-		cout << "0 - Назад (Назад дороги нет)" << endl;
+		cout << "0 - Выход из программы" << endl;
 		cout << "1 - Компрессор" << endl;
 		cout << "2 - Воздуходувка" << endl;
 		cout << "3 - Осушитель" << endl;
@@ -87,57 +87,54 @@ int main()
 		switch (qWhat)
 		{
 		case 0:
-			qWhat = 17;
-			//придумать алгоритм возврата к предыдущему разделу
+			exit(0); //выйти из программы
 			break;
 		case 1:
 			aWhat = "КП";
+			qWhere = 17; //разрешение на следущий цикл
+			system("cls");
 			break;
 		case 2:
 			aWhat = "ВД";
+			qWhere = 17; //разрешение на следущий цикл
+			system("cls");
 			break;
 		case 3:
 			aWhat = "ОС";
+			qWhere = 17; //разрешение на следущий цикл
+			system("cls");
 			break;
 		default:
+			system("cls");
+			aWhat = "";
 			qWhat = 17;
+			cout << "Введите число от 0 до 3!" << endl;
 			break;
 		}
-	}
-
-	system("cls");
-	cout << aWhat << " " << endl;
-
-	int qWhere = 17;       //вопрос: Где?
-	string aWhere;         //ответ: Где?
-	int qWhereFirst  = 17; //уточнение первого
-	int qWhereSecond = 17; //уточнение второго
-	int qWhereThird  = 17; //уточнение третьего
-	while (qWhere == 17)
-	{
-		cout << "Где находится? (Пешая доступность)" << endl;
-		cout << "0 - Назад" << endl;
-		cout << "1 - 1-я, 2-я или 3-я очередь" << endl; //доп ветка
-		cout << "2 - ДОФ" << endl;
-		cout << "3 - Шихта" << endl;
-		cout << "4 - Готовая продукция" << endl;
-		cout << "5 - Перегрузка" << endl;
-		cout << "6 - Пульпанасосная" << endl;
-		cout << "7 - Сгущение" << endl;
-		cout << "8 - Станция Комбинатская" << endl;
-		cout << "9 - Перегрузка" << endl; //доп ветка
-		cin >> qWhere;
-		switch (qWhere)
+		while (qWhere == 17)
 		{
-		case 0:
-			qWhere = 17; //костыль
-			//придумать алгоритм возврата к предыдущему разделу
-			break;
-		case 1:
-			while (qWhereFirst == 17)
+			cout << aWhat << " " << endl;
+			cout << "Где находится? (Пешая доступность)" << endl;
+			cout << "0 - Назад" << endl;
+			cout << "1 - 1-я, 2-я или 3-я очередь" << endl; //доп ветка
+			cout << "2 - ДОФ" << endl;
+			cout << "3 - Шихта" << endl;
+			cout << "4 - Готовая продукция" << endl; //доп ветка
+			cout << "5 - Перегрузка" << endl;
+			cout << "6 - Пульпанасосная" << endl;
+			cout << "7 - Сгущение" << endl; //доп ветка
+			cout << "8 - Станция Комбинатская" << endl;
+			cout << "9 - Перегрузка" << endl; 
+			cin >> qWhere;
+			switch (qWhere)
 			{
+			case 0:
+				qWhat = 17;
+				system("cls");
+				break;
+			case 1:
 				cout << "Можно поконкретнее? Пожалуйста)))" << endl;
-				cout << "0 - Назад" << endl; //Придумать алгоритм возврата
+				cout << "0 - Назад" << endl;
 				cout << "1 - Обжиг" << endl;
 				cout << "2 - Вторая" << endl;
 				cout << "3 - Третья" << endl;
@@ -146,8 +143,9 @@ int main()
 				switch (qWhereFirst)
 				{
 				case 0:
-					qWhere = 17; //костыль
-					//придумать алгоритм возврата к предыдущему разделу
+					qWhere = 17;
+					aWhere = "";
+					system("cls");
 					break;
 				case 1:
 					aWhere = "Обжиг";
@@ -165,80 +163,83 @@ int main()
 					qWhere = 17;
 					break;
 				}
-			}
-		case 2:
-			aWhere = "ДОФ";
-			break;
-		case 3:
-			aWhere = "Шихта";
-			break;
-		case 4:
-			cout << "Какой бункер из двух?" << endl;
-			cout << "0 - Назад" << endl; //Придумать алгоритм возврата
-			cout << "1 - Первый (Ближе)" << endl;
-			cout << "2 - Второй (Дальше)" << endl;
-			cin >> qWhereSecond;
-			switch (qWhereSecond)
-			{
-			case 0:
-				qWhere = 17; //костыль
-				//придумать алгоритм возврата к предыдущему разделу
-				break;
-			case 1:
-				aWhere = "ГП 1";
 				break;
 			case 2:
-				aWhere = "ГП 2";
+				aWhere = "ДОФ";
+				break;
+			case 3:
+				aWhere = "Шихта";
+				break;
+			case 4:
+				cout << "Какой бункер из двух?" << endl;
+				cout << "0 - Назад" << endl; 
+				cout << "1 - Первый (Ближе)" << endl;
+				cout << "2 - Второй (Дальше)" << endl;
+				cin >> qWhereSecond;
+				switch (qWhereSecond)
+				{
+				case 0:
+					qWhere = 17; 
+					system("cls");
+					break;
+				case 1:
+					aWhere = "ГП 1";
+					break;
+				case 2:
+					aWhere = "ГП 2";
+					break;
+				default:
+					qWhere = 17;
+					break;
+				}
+				break;
+			case 5:
+				aWhere = "Перегр.";
+				break;
+			case 6:
+				aWhere = "Пульп.";
+				break;
+			case 7:
+				cout << "Какое сгущение-то?" << endl;
+				cout << "0 - Назад" << endl;
+				cout << "1 - Ну то, что рядом с ДОФом" << endl;
+				cout << "2 - Новое" << endl;
+				cin >> qWhereThird;
+				switch (qWhereThird)
+				{
+				case 0:
+					qWhere = 17;
+					system("cls");
+					break;
+				case 1:
+					aWhere = "Сгущ.";
+					break;
+				case 2:
+					aWhere = "Нов.сгущ.";
+					break;
+				default:
+					qWhere = 17;
+					break;
+				}
+				break;
+			case 8:
+				aWhere = "Комб-ая";
+				break;
+			case 9:
+				aWhere = "Перегр.";
 				break;
 			default:
+				system("cls");
 				qWhere = 17;
+				cout << "Введите число от 0 до 9!" << endl;
 				break;
 			}
-			break;
-		case 5:
-			aWhere = "Перегр.";
-			break;
-		case 6:
-			aWhere = "Пульп.";
-			break;
-		case 7:
-			cout << "Какое сгущение-то?" << endl;
-			cout << "0 - Назад" << endl; //Придумать алгоритм возврата
-			cout << "1 - Ну то, что рядом с ДОФом" << endl;
-			cout << "2 - Новое" << endl;
-			cin >> qWhereThird;
-			switch (qWhereThird)
-			{
-			case 0:
-				qWhere = 17; //костыль
-				//придумать алгоритм возврата к предыдущему разделу
-				break;
-			case 1:
-				aWhere = "Сгущ.";
-				break;
-			case 2:
-				aWhere = "Нов.сгущ.";
-				break;
-			default:
-				qWhere = 17;
-				break;
-			}
-			break;
-		case 8:
-			aWhere = "Комб-ая";
-			break;
-		case 9:
-			aWhere = "Перегр.";
-			break;
-		default:
-			qWhere = 17;
-			break;
 		}
 	}
-	
 	system("cls");
 	cout << aWhat << " на " << aWhere << " " << endl;
-	*/
+	
+
 
 	int qWhen = 17; //вопрос: Когда?
 	int aWhen = 0; //вопрос: Когда?
@@ -264,7 +265,6 @@ int main()
 			//cout << t.wHour << endl;   //а ещё можно часы
 			//cout << t.wMinute << endl; //а ещё можно минуты
 			//cout << t.wSecond << endl; //а ещё можно секунды
-			************************************КОНЕЦ********************************
 			break;
 		case 2:
 			aWhen;
@@ -317,6 +317,5 @@ int main()
 	}
 
 	delete A; //деструктор
-	//system("cls"); //чистит экран вывода	
 	return (0);
 }
