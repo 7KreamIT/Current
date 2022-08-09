@@ -1,14 +1,20 @@
-#include <iostream>      //для потока консоли
-#include <fstream>       //для потока файла
-#include <conio.h>       //для cout
-#include <string>        //для работы со строками
-#include <SDKDDKVer.h>   //для чтения файла
-#include <stdio.h>       //для чтения файла
-#include <tchar.h>       //для чтения файла
-#include <Windows.h>     //для Русского языка
-#include "Header.h"	     //мой заголовок
-#include <ctime>		 //для вывода времени
-using namespace std;
+#include "Header.h" //подключение заголовка
+
+//подсчёт кол-ва строк в файле и вывод в формате int:
+int numberOfLines(string fileName)
+{
+	char* str = new char[1024];
+	int i = 0;
+	ifstream base(fileName);
+	while (!base.eof())
+	{
+		base.getline(str, 1024, '\n');
+		i++;
+	}
+	base.close();
+	delete[] str;
+	return i;
+}
 
 //приведение дат в формат ДДММГГ:
 string dateToSixNumbers(int day, int month, int year)
@@ -60,4 +66,24 @@ int winGadget(gadget* A, int* x, int n) //x - это массив с подходящими под описа
 		<< "' модели '" << A[chosenGadget].model
 		<< "'" << endl;
 	return chosenGadget;
+}
+
+//функция для красивого завершения программы:
+bool exitProgram()
+{
+	char a;
+	int b;
+	cout << "Программа завершена без ошибок!\nНажмите Enter для выхода из программы" << endl;
+	while (1)
+	{
+		a = _getch();
+		b = static_cast <int> (a);
+		if (b == 13)
+		{
+			exit(0);
+			break;
+		}
+		else continue;
+	}
+	return 0;
 }

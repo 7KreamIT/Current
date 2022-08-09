@@ -1,5 +1,15 @@
 #pragma once
+#include <iostream>      //дл€ потока консоли
+#include <fstream>       //дл€ потока файла
+#include <conio.h>       //дл€ cout
+#include <string>        //дл€ работы со строками
+#include <SDKDDKVer.h>   //дл€ чтени€ файла
+#include <stdio.h>       //дл€ чтени€ файла
+#include <tchar.h>       //дл€ чтени€ файла
+#include <Windows.h>     //дл€ –усского €зыка
+#include <ctime>		 //дл€ вывода времени
 using namespace std;
+const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в мес€цах
 
 //структура с данными об устройстве:
 class gadget
@@ -39,6 +49,10 @@ public:
 	//в будущем нужно будет рассчитывать наработки
 };
 
-string dateToSixNumbers(int day, int month, int year);
+//объ€влени€ функций vvv
 
+int numberOfLines(string fileName);
+int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWhere, int& qWhat, string& aWhat, int& qWhen, string& aWhen, int& lastChosenGadget, int& findMode);
 int winGadget(gadget* A, int* x, int n);
+string dateToSixNumbers(int day, int month, int year);
+bool exitProgram();

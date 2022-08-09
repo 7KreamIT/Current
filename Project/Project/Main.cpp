@@ -1,46 +1,26 @@
-#include <iostream>      //для потока консоли
-#include <fstream>       //для потока файла
-#include <conio.h>       //для cout
-#include <string>        //для работы со строками
-#include <SDKDDKVer.h>   //для чтения файла
-#include <stdio.h>       //для чтения файла
-#include <tchar.h>       //для чтения файла
-#include <Windows.h>     //для Русского языка
-#include "Header.h"	     //мой заголовок
-#include <ctime>		 //для вывода времени
-using namespace std;
-const int nMax = 100; //максимальное кол-во строк (i - переменная цикла)
+#include "Header.h"	//подключение заголовка
 const int m = 30; //кол-во столбцов (j - переменная цикла)
-const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в месяцах
-
-int winGadget(gadget* A, int* x, int n);
-
-string dateToSixNumbers(int day, int month, int year);
-
-int findDialog(gadget*& A, int& n, int& qWhere, int& qWhereFirst, string& aWhere, int& qWhat, string& aWhat, int& lastChosenGadget, int& findMode);
+const string fileName = "Test.csv"; //имя файла для ввода
+const string fileNameOut = "TestOut.csv"; //имя файла для ввода
 
 int main()
 {
-	//вывод времени(может в int):
-	SYSTEMTIME t;	  //для времени
-	GetLocalTime(&t); //для времени
 	setlocale(LC_ALL, "Russian"); //поддержка Русского языка
 	SetConsoleCP(1251);           //..
 	SetConsoleOutputCP(1251);     //..
-	int i, j; //переменные циклов
-	int n; //фактическое кол-во строк (i - переменная цикла)
+	system("mode con cols=60 lines=20"); //размер консоли
+	int i, j; //переменные циклов	
+	int aN = numberOfLines(fileName) - 1; //фактическое кол-во строк (i - переменная цикла)
 
 	//чтение таблицы:
-	ifstream fRead("Test.csv"); //открытие файла для подсчёта строк
-	string gadgetString[nMax];
-	i = 0;
-	while (!fRead.eof()) getline(fRead, gadgetString[i++]); //читает всю строку				
-	n = i - 2; //запомнили кол-во устройств
+	ifstream fRead(fileName); //открытие файла для подсчёта строк
+	string* gadgetString = new string[aN];
+	for (i = 0; i < aN; i++) getline(fRead, gadgetString[i]); //читает всю строку
 	fRead.close(); //закрытие файла
 
 	//заполнение структуры:
-	gadget* A = new gadget[n];
-	for (i = 0; i < n; i++) //нулевая строка это заголовки
+	gadget* A = new gadget[aN];
+	for (i = 0; i < aN; i++) //нулевая строка это заголовки
 	{
 		j = 0;
 		while (gadgetString[i][j] != ';')  A[i].location	 += gadgetString[i][j++]; j++; //01
@@ -72,127 +52,29 @@ int main()
 		while (gadgetString[i][j] != ';')  A[i].Belt1		 += gadgetString[i][j++]; j++; //27
 		while (gadgetString[i][j] != ';')  A[i].Belt2		 += gadgetString[i][j++]; j++; //28
 		while (gadgetString[i][j] != ';')  A[i].Belt3		 += gadgetString[i][j++]; j++; //29
-										   A[i].SHD		     += gadgetString[i][j++]; j++; //30 
+										   A[i].SHD		     += gadgetString[i][j++];	   //30 
 	}
-	//**************************************************************************************** 1 блок
+	delete[] gadgetString;
+	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 1 блок
 	
-	//опрос Что и Где: 
+	//опрос Что? Где? Когда?: 
 	int qWhere = 0;       //вопрос: Где?
 	int qWhereFirst = 0;  //первое уточнение: Где?
 	string aWhere;        //ответ:  Где?
 	int qWhat = 0;        //вопрос: Что?
 	string aWhat;         //ответ:  Что?
+	int qWhen = 0;		  //вопрос: Когда?
+	string aWhen;		  //ответ: Когда?
 	int lastChosenGadget; //окончательный номер выбранного устройства
 	int findMode = 1;	  //вариант работы функции findDialog
-	cout << "Функция поиска: " << findDialog(A, n, qWhere, qWhereFirst, aWhere, qWhat, aWhat, lastChosenGadget, findMode) << endl;
+	findDialog(A, aN, qWhere, qWhereFirst, aWhere, qWhat, aWhat, qWhen, aWhen, lastChosenGadget, findMode);
 
 	//проверки:
-	//cout << lastChosenGadget;
-
-	/*
-	//опрос даты:
-	int qWhen = 0; //вопрос: Когда?
-	string aWhen;  //ответ: Когда?
-	int tempDay;   //временная переменная дня
-	if ((qWhere >= 1) && (qWhere <= 9)) //разрешение и переход на следующий цикл
-	{
-		qWhen = 17;
-		system("cls");
-	}
-	while (qWhen == 17)
-	{
-		system("cls");
-		cout << "Выбрано:'" << aWhat << "' на '" << aWhere << "'" << endl;
-		cout << "Когда сделано ТО?" << endl;
-		//cout << "0 - Назад" << endl;
-		cout << "1 - Сегодня" << endl;
-		cout << "2 - Вчера" << endl;
-		cout << "3 - Ввести дату" << endl;
-		//cout << "4 - Позавчера" << endl; //можно поделать если станет скучно
-		cin >> qWhen;
-		switch (qWhen)
-		{
-		case 0:
-			qWhen = 17; //Временное
-			break;
-		case 1:
-			//запоминаем дату в формате ДДММГГ:
-			aWhen = dateToSixNumbers(t.wDay, t.wMonth, t.wYear);
-			cout << aWhen << endl;
-			break;
-		case 2:
-			if (t.wDay == 1)
-			{
-				if (t.wMonth == 1) aWhen = to_string(31) + to_string(12) + to_string(t.wYear - 2001);
-				else
-				{
-					if ((monthSize[t.wMonth - 1] == 1) && ((t.wYear - 2000) % 4 == 0)) tempDay = 29; //если високосный
-					else tempDay = monthSize[t.wMonth - 1];
-					aWhen = dateToSixNumbers(tempDay, t.wMonth - 1, t.wYear);
-				}
-			}
-			else aWhen = dateToSixNumbers(t.wDay - 1, t.wMonth, t.wYear);
-			break;
-		case 3:
-			i = 1;
-			system("cls");
-			while (i == 1)
-			{
-				cout << "Дата Тех. обслуживания(ДДММГГ):" << endl;
-				cin >> aWhen;
-				if (aWhen.length() != 6)
-				{
-					system("cls");
-					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010700" << endl; //ошибка
-				}
-				else i = 0;
-			}
-			break;
-		default:
-			qWhen = 17; //Временное
-			break;
-		}
-	}
-	*/
-
-	/*
-	//ввод ТО:
-	unsigned long int aHowMuch;	//ответ: Какая наработка?
-	cout << "Какая наработка после ТО?" << endl;
-	cin >> aHowMuch;
-
-	//первое заполнение ячейки наработки и времени:
-	system("cls");
-	cout << "Собранные данные:'" << A[lastChosenGadget].type
-		 << "' на '" << A[lastChosenGadget].place
-		 << "' модели '" << A[lastChosenGadget].model
-		 << "'" << endl;
-	//if (qWhen == 1) cout << "Сегодняшняя дата: " << aWhen;
-	//if (qWhen == 2) cout << "Введена дата ТО:" << aWhen;
-	cout << endl << "Введена наработка: " << aHowMuch;
-
-	cout << endl << "Вы уверены что ходите внести изменения? (1-да, 0-нет)\n";
-	int ready;
-	cin >> ready;
-	cout << endl;
-	switch (ready)
-	{
-	case 0:
-		exit(0); //обиделся
-		break;
-	case 1:
-		//A[lastChosenGadget].lastDateTO = aWhen;
-		A[lastChosenGadget].lastHoursTO = to_string(aHowMuch);
-		cout << "Данные успешно внесены!" << endl;
-		break;
-	default:
-		exit(0); //обиделся
-		break;
-	}
+	cout << lastChosenGadget << " " << aWhat << " " << aWhere << endl;
 
 	//вывод в файл:
-	ofstream fWrite("TestOut.csv"); //объявим вывод в файл csv
-	for (i = 0; i < n; i++)
+	ofstream fWrite(fileNameOut); //объявим вывод в файл csv
+	for (i = 0; i < aN; i++)
 	{
 		fWrite << A[i].location	    << ";";  //01
 		fWrite << A[i].number		<< ";";  //02
@@ -226,14 +108,118 @@ int main()
 		fWrite << A[i].SHD			<< endl; //30
 	}
 	fWrite.close(); //закрытие файла
-	*/
 
 	delete[] A; //отчистить память
-	return 0;
+	exitProgram();
+	return 1;
 }
 
-//функция определяет значения входящих переменных.
-int findDialog(gadget*& A, int& n, int& qWhere, int& qWhereFirst, string& aWhere, int& qWhat, string& aWhat, int& lastChosenGadget, int& findMode)
+//функция ввода времени ТО:
+int dateDialog(int& qWhere, string& aWhere, int& qWhat, string& aWhat, int& qWhen, string& aWhen)
+{
+	int tempDay; //временная переменная дня
+	SYSTEMTIME t;	  //для вывода времени(может в int):
+	GetLocalTime(&t); //..
+	if ((qWhere >= 1) && (qWhere <= 9)) //разрешение и переход на следующий цикл
+	{
+		qWhen = 17;
+		system("cls");
+	}
+	while (qWhen == 17)
+	{
+		system("cls");
+		int i;
+		cout << "Выбрано:'" << aWhat << "' на '" << aWhere << "'" << endl;
+		cout << "Когда сделано ТО?" << endl;
+		//cout << "0 - Назад" << endl;
+		cout << "1 - Сегодня" << endl;
+		cout << "2 - Вчера" << endl;
+		cout << "3 - Ввести дату" << endl;
+		//cout << "4 - Позавчера" << endl; //можно поделать если станет скучно
+		cin >> qWhen;
+		switch (qWhen)
+		{
+		case 0:
+			qWhen = 17; //Временное
+			break;
+		case 1:
+			//запоминаем дату в формате ДДММГГ:
+			aWhen = dateToSixNumbers(t.wDay, t.wMonth, t.wYear);
+			break;
+		case 2:
+			if (t.wDay == 1)
+			{
+				if (t.wMonth == 1) 
+					aWhen = to_string(31) + to_string(12) + to_string(t.wYear - 2001);
+				else
+				{
+					if ((monthSize[t.wMonth - 1] == 1) && ((t.wYear - 2000) % 4 == 0)) tempDay = 29; //если високосный
+					else tempDay = monthSize[t.wMonth - 1];
+					aWhen = dateToSixNumbers(tempDay, t.wMonth - 1, t.wYear);
+				}
+			}
+			else aWhen = dateToSixNumbers(t.wDay - 1, t.wMonth, t.wYear);
+			break;
+		case 3:
+			i = 1;
+			system("cls");
+			while (i == 1)
+			{
+				cout << "Дата Тех. обслуживания(ДДММГГ):" << endl;
+				cin >> aWhen;
+				if (aWhen.length() != 6)
+				{
+					system("cls");
+					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010700" << endl; //ошибка
+				}
+				else i = 0;
+			}
+			break;
+		default:
+			qWhen = 17; //Временное
+			break;
+		}
+	}
+	return 1;
+}
+
+//функция ввода ТО:
+int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
+{
+	unsigned long int aHowMuch;	//ответ: Какая наработка?
+	cout << "Какая наработка после ТО?" << endl;
+	cin >> aHowMuch;
+
+	//первое заполнение ячейки наработки и времени:
+	system("cls");
+	cout << "Собранные данные:'" << A[lastChosenGadget].type
+		<< "' на '" << A[lastChosenGadget].place
+		<< "' модели '" << A[lastChosenGadget].model
+		<< "'" << endl;
+	cout << "Введена наработка: " << aHowMuch << endl;
+	cout << "Введена дата: " << aWhen << endl;
+	cout << "Вы уверены что ходите внести изменения? (1-да, 0-нет)" << endl;
+	int ready;
+	cin >> ready;
+	switch (ready)
+	{
+	case 0:
+		exit(0); //обиделся
+		break;
+	case 1:
+		A[lastChosenGadget].lastDateTO = aWhen;
+		A[lastChosenGadget].lastHoursTO = to_string(aHowMuch);
+		cout << "Данные успешно внесены!" << endl;
+		break;
+	default:
+		exit(0); //обиделся
+		break;
+	}
+	return 1;
+}
+
+//функция основного диалога, которая изменяет все переменные:
+int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWhere, int& qWhat, string& aWhat, int& qWhen, string& aWhen, int& lastChosenGadget, int& findMode)
 {
 	//мод 1 - Первый запуск с возможностью перехода к настройкам
 	//мод 2 - Запуск без возврата 4
@@ -258,7 +244,7 @@ int findDialog(gadget*& A, int& n, int& qWhere, int& qWhereFirst, string& aWhere
 		switch (qWhere)
 		{
 		case 0:
-			exit(0); //выйти из программы
+			exitProgram(); //красиво выйти из программы
 			break;
 		case 1:
 			qWhereFirst = 17;
@@ -397,73 +383,77 @@ int findDialog(gadget*& A, int& n, int& qWhere, int& qWhereFirst, string& aWhere
 		if ((qWhere >= 1) && (qWhere <= 8)) //переход на следующий раздел с созданием массива подходящих устр-в
 		{
 			qWhat = 17;
-			int* ArrWhere = new int[n] {0}; //массив устр-в с подходящим местоположением
-			int ArrWhereN = 0; //их кол-во
-			for (int i = 0; i < n; i++)
+			int* arrWhere = new int[aN] {0}; //массив устр-в с подходящим местоположением
+			int arrWhereN = 0; //их кол-во
+			for (int i = 0; i < aN; i++)
 				if (A[i].place == aWhere)
 				{
-					ArrWhere[ArrWhereN] = stoi(A[i].number);
+					arrWhere[arrWhereN] = stoi(A[i].number);
 					//cout << ArrWhere[ArrWhereN] << endl; //всё отлично работает
-					ArrWhereN++;
+					arrWhereN++;
 				}
-			if (ArrWhereN == 1) //если машина одна, то
+			if (arrWhereN == 1) //если машина одна, то
 			{
-				aWhat = A[ArrWhere[0]].type; //найден ответ на вопрос "Что?"
+				aWhat = A[arrWhere[0]].type; //найден ответ на вопрос "Что?"
 				qWhat = 0; //дальнейший опрос не требуется
-				lastChosenGadget = ArrWhere[0]; //номер устр-ва
+				lastChosenGadget = arrWhere[0]; //номер устр-ва
+				dateDialog(qWhere, aWhere, qWhat, aWhat, qWhen, aWhen);
+				hoursDialog(A, lastChosenGadget, aWhen);
 				return 1;
 			}
-			while (qWhat == 17)
+			else
 			{
-				string What[3]{ "КП","ВД","ОС" }; //массив со всеми типами
-				system("cls");
-				cout << "Выбрано:'" << aWhere << "' " << endl;
-				cout << "Что было сделано?" << endl;
-				cout << "0 - Назад" << endl;
-				int flagKP = 0;
-				int flagVD = 0;
-				int flagOS = 0;
-				for (int i = 0; i < ArrWhereN; i++) if (A[ArrWhere[i]].type == What[0])	flagKP = 1;
-				if (flagKP == 1) cout << "1 - Компрессор"   << endl;
-				for (int i = 0; i < ArrWhereN; i++) if (A[ArrWhere[i]].type == What[1])	flagVD = 1;
-				if (flagVD == 1) cout << "2 - Воздуходувка" << endl;
-				for (int i = 0; i < ArrWhereN; i++) if (A[ArrWhere[i]].type == What[2])	flagOS = 1;
-				if (flagOS == 1) cout << "3 - Осушитель"    << endl;
-				if ((flagKP + flagVD + flagOS) == 1)
+				while (qWhat == 17)
 				{
-
-				}
-				else
-				{
-					cin >> qWhat;
-
-					/* это уже не работает (нужно сделать через if):
-					switch (qWhat)
+					string What[3]{ "КП","ВД","ОС" }; //массив со всеми типами
+					system("cls");
+					cout << "Выбрано:'" << aWhere << "' " << endl;
+					cout << "Что было сделано?" << endl;
+					cout << "0 - Назад" << endl;
+					bool flagKP = 0;
+					bool flagVD = 0;
+					bool flagOS = 0;
+					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[0])	flagKP = 1;
+					if (flagKP == 1) cout << "1 - Компрессор" << endl;
+					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[1])	flagVD = 1;
+					if (flagVD == 1) cout << "2 - Воздуходувка" << endl;
+					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[2])	flagOS = 1;
+					if (flagOS == 1) cout << "3 - Осушитель" << endl;
+					if ((flagKP + flagVD + flagOS) == 1) //если в списке только один из типов
 					{
-					case 0:
-						qWhere = 17;
-						qWhat = 0;
-						system("cls");
-						break;
-					case 1:
-						aWhat = "КП";
-						break;
-					case 2:
-						aWhat = "ВД";
-						break;
-					case 3:
-						aWhat = "ОС";
-						break;
-					default:
-						qWhat = 17;
-						system("cls");
-						cout << "Введите число от 0 до 3!" << endl;
-						break;
+						if ((flagKP == 1) && (flagVD == 0) && (flagOS == 0)) aWhat = "КП";
+						if ((flagKP == 0) && (flagVD == 1) && (flagOS == 0)) aWhat = "ВД";
+						if ((flagKP == 0) && (flagVD == 0) && (flagOS == 1)) aWhat = "ОС";
 					}
-					*/
-				}				
+					else
+					{
+						cin >> qWhat;
+						if (qWhat == 0) //назад
+						{
+							qWhat = 0;
+							qWhere = 17;
+							system("cls");
+						}
+						if (qWhat == 1) aWhat = "КП";
+						if (qWhat == 2) aWhat = "ВД";
+						if (qWhat == 3) aWhat = "ОС";
+					}
+					int* arrWhat = new int[arrWhereN] {0}; //массив устр-в с подходящим местоположением
+					int arrWhatN = 0; //их кол-во
+					for (int i = 0; i < arrWhereN; i++)
+						if (A[arrWhere[i]].type == aWhat)
+						{
+							arrWhat[arrWhatN] = stoi(A[arrWhere[i]].number);
+							//cout << ArrWhat[ArrWhatN] << endl; //всё отлично работает
+							arrWhatN++;
+						}
+					lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
+					dateDialog(qWhere, aWhere, qWhat, aWhat, qWhen, aWhen);
+					hoursDialog(A, lastChosenGadget, aWhen);
+					return 1;
+				}
 			}
-		}		
+		}
 	}
 	return 1;
 }
