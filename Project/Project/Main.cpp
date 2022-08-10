@@ -1,10 +1,28 @@
 #include "Header.h"	//подключение заголовка
+
+#include "ExcelFormat.h"	 //дл€ работы Ёксел€
+#ifdef _WIN32				 //..
+#define WIN32_LEAN_AND_MEAN	 //
+#include <windows.h>		 //
+#include <shellapi.h> 		 //
+#include <crtdbg.h>			 //
+#else // _WIN32				 //
+#define	FW_NORMAL	400		 //
+#define	FW_BOLD		700		 //
+#endif // _WIN32			 //
+using namespace ExcelFormat; // 
+
 const int m = 30; //кол-во столбцов (j - переменна€ цикла)
 const string fileName = "Test.csv"; //им€ файла дл€ ввода
 const string fileNameOut = "TestOut.csv"; //им€ файла дл€ ввода
 
 int main()
 {
+	#ifdef _MSC_VER												 //дл€ работы Ёксел€
+	// detect memory leaks										 //..
+	//	_CrtSetDbgFlag(_CrtSetDbgFlag(0)|_CRTDBG_LEAK_CHECK_DF); //
+	#endif														 //
+
 	setlocale(LC_ALL, "Russian"); //поддержка –усского €зыка
 	SetConsoleCP(1251);           //..
 	SetConsoleOutputCP(1251);     //..
