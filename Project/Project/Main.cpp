@@ -12,7 +12,6 @@
 #endif // _WIN32			 //
 using namespace ExcelFormat; // 
 
-const int m = 30; //кол-во столбцов (j - переменна€ цикла)
 const string fileName = "Test.csv"; //им€ файла дл€ ввода
 const string fileNameOut = "TestOut.csv"; //им€ файла дл€ ввода
 
@@ -41,36 +40,35 @@ int main()
 	for (i = 0; i < aN; i++) //нулева€ строка это заголовки
 	{
 		j = 0;
-		while (gadgetString[i][j] != ';')  A[i].location	 += gadgetString[i][j++]; j++; //01
-		while (gadgetString[i][j] != ';')  A[i].number		 += gadgetString[i][j++]; j++; //02
-		while (gadgetString[i][j] != ';')  A[i].type		 += gadgetString[i][j++]; j++; //03
-		while (gadgetString[i][j] != ';')  A[i].model		 += gadgetString[i][j++]; j++; //04
-		while (gadgetString[i][j] != ';')  A[i].place		 += gadgetString[i][j++]; j++; //05
-		while (gadgetString[i][j] != ';')  A[i].oil			 += gadgetString[i][j++]; j++; //06
-		while (gadgetString[i][j] != ';')  A[i].tools		 += gadgetString[i][j++]; j++; //07
-		while (gadgetString[i][j] != ';')  A[i].password	 += gadgetString[i][j++]; j++; //08
-		while (gadgetString[i][j] != ';')  A[i].qtAF		 += gadgetString[i][j++]; j++; //09
-		while (gadgetString[i][j] != ';')  A[i].qtOF		 += gadgetString[i][j++]; j++; //10
-		while (gadgetString[i][j] != ';')  A[i].qtOS		 += gadgetString[i][j++]; j++; //11
-		while (gadgetString[i][j] != ';')  A[i].qtBelt		 += gadgetString[i][j++]; j++; //12
-		while (gadgetString[i][j] != ';')  A[i].info		 += gadgetString[i][j++]; j++; //13
-		while (gadgetString[i][j] != ';')  A[i].lastDateTO	 += gadgetString[i][j++]; j++; //14
-		while (gadgetString[i][j] != ';')  A[i].lastHoursTO	 += gadgetString[i][j++]; j++; //15
-		while (gadgetString[i][j] != ';')  A[i].owner		 += gadgetString[i][j++]; j++; //16
-		while (gadgetString[i][j] != ';')  A[i].serialNumber += gadgetString[i][j++]; j++; //17
-		while (gadgetString[i][j] != ';')  A[i].AF1			 += gadgetString[i][j++]; j++; //18
-		while (gadgetString[i][j] != ';')  A[i].AF2			 += gadgetString[i][j++]; j++; //19
-		while (gadgetString[i][j] != ';')  A[i].AF3			 += gadgetString[i][j++]; j++; //20
-		while (gadgetString[i][j] != ';')  A[i].OF1			 += gadgetString[i][j++]; j++; //21
-		while (gadgetString[i][j] != ';')  A[i].OF2			 += gadgetString[i][j++]; j++; //22
-		while (gadgetString[i][j] != ';')  A[i].OF3			 += gadgetString[i][j++]; j++; //23
-		while (gadgetString[i][j] != ';')  A[i].OS1			 += gadgetString[i][j++]; j++; //24
-		while (gadgetString[i][j] != ';')  A[i].OS2			 += gadgetString[i][j++]; j++; //25
-		while (gadgetString[i][j] != ';')  A[i].OS3			 += gadgetString[i][j++]; j++; //26
-		while (gadgetString[i][j] != ';')  A[i].Belt1		 += gadgetString[i][j++]; j++; //27
-		while (gadgetString[i][j] != ';')  A[i].Belt2		 += gadgetString[i][j++]; j++; //28
-		while (gadgetString[i][j] != ';')  A[i].Belt3		 += gadgetString[i][j++]; j++; //29
-										   A[i].SHD		     += gadgetString[i][j++];	   //30 
+		while (gadgetString[i][j] != ';')  A[i].number		 += gadgetString[i][j++]; j++; //01
+		while (gadgetString[i][j] != ';')  A[i].type		 += gadgetString[i][j++]; j++; //02
+		while (gadgetString[i][j] != ';')  A[i].model		 += gadgetString[i][j++]; j++; //03
+		while (gadgetString[i][j] != ';')  A[i].place		 += gadgetString[i][j++]; j++; //04
+		while (gadgetString[i][j] != ';')  A[i].oil			 += gadgetString[i][j++]; j++; //05
+		while (gadgetString[i][j] != ';')  A[i].tools		 += gadgetString[i][j++]; j++; //06
+		while (gadgetString[i][j] != ';')  A[i].password	 += gadgetString[i][j++]; j++; //07
+		while (gadgetString[i][j] != ';')  A[i].qtAF		 += gadgetString[i][j++]; j++; //08
+		while (gadgetString[i][j] != ';')  A[i].qtOF		 += gadgetString[i][j++]; j++; //09
+		while (gadgetString[i][j] != ';')  A[i].qtOS		 += gadgetString[i][j++]; j++; //10
+		while (gadgetString[i][j] != ';')  A[i].qtBelt		 += gadgetString[i][j++]; j++; //11
+		while (gadgetString[i][j] != ';')  A[i].info		 += gadgetString[i][j++]; j++; //12
+		while (gadgetString[i][j] != ';')  A[i].lastDateTO	 += gadgetString[i][j++]; j++; //13
+		while (gadgetString[i][j] != ';')  A[i].lastHoursTO	 += gadgetString[i][j++]; j++; //14
+		while (gadgetString[i][j] != ';')  A[i].owner		 += gadgetString[i][j++]; j++; //15
+		while (gadgetString[i][j] != ';')  A[i].serialNumber += gadgetString[i][j++]; j++; //16
+		while (gadgetString[i][j] != ';')  A[i].AF1			 += gadgetString[i][j++]; j++; //17
+		while (gadgetString[i][j] != ';')  A[i].AF2			 += gadgetString[i][j++]; j++; //18
+		while (gadgetString[i][j] != ';')  A[i].AF3			 += gadgetString[i][j++]; j++; //19
+		while (gadgetString[i][j] != ';')  A[i].OF1			 += gadgetString[i][j++]; j++; //20
+		while (gadgetString[i][j] != ';')  A[i].OF2			 += gadgetString[i][j++]; j++; //21
+		while (gadgetString[i][j] != ';')  A[i].OF3			 += gadgetString[i][j++]; j++; //22
+		while (gadgetString[i][j] != ';')  A[i].OS1			 += gadgetString[i][j++]; j++; //23
+		while (gadgetString[i][j] != ';')  A[i].OS2			 += gadgetString[i][j++]; j++; //24
+		while (gadgetString[i][j] != ';')  A[i].OS3			 += gadgetString[i][j++]; j++; //25
+		while (gadgetString[i][j] != ';')  A[i].Belt1		 += gadgetString[i][j++]; j++; //26
+		while (gadgetString[i][j] != ';')  A[i].Belt2		 += gadgetString[i][j++]; j++; //27
+		while (gadgetString[i][j] != ';')  A[i].Belt3		 += gadgetString[i][j++]; j++; //28
+										   A[i].SHD		     += gadgetString[i][j++];	   //29 
 	}
 	delete[] gadgetString;
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 1 блок
@@ -94,36 +92,35 @@ int main()
 	ofstream fWrite(fileNameOut); //объ€вим вывод в файл csv
 	for (i = 0; i < aN; i++)
 	{
-		fWrite << A[i].location	    << ";";  //01
-		fWrite << A[i].number		<< ";";  //02
-		fWrite << A[i].type			<< ";";  //03
-		fWrite << A[i].model		<< ";";  //04
-		fWrite << A[i].place		<< ";";  //05
-		fWrite << A[i].oil			<< ";";  //06
-		fWrite << A[i].tools		<< ";";  //07
-		fWrite << A[i].password		<< ";";  //08
-		fWrite << A[i].qtAF			<< ";";  //09
-		fWrite << A[i].qtOF			<< ";";  //10
-		fWrite << A[i].qtOS			<< ";";  //11
-		fWrite << A[i].qtBelt		<< ";";  //12
-		fWrite << A[i].info			<< ";";  //13
-		fWrite << A[i].lastDateTO	<< ";";  //14
-		fWrite << A[i].lastHoursTO	<< ";";  //15
-		fWrite << A[i].owner		<< ";";  //16
-		fWrite << A[i].serialNumber << ";";  //17
-		fWrite << A[i].AF1			<< ";";  //18
-		fWrite << A[i].AF2			<< ";";  //19
-		fWrite << A[i].AF3			<< ";";  //20
-		fWrite << A[i].OF1			<< ";";  //21
-		fWrite << A[i].OF2			<< ";";  //22
-		fWrite << A[i].OF3			<< ";";  //23
-		fWrite << A[i].OS1			<< ";";  //24
-		fWrite << A[i].OS2			<< ";";  //25
-		fWrite << A[i].OS3			<< ";";  //26
-		fWrite << A[i].Belt1		<< ";";  //27
-		fWrite << A[i].Belt2		<< ";";  //28
-		fWrite << A[i].Belt3		<< ";";  //29
-		fWrite << A[i].SHD			<< endl; //30
+		fWrite << A[i].number		<< ";";  //01
+		fWrite << A[i].type			<< ";";  //02
+		fWrite << A[i].model		<< ";";  //03
+		fWrite << A[i].place		<< ";";  //04
+		fWrite << A[i].oil			<< ";";  //05
+		fWrite << A[i].tools		<< ";";  //06
+		fWrite << A[i].password		<< ";";  //07
+		fWrite << A[i].qtAF			<< ";";  //08
+		fWrite << A[i].qtOF			<< ";";  //09
+		fWrite << A[i].qtOS			<< ";";  //10
+		fWrite << A[i].qtBelt		<< ";";  //11
+		fWrite << A[i].info			<< ";";  //12
+		fWrite << A[i].lastDateTO	<< ";";  //13
+		fWrite << A[i].lastHoursTO	<< ";";  //14
+		fWrite << A[i].owner		<< ";";  //15
+		fWrite << A[i].serialNumber << ";";  //16
+		fWrite << A[i].AF1			<< ";";  //17
+		fWrite << A[i].AF2			<< ";";  //18
+		fWrite << A[i].AF3			<< ";";  //19
+		fWrite << A[i].OF1			<< ";";  //20
+		fWrite << A[i].OF2			<< ";";  //21
+		fWrite << A[i].OF3			<< ";";  //22
+		fWrite << A[i].OS1			<< ";";  //23
+		fWrite << A[i].OS2			<< ";";  //24
+		fWrite << A[i].OS3			<< ";";  //25
+		fWrite << A[i].Belt1		<< ";";  //26
+		fWrite << A[i].Belt2		<< ";";  //27
+		fWrite << A[i].Belt3		<< ";";  //28
+		fWrite << A[i].SHD			<< endl; //29
 	}
 	fWrite.close(); //закрытие файла
 
