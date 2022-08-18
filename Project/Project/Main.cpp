@@ -49,19 +49,15 @@ int main()
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 1 блок
 	
 	//опрос Что? Где? Когда?: 
-	int qWhere = 0;       //вопрос: Где?
-	int qWhereFirst = 0;  //первое уточнение: Где?
 	string aWhere;        //ответ:  Где?
-	int qWhat = 0;        //вопрос: Что?
 	string aWhat;         //ответ:  Что?
-	int qWhen = 0;		  //вопрос: Когда?
 	string aWhen;		  //ответ: Когда?
 	int lastChosenGadget; //окончательный номер выбранного устройства
 	int findMode = 1;	  //вариант работы функции findDialog
-	findDialog(A, aN, qWhere, qWhereFirst, aWhere, qWhat, aWhat, qWhen, aWhen, lastChosenGadget, findMode);
+	findDialog(A, aN, aWhere, aWhat, aWhen, lastChosenGadget, findMode);
 
 	//проверки:
-	cout << lastChosenGadget << " " << aWhat << " " << aWhere << endl;
+	//cout << lastChosenGadget << " " << aWhat << " " << aWhere << endl;
 
 	//вывод в файл:
 	ofstream fileWrite(fileNameOut); //объявим вывод в файл csv
@@ -97,7 +93,7 @@ int main()
 }
 
 //функция ввода времени ТО:
-int dateDialog(string& aWhere, string& aWhat, string& aWhen)
+int dateDialog(string& aWhere, string& aWhat, string& aWhen, string& lastChosenGadgetModel)
 {
 	int tempDay; //временная переменная дня
 	int qWhen; //флажочек для циклов времени 
@@ -108,7 +104,10 @@ int dateDialog(string& aWhere, string& aWhat, string& aWhen)
 	{
 		system("cls");
 		int i;
-		cout << "Выбрано:'" << aWhat << "' на '" << aWhere << "'" << endl;
+		cout << "Выбрано:'" << aWhat 
+			 << "' на '" << aWhere
+			 << "' модели '" << lastChosenGadgetModel
+			 << "'" << endl;
 		cout << "Когда сделано ТО?" << endl;
 		//cout << "0 - Назад" << endl;
 		cout << "1 - Сегодня" << endl;
@@ -171,13 +170,13 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 
 	//первое заполнение ячейки наработки и времени:
 	system("cls");
-	cout << "Собранные данные:'" << A[lastChosenGadget].type
-		<< "' на '" << A[lastChosenGadget].place
-		<< "' модели '" << A[lastChosenGadget].model
-		<< "'" << endl;
-	cout << "Введена наработка: " << aHowMuch << endl;
-	cout << "Введена дата: " << aWhen << endl;
-	cout << "Вы уверены что ходите внести изменения? (1-да, 0-нет)" << endl;
+	cout << "Выбрано:'" << A[lastChosenGadget].type
+		 << "' на '" << A[lastChosenGadget].place
+		 << "' модели '" << A[lastChosenGadget].model
+		 << "'" << endl
+		 << "Введена наработка: " << aHowMuch << endl
+		 << "Введена дата: " << aWhen << endl
+		 << "Вы уверены что ходите внести изменения? (1-да, 0-нет)" << endl;
 	int ready;
 	cin >> ready;
 	switch (ready)
@@ -198,15 +197,17 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 }
 
 //функция основного диалога, которая изменяет все переменные:
-int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWhere, int& qWhat, string& aWhat, int& qWhen, string& aWhen, int& lastChosenGadget, int& findMode)
+int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode)
 {
 	//мод 1 - Первый запуск с возможностью перехода к настройкам
 	//мод 2 - Запуск без возврата 4
 	//мод 3 - Поиск по серийному номеру
 	//функция возвращает:
-	//0 - если машин не нашлось (только если удалят единственную машину где-нибудь)
+	//0 - если возникла какая-нибудь ошибка
 	//1 - если успешно найдена одна машина
-	qWhere = 17; //разрешение на следующий раздел
+	int qWhere = 17; //объявление флажочка вопроса "Где?" и разрешение на следующий раздел
+	int qWhereFirst = 0; //объявления флажочка для углубленного вопроса "Где?"
+	int qWhat = 0; //объявление флажочка вопроса "Что?"
 	while (qWhere == 17)
 	{
 		cout << "Где находится? (Пешая доступность)" << endl;
@@ -376,7 +377,8 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 				aWhat = A[arrWhere[0]].type; //найден ответ на вопрос "Что?"
 				qWhat = 0; //дальнейший опрос не требуется
 				lastChosenGadget = arrWhere[0]; //номер устр-ва
-				dateDialog(aWhere, aWhat, aWhen);
+				string lastChosenGadgetModel = A[lastChosenGadget].model;
+				dateDialog(aWhere, aWhat, aWhen, lastChosenGadgetModel);
 				hoursDialog(A, lastChosenGadget, aWhen);
 				return 1;
 			}
@@ -427,7 +429,8 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 							arrWhatN++;
 						}
 					lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
-					dateDialog(aWhere, aWhat, aWhen);
+					string lastChosenGadgetModel = A[lastChosenGadget].model;
+					dateDialog(aWhere, aWhat, aWhen, lastChosenGadgetModel);
 					hoursDialog(A, lastChosenGadget, aWhen);
 					return 1;
 				}
