@@ -5,13 +5,14 @@ int numberOfLines(string fileName)
 {
 	char* str = new char[1024];
 	int i = 0;
-	ifstream base(fileName);
-	while (!base.eof())
+	ifstream file(fileName);
+	while (!file.eof())
 	{
-		base.getline(str, 1024, '\n');
-		i++;
+		file.getline(str, 1024, '\n');
+		if (str[0] == ';') return i; //на случай если закончились установки
+		else i++;
 	}
-	base.close();
+	file.close();
 	delete[] str;
 	return i;
 }

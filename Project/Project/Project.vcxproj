@@ -143,17 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BasicExcel.cpp" />
     <ClCompile Include="Comments.cpp" />
-    <ClCompile Include="Examples.cpp" />
-    <ClCompile Include="ExcelFormat.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Rudiments.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicExcel.hpp" />
-    <ClInclude Include="ExcelFormat.h" />
     <ClInclude Include="Header.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

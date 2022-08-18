@@ -1,39 +1,22 @@
 #include "Header.h"	//подключение заголовка
 
-#include "ExcelFormat.h"	 //для работы Экселя
-#ifdef _WIN32				 //..
-#define WIN32_LEAN_AND_MEAN	 //
-#include <windows.h>		 //
-#include <shellapi.h> 		 //
-#include <crtdbg.h>			 //
-#else // _WIN32				 //
-#define	FW_NORMAL	400		 //
-#define	FW_BOLD		700		 //
-#endif // _WIN32			 //
-using namespace ExcelFormat; // 
-
-const string fileName = "Test.csv"; //имя файла для ввода
-const string fileNameOut = "TestOut.csv"; //имя файла для ввода
+const string fileName = "Справка.csv"; //имя файла для ввода
+const string fileNameOut = "Справка-Out.csv"; //имя файла для вывода
 
 int main()
 {
-	#ifdef _MSC_VER												 //для работы Экселя
-	// detect memory leaks										 //..
-	//	_CrtSetDbgFlag(_CrtSetDbgFlag(0)|_CRTDBG_LEAK_CHECK_DF); //
-	#endif														 //
-
 	setlocale(LC_ALL, "Russian"); //поддержка Русского языка
 	SetConsoleCP(1251);           //..
 	SetConsoleOutputCP(1251);     //..
-	system("mode con cols=60 lines=20"); //размер консоли
+	system("mode con cols=100 lines=20"); //размер консоли
 	int i, j; //переменные циклов	
-	int aN = numberOfLines(fileName) - 1; //фактическое кол-во строк (i - переменная цикла)
+	int aN = numberOfLines(fileName) - 1; //подсчёт фактического кол-ва строк в файле (i - переменная цикла)
 
 	//чтение таблицы:
-	ifstream fRead(fileName); //открытие файла для подсчёта строк
-	string* gadgetString = new string[aN];
-	for (i = 0; i < aN; i++) getline(fRead, gadgetString[i]); //читает всю строку
-	fRead.close(); //закрытие файла
+	ifstream fileRead(fileName); //открытие файла 
+	string* gadgetString = new string[aN]; //массив строк файла
+	for (i = 0; i < aN; i++) getline(fileRead, gadgetString[i]); //читает всю строку
+	fileRead.close(); //закрытие файла
 
 	//заполнение структуры:
 	gadget* A = new gadget[aN];
@@ -56,21 +39,13 @@ int main()
 		while (gadgetString[i][j] != ';')  A[i].lastHoursTO	 += gadgetString[i][j++]; j++; //14
 		while (gadgetString[i][j] != ';')  A[i].owner		 += gadgetString[i][j++]; j++; //15
 		while (gadgetString[i][j] != ';')  A[i].serialNumber += gadgetString[i][j++]; j++; //16
-		while (gadgetString[i][j] != ';')  A[i].AF1			 += gadgetString[i][j++]; j++; //17
-		while (gadgetString[i][j] != ';')  A[i].AF2			 += gadgetString[i][j++]; j++; //18
-		while (gadgetString[i][j] != ';')  A[i].AF3			 += gadgetString[i][j++]; j++; //19
-		while (gadgetString[i][j] != ';')  A[i].OF1			 += gadgetString[i][j++]; j++; //20
-		while (gadgetString[i][j] != ';')  A[i].OF2			 += gadgetString[i][j++]; j++; //21
-		while (gadgetString[i][j] != ';')  A[i].OF3			 += gadgetString[i][j++]; j++; //22
-		while (gadgetString[i][j] != ';')  A[i].OS1			 += gadgetString[i][j++]; j++; //23
-		while (gadgetString[i][j] != ';')  A[i].OS2			 += gadgetString[i][j++]; j++; //24
-		while (gadgetString[i][j] != ';')  A[i].OS3			 += gadgetString[i][j++]; j++; //25
-		while (gadgetString[i][j] != ';')  A[i].Belt1		 += gadgetString[i][j++]; j++; //26
-		while (gadgetString[i][j] != ';')  A[i].Belt2		 += gadgetString[i][j++]; j++; //27
-		while (gadgetString[i][j] != ';')  A[i].Belt3		 += gadgetString[i][j++]; j++; //28
-										   A[i].SHD		     += gadgetString[i][j++];	   //29 
+		while (gadgetString[i][j] != ';')  A[i].AF			 += gadgetString[i][j++]; j++; //17
+		while (gadgetString[i][j] != ';')  A[i].OF			 += gadgetString[i][j++]; j++; //18
+		while (gadgetString[i][j] != ';')  A[i].OS			 += gadgetString[i][j++]; j++; //19
+		while (gadgetString[i][j] != ';')  A[i].Belt		 += gadgetString[i][j++]; j++; //20
+										   A[i].SHD		     += gadgetString[i][j++];	   //21 
 	}
-	delete[] gadgetString;
+	delete[] gadgetString; //отчистить массив строк
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 1 блок
 	
 	//опрос Что? Где? Когда?: 
@@ -89,40 +64,32 @@ int main()
 	cout << lastChosenGadget << " " << aWhat << " " << aWhere << endl;
 
 	//вывод в файл:
-	ofstream fWrite(fileNameOut); //объявим вывод в файл csv
+	ofstream fileWrite(fileNameOut); //объявим вывод в файл csv
 	for (i = 0; i < aN; i++)
 	{
-		fWrite << A[i].number		<< ";";  //01
-		fWrite << A[i].type			<< ";";  //02
-		fWrite << A[i].model		<< ";";  //03
-		fWrite << A[i].place		<< ";";  //04
-		fWrite << A[i].oil			<< ";";  //05
-		fWrite << A[i].tools		<< ";";  //06
-		fWrite << A[i].password		<< ";";  //07
-		fWrite << A[i].qtAF			<< ";";  //08
-		fWrite << A[i].qtOF			<< ";";  //09
-		fWrite << A[i].qtOS			<< ";";  //10
-		fWrite << A[i].qtBelt		<< ";";  //11
-		fWrite << A[i].info			<< ";";  //12
-		fWrite << A[i].lastDateTO	<< ";";  //13
-		fWrite << A[i].lastHoursTO	<< ";";  //14
-		fWrite << A[i].owner		<< ";";  //15
-		fWrite << A[i].serialNumber << ";";  //16
-		fWrite << A[i].AF1			<< ";";  //17
-		fWrite << A[i].AF2			<< ";";  //18
-		fWrite << A[i].AF3			<< ";";  //19
-		fWrite << A[i].OF1			<< ";";  //20
-		fWrite << A[i].OF2			<< ";";  //21
-		fWrite << A[i].OF3			<< ";";  //22
-		fWrite << A[i].OS1			<< ";";  //23
-		fWrite << A[i].OS2			<< ";";  //24
-		fWrite << A[i].OS3			<< ";";  //25
-		fWrite << A[i].Belt1		<< ";";  //26
-		fWrite << A[i].Belt2		<< ";";  //27
-		fWrite << A[i].Belt3		<< ";";  //28
-		fWrite << A[i].SHD			<< endl; //29
+		fileWrite << A[i].number		<< ";";  //01
+		fileWrite << A[i].type			<< ";";  //02
+		fileWrite << A[i].model			<< ";";  //03
+		fileWrite << A[i].place			<< ";";  //04
+		fileWrite << A[i].oil			<< ";";  //05
+		fileWrite << A[i].tools			<< ";";  //06
+		fileWrite << A[i].password		<< ";";  //07
+		fileWrite << A[i].qtAF			<< ";";  //08
+		fileWrite << A[i].qtOF			<< ";";  //09
+		fileWrite << A[i].qtOS			<< ";";  //10
+		fileWrite << A[i].qtBelt		<< ";";  //11
+		fileWrite << A[i].info			<< ";";  //12
+		fileWrite << A[i].lastDateTO	<< ";";  //13
+		fileWrite << A[i].lastHoursTO	<< ";";  //14
+		fileWrite << A[i].owner			<< ";";  //15
+		fileWrite << A[i].serialNumber  << ";";  //16
+		fileWrite << A[i].AF			<< ";";  //17
+		fileWrite << A[i].OF			<< ";";  //18
+		fileWrite << A[i].OS			<< ";";  //19
+		fileWrite << A[i].Belt			<< ";";  //20
+		fileWrite << A[i].SHD			<< endl; //21
 	}
-	fWrite.close(); //закрытие файла
+	fileWrite.close(); //закрытие файла
 
 	delete[] A; //отчистить память
 	exitProgram();
@@ -130,16 +97,13 @@ int main()
 }
 
 //функция ввода времени ТО:
-int dateDialog(int& qWhere, string& aWhere, int& qWhat, string& aWhat, int& qWhen, string& aWhen)
+int dateDialog(string& aWhere, string& aWhat, string& aWhen)
 {
 	int tempDay; //временная переменная дня
+	int qWhen; //флажочек для циклов времени 
 	SYSTEMTIME t;	  //для вывода времени(может в int):
 	GetLocalTime(&t); //..
-	if ((qWhere >= 1) && (qWhere <= 9)) //разрешение и переход на следующий цикл
-	{
-		qWhen = 17;
-		system("cls");
-	}
+	qWhen = 17; //разрешение даётся автоматически при вызове функции
 	while (qWhen == 17)
 	{
 		system("cls");
@@ -185,7 +149,7 @@ int dateDialog(int& qWhere, string& aWhere, int& qWhat, string& aWhat, int& qWhe
 				if (aWhen.length() != 6)
 				{
 					system("cls");
-					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010700" << endl; //ошибка
+					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010207" << endl; //ошибка
 				}
 				else i = 0;
 			}
@@ -247,14 +211,15 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 	{
 		cout << "Где находится? (Пешая доступность)" << endl;
 		cout << "0 - Выход из программы" << endl;
-		cout << "1 - 1-я, 2-я или 3-я очередь" << endl; //доп ветка
+		cout << "1 - Очереди: 1-ая(обжиг), 2-ая или 3-я" << endl; //доп ветка
 		cout << "2 - ДОФ" << endl;
 		cout << "3 - Шихта" << endl;
 		cout << "4 - Готовая продукция" << endl; //доп ветка
 		cout << "5 - Перегрузка" << endl;
 		cout << "6 - Пульпанасосная" << endl;
 		cout << "7 - Сгущение" << endl; //доп ветка
-		cout << "8 - Станция Комбинатская" << endl;
+		cout << "8 - КСМД" << endl;
+		cout << "9 - Станция Комбинатская" << endl; //в будущем будет "Станции" с доп веткой
 		cin >> qWhere;
 		switch (qWhere)
 		{
@@ -271,7 +236,6 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 				cout << "1 - Обжиг" << endl;
 				cout << "2 - Вторая" << endl;
 				cout << "3 - Третья" << endl;
-				cout << "4 - Минус 3" << endl;
 				cin >> qWhereFirst;
 				switch (qWhereFirst)
 				{
@@ -284,20 +248,17 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 					aWhere = "Обжиг";
 					break;
 				case 2:
-					aWhere = "2 очер.";
+					aWhere = "2 очередь";
 					break;
 				case 3:
-					aWhere = "3 очер.";
-					break;
-				case 4:
-					aWhere = "-3 м";
+					aWhere = "3 очередь";
 					break;
 				default:
 					qWhereFirst = 17;
 					system("cls");
 					break;
 				}
-				if ((qWhereFirst >= 1) && (qWhereFirst <= 4)) //закрытие доп ветки всвязи с получением ответа
+				if ((qWhereFirst >= 1) && (qWhereFirst <= 3)) //закрытие доп ветки всвязи с получением ответа
 				{
 					qWhereFirst = 0;
 					qWhere = 1; //это просто номер кейса
@@ -346,10 +307,10 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 			}
 			break;
 		case 5:
-			aWhere = "Перегр.";
+			aWhere = "Перегрузка";
 			break;
 		case 6:
-			aWhere = "Пульп.";
+			aWhere = "Пульпа-ная";
 			break;
 		case 7:
 			qWhereFirst = 17;
@@ -369,7 +330,7 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 					system("cls");
 					break;
 				case 1:
-					aWhere = "Сгущ.";
+					aWhere = "Сгущение";
 					break;
 				case 2:
 					aWhere = "Нов.сгущ.";
@@ -387,15 +348,18 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 			}
 			break;
 		case 8:
-			aWhere = "Комб-ая";
+			aWhere = "КСМД";
+			break;
+		case 9:
+			aWhere = "Комбин-я";
 			break;
 		default:
 			system("cls");
 			qWhere = 17;
-			cout << "Введите число от 0 до 8!" << endl;
+			cout << "Введите число от 0 до 9!" << endl;
 			break;
 		}
-		if ((qWhere >= 1) && (qWhere <= 8)) //переход на следующий раздел с созданием массива подходящих устр-в
+		if ((qWhere >= 1) && (qWhere <= 9)) //переход на следующий раздел с созданием массива подходящих устр-в
 		{
 			qWhat = 17;
 			int* arrWhere = new int[aN] {0}; //массив устр-в с подходящим местоположением
@@ -412,7 +376,7 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 				aWhat = A[arrWhere[0]].type; //найден ответ на вопрос "Что?"
 				qWhat = 0; //дальнейший опрос не требуется
 				lastChosenGadget = arrWhere[0]; //номер устр-ва
-				dateDialog(qWhere, aWhere, qWhat, aWhat, qWhen, aWhen);
+				dateDialog(aWhere, aWhat, aWhen);
 				hoursDialog(A, lastChosenGadget, aWhen);
 				return 1;
 			}
@@ -463,7 +427,7 @@ int findDialog(gadget*& A, int& aN, int& qWhere, int& qWhereFirst, string& aWher
 							arrWhatN++;
 						}
 					lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
-					dateDialog(qWhere, aWhere, qWhat, aWhat, qWhen, aWhen);
+					dateDialog(aWhere, aWhat, aWhen);
 					hoursDialog(A, lastChosenGadget, aWhen);
 					return 1;
 				}
