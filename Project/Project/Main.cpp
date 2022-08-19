@@ -132,7 +132,7 @@ int dateDialog(string& aWhere, string& aWhat, string& aWhen, string& lastChosenG
 				else
 				{
 					if ((monthSize[t.wMonth - 1] == 1) && ((t.wYear - 2000) % 4 == 0)) tempDay = 29; //если високосный
-					else tempDay = monthSize[t.wMonth - 1];
+					else tempDay = 28;
 					aWhen = dateToSixNumbers(tempDay, t.wMonth - 1, t.wYear);
 				}
 			}
@@ -148,9 +148,50 @@ int dateDialog(string& aWhere, string& aWhat, string& aWhen, string& lastChosenG
 				if (aWhen.length() != 6)
 				{
 					system("cls");
-					cout << "¬ведите дату с левыми нул€ми, пожалуйста! \nЌапример, так: 010207" << endl; //ошибка
+					cout << "¬ведите дату с левыми нул€ми, пожалуйста! \nЌапример, так: 010407" << endl; //ошибка
 				}
-				else i = 0;
+				else
+				{
+					int aWhenInt = stoi(aWhen);
+					if (aWhenInt < 9999) //ошибка в вводе (день не может быть = 00)
+					{
+						cout << "ƒень = 00!" << endl;
+						i = 1;
+					}
+					else
+					{
+						if ((aWhenInt % 10000) < 99) //ошибка в вводе (мес€ц не может быть = 00)
+						{
+							cout << "ћес€ц = 00!" << endl;
+							i = 1;
+						}
+						else
+						{
+							if ((aWhenInt % 10000 / 100) == 2) //если мес€ц вдруг - февраль, то..
+							{
+								int dayInFeb; //кол-во дней в феврале
+								if ((aWhenInt % 100) % 4 == 0) dayInFeb = 29; //если год високосный, то..
+								else dayInFeb = 28;
+								if ((aWhenInt / 10000) > dayInFeb) i = 1;
+								else i = 0; //данные введены корректно
+							}
+							else
+							{
+								int currentMonth; //какой мес€ц? (дл€ массива дней)
+								currentMonth = (aWhenInt % 10000 / 100) - 1;
+								if (currentMonth > 11) i = 1; //ошибка если мес€ц оказалс€ больше 12-го
+								else
+								{
+									if ((aWhenInt / 10000) > monthSize[currentMonth]) i = 1;
+									else i = 0; //данные введены корректно
+								}
+							}
+							//aWhenInt = aWhenInt % 100; //достать год
+							//aWhenInt = aWhenInt % 10000 /100; //достать мес€ц
+							//aWhenInt = aWhenInt / 10000; //достать день
+						}
+					}
+				}
 			}
 			break;
 		default:
@@ -428,6 +469,10 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 							//cout << ArrWhat[ArrWhatN] << endl; //всЄ отлично работает
 							arrWhatN++;
 						}
+					system("cls");
+					cout << "¬ыбрано:'" << aWhat
+						 << "' на '" << aWhere
+						 << "'" << endl;
 					lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
 					string lastChosenGadgetModel = A[lastChosenGadget].model;
 					dateDialog(aWhere, aWhat, aWhen, lastChosenGadgetModel);
