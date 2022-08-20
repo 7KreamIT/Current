@@ -1,4 +1,7 @@
 #pragma once
+
+#include <xlnt/xlnt.hpp> //подключение долгожданной библиотеки
+
 #include <iostream>      //дл€ потока консоли
 #include <fstream>       //дл€ потока файла
 #include <conio.h>       //дл€ cout
@@ -8,6 +11,7 @@
 #include <tchar.h>       //дл€ чтени€ файла
 #include <Windows.h>     //дл€ –усского €зыка
 #include <ctime>		 //дл€ вывода времени
+
 using namespace std;
 const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в мес€цах
 
