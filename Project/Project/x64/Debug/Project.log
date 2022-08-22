@@ -1,4 +1,6 @@
 ﻿  Functions.cpp
+E:\Coding\Current\Project\Project\Functions.cpp(79,85): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+E:\Coding\Current\Project\Project\Functions.cpp(81,78): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
   Main.cpp
   Создание кода...
   Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe

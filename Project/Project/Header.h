@@ -1,25 +1,32 @@
 #pragma once
-
 #include <xlnt/xlnt.hpp> //подключение долгожданной библиотеки
-
 #include <iostream>      //дл€ потока консоли
-#include <fstream>       //дл€ потока файла
+#include <fstream>       //дл€ потока файла						дл€ временного вывода в CSV
 #include <conio.h>       //дл€ cout
 #include <string>        //дл€ работы со строками
-#include <SDKDDKVer.h>   //дл€ чтени€ файла
-#include <stdio.h>       //дл€ чтени€ файла
-#include <tchar.h>       //дл€ чтени€ файла
 #include <Windows.h>     //дл€ –усского €зыка
 #include <ctime>		 //дл€ вывода времени
-
 using namespace std;
+
+const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int maxSymbol = 100; //максимальное кол-во символов в €чейке
 const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в мес€цах
+
+// правила пользовани€ таблицей:
+// мен€ть кол-во столбцов запрещено
+// после последнего столбика необходимо оставл€ть пустой столбик
+// после последнего обслуживаемого устройства необходимо оставл€ть пустую строчку
+// нельз€ оставл€ть пустые €чейчи в названи€х столбцов и номерах строк
+// программа не взаимодействует с выведенными из эксплотации устройствами
+// не более 100 символов в клетке
+// дл€ корректной работы программы с числами необходимо чтобы все €чейки были в текстовом формате! (у цифр был зелЄный треугольник в углу)
+// 
 
 //структура с данными об устройстве:
 class gadget
 {
 public:
-	~gadget() {};        //деструктор						
+	//написать массив дл€ строк (это будет метод)
 	string number;       //пор€дковый номер установки		   //01
 	string type;         //тип установки					   //02
 	string model;	     //название модели					   //03
@@ -42,11 +49,12 @@ public:
 	string Belt;		 //вариант модели ремн€				   //20
 	string SHD;			 //шагова€ доступность (Ўƒ)			   //21
 	//в будущем нужно будет рассчитывать наработки
+	~gadget() {};        //деструктор						
 };
 
 //объ€влени€ функций vvv
-int numberOfLines(string fileName);
 int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode);
 int winGadget(gadget* A, int* x, int n);
 string dateToSixNumbers(int day, int month, int year);
 bool exitProgram();
+string toRus(string utf);

@@ -1,7 +1,7 @@
 #include "Header.h"	//подключение заголовка
 
-const string fileName = "—правка.csv"; //им€ файла дл€ ввода
-const string fileNameOut = "—правка-Out.csv"; //им€ файла дл€ вывода
+const string fileName = "—правка.csv"; //им€ файла дл€ ввода			//устарело
+const string fileNameOut = "—правка-Out.csv"; //им€ файла дл€ вывода	//оставить до решени€ с выводом
 
 int main()
 {
@@ -9,44 +9,68 @@ int main()
 	SetConsoleCP(1251);           //..
 	SetConsoleOutputCP(1251);     //..
 	system("mode con cols=100 lines=20"); //размер консоли
-	int i, j; //переменные циклов	
-	int aN = numberOfLines(fileName) - 1; //подсчЄт фактического кол-ва строк в файле (i - переменна€ цикла)
 
-	//чтение таблицы:
-	ifstream fileRead(fileName); //открытие файла 
-	string* gadgetString = new string[aN]; //массив строк файла
-	for (i = 0; i < aN; i++) getline(fileRead, gadgetString[i]); //читает всю строку
-	fileRead.close(); //закрытие файла
+	//открытие файла xlsx:
+	xlnt::workbook wb;
+	wb.load("Test.xlsx");
+	auto ws = wb.active_sheet();
 
-	//заполнение структуры:
-	gadget* A = new gadget[aN];
+	//подсчЄт количества столбцов:
+	bool endRepeat = 0; //выйти из цикла?
+	int tempABC = 0; //номер текущей буквы
+	string tempCell; //название текущей €чейки
+	int nCol = 0; //кол-во столбцов
+	while (!endRepeat) //пока €чейка не окажетс€ пуста€
+	{
+		tempCell = englishABC[tempABC] + string("1");
+		tempABC++;
+		if (ws.cell(tempCell).value<string>() != "") nCol++; // если €чейка не пуста€
+		else endRepeat = 1;
+	}
+
+	//подсчЄт количества строк:
+	endRepeat = 0; //выйти из цикла?
+	int tempNumber = 1; //номер текущей цифры (перва€ не 0 потому, что отсчЄт строк в экселе начинаетс€ с 1)
+	tempCell = ""; //очищаем название текущей €чейки
+	int aN = 0; //кол-во строк
+	while (!endRepeat) //пока €чейка не окажетс€ пуста€
+	{
+		tempCell = "A" + to_string(tempNumber);
+		tempNumber++;
+		if (ws.cell(tempCell).value<string>() != "") aN++;
+		else endRepeat = 1;
+	}
+
+	//считывание всей таблицы + заполнение структуры:
+	tempABC = 0; //номер текущей буквы
+	tempNumber = 1; //номер текущей цифры (перва€ не 0 потому, что отсчЄт строк в экселе начинаетс€ с 1)
+	int i = 0; // переменна€ цикла
+	gadget* A = new gadget[aN]; //нулевой элемент - это название столбцов
 	for (i = 0; i < aN; i++) //нулева€ строка это заголовки
 	{
-		j = 0;
-		while (gadgetString[i][j] != ';')  A[i].number		 += gadgetString[i][j++]; j++; //01
-		while (gadgetString[i][j] != ';')  A[i].type		 += gadgetString[i][j++]; j++; //02
-		while (gadgetString[i][j] != ';')  A[i].model		 += gadgetString[i][j++]; j++; //03
-		while (gadgetString[i][j] != ';')  A[i].place		 += gadgetString[i][j++]; j++; //04
-		while (gadgetString[i][j] != ';')  A[i].oil			 += gadgetString[i][j++]; j++; //05
-		while (gadgetString[i][j] != ';')  A[i].tools		 += gadgetString[i][j++]; j++; //06
-		while (gadgetString[i][j] != ';')  A[i].password	 += gadgetString[i][j++]; j++; //07
-		while (gadgetString[i][j] != ';')  A[i].qtAF		 += gadgetString[i][j++]; j++; //08
-		while (gadgetString[i][j] != ';')  A[i].qtOF		 += gadgetString[i][j++]; j++; //09
-		while (gadgetString[i][j] != ';')  A[i].qtOS		 += gadgetString[i][j++]; j++; //10
-		while (gadgetString[i][j] != ';')  A[i].qtBelt		 += gadgetString[i][j++]; j++; //11
-		while (gadgetString[i][j] != ';')  A[i].info		 += gadgetString[i][j++]; j++; //12
-		while (gadgetString[i][j] != ';')  A[i].lastDateTO	 += gadgetString[i][j++]; j++; //13
-		while (gadgetString[i][j] != ';')  A[i].lastHoursTO	 += gadgetString[i][j++]; j++; //14
-		while (gadgetString[i][j] != ';')  A[i].owner		 += gadgetString[i][j++]; j++; //15
-		while (gadgetString[i][j] != ';')  A[i].serialNumber += gadgetString[i][j++]; j++; //16
-		while (gadgetString[i][j] != ';')  A[i].AF			 += gadgetString[i][j++]; j++; //17
-		while (gadgetString[i][j] != ';')  A[i].OF			 += gadgetString[i][j++]; j++; //18
-		while (gadgetString[i][j] != ';')  A[i].OS			 += gadgetString[i][j++]; j++; //19
-		while (gadgetString[i][j] != ';')  A[i].Belt		 += gadgetString[i][j++]; j++; //20
-										   A[i].SHD		     += gadgetString[i][j++];	   //21 
+		tempABC = 0;
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].number 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//01
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].type 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//02
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].model 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//03
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].place 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//04
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].oil 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//05
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].tools 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//06
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].password 	 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//07
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtAF		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //08
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtOF 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//09
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtOS 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//10
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtBelt 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//11
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].info 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//12
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].lastDateTO 	 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//13
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].lastHoursTO  = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//14
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].owner 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//15
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].serialNumber = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//16
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].AF 			 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//17
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].OF 			 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//18
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].OS 			 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//19
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].Belt 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//20
+		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].SHD 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//21
 	}
-	delete[] gadgetString; //отчистить массив строк
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 1 блок
 	
 	//опрос „то? √де?  огда?: 
 	string aWhere;        //ответ:  √де?
@@ -55,9 +79,6 @@ int main()
 	int lastChosenGadget; //окончательный номер выбранного устройства
 	int findMode = 1;	  //вариант работы функции findDialog
 	findDialog(A, aN, aWhere, aWhat, aWhen, lastChosenGadget, findMode);
-
-	//проверки:
-	//cout << lastChosenGadget << " " << aWhat << " " << aWhere << endl;
 
 	//вывод в файл:
 	ofstream fileWrite(fileNameOut); //объ€вим вывод в файл csv

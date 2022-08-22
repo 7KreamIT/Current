@@ -1,22 +1,5 @@
 #include "Header.h" //подключение заголовка
 
-//подсчЄт кол-ва строк в файле и вывод в формате int:
-int numberOfLines(string fileName)
-{
-	char* str = new char[1024];
-	int i = 0;
-	ifstream file(fileName);
-	while (!file.eof())
-	{
-		file.getline(str, 1024, '\n');
-		if (str[0] == ';') return i; //на случай если закончились установки
-		else i++;
-	}
-	file.close();
-	delete[] str;
-	return i;
-}
-
 //приведение дат в формат ƒƒћћ√√:
 string dateToSixNumbers(int day, int month, int year)
 {
@@ -87,4 +70,19 @@ bool exitProgram()
 		else continue;
 	}
 	return 0;
+}
+
+//конвертаци€ UTF-8 в OEM1251 с помощью WinApi: (называетс€ утилитой)
+string toRus(string utf)
+{
+	char oem1251Str[maxSymbol];
+	int nLength = MultiByteToWideChar(CP_UTF8, 0, utf.c_str(), utf.length(), nullptr, 0);
+	BSTR bstrWide = SysAllocStringLen(nullptr, nLength);
+	MultiByteToWideChar(CP_UTF8, 0, utf.c_str(), utf.length(), bstrWide, nLength);
+	nLength = WideCharToMultiByte(866, 0, bstrWide, -1, nullptr, 0, nullptr, 0);
+	WideCharToMultiByte(1251, 0, bstrWide, -1, oem1251Str, nLength, nullptr, nullptr);
+	SysFreeString(bstrWide);
+	string str = string(oem1251Str);
+	//if (str.size() == 0) str = utf;
+	return str;
 }
