@@ -1,5 +1,5 @@
 #pragma once
-//#include <xlnt/xlnt.hpp> //подключение долгожданной библиотеки
+#include <xlnt/xlnt.hpp> //подключение долгожданной библиотеки
 #include <iostream>      //для потока консоли
 #include <fstream>       //для потока файла						для временного вывода в CSV
 #include <conio.h>       //для cout
@@ -53,6 +53,8 @@ public:
 };
 
 //объявления функций vvv
+gadget* getByXlsx(int& aN, string fileNameXlsx);
+gadget* getByCsv(int& aN, string fileNameCsv);
 int numberOfLines(string fileName);
 int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode);
 int winGadget(gadget* A, int* x, int n);

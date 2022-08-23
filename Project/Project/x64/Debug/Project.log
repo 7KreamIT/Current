@@ -1,1 +1,6 @@
-﻿  Project.vcxproj -> D:\Nik\Coding\7KreamIT\Current\Project\x64\Debug\Project.exe
+﻿  Functions.cpp
+E:\Coding\Current\Project\Project\Functions.cpp(201,85): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+E:\Coding\Current\Project\Project\Functions.cpp(203,78): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  Main.cpp
+  Создание кода...
+  Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe
