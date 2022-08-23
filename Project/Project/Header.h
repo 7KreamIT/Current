@@ -8,8 +8,8 @@
 #include <ctime>		 //для вывода времени
 using namespace std;
 
-const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const int maxSymbol = 100; //максимальное кол-во символов в ячейке
+const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в месяцах
 
 // правила пользования таблицей:
@@ -48,6 +48,7 @@ public:
 	string OS;			 //вариант модели масляного сепаратора //19
 	string Belt;		 //вариант модели ремня				   //20
 	string SHD;			 //шаговая доступность (ШД)			   //21
+
 	//в будущем нужно будет рассчитывать наработки
 	~gadget() {};        //деструктор						
 };

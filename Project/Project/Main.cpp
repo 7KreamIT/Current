@@ -21,10 +21,11 @@ int main()
 	fileRead.close(); //закрытие файла
 	//заполнение структуры:
 	gadget* A = new gadget[aN];
+
 	for (i = 0; i < aN; i++) //нулевая строка это заголовки
 	{
 		j = 0;
-		while (gadgetString[i][j] != ';')  A[i].number   	 += gadgetString[i][j++]; j++; //01
+		while (gadgetString[i][j] != ';')  A[i].number		 += gadgetString[i][j++]; j++; //01
 		while (gadgetString[i][j] != ';')  A[i].type   		 += gadgetString[i][j++]; j++; //02
 		while (gadgetString[i][j] != ';')  A[i].model   	 += gadgetString[i][j++]; j++; //03
 		while (gadgetString[i][j] != ';')  A[i].place   	 += gadgetString[i][j++]; j++; //04
@@ -44,7 +45,7 @@ int main()
 		while (gadgetString[i][j] != ';')  A[i].OF   		 += gadgetString[i][j++]; j++; //18
 		while (gadgetString[i][j] != ';')  A[i].OS   		 += gadgetString[i][j++]; j++; //19
 		while (gadgetString[i][j] != ';')  A[i].Belt   		 += gadgetString[i][j++]; j++; //20
-										   A[i].SHD			 += gadgetString[i][j++];	   //21
+										   A[i].SHD			 += gadgetString[i][j++]; j++; //21
 	}
 	delete[] gadgetString; //отчистить массив строк
 	//.......................................................................................................................
