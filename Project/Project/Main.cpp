@@ -11,6 +11,7 @@ int main()
 	system("mode con cols=100 lines=20"); //размер консоли
 
 	//если библиотека не подключилась, то используется следущий код(чтение происходит из файла "Справка.csv"):
+	/**/
 	//.......................................................................................................................
 	int i, j; //переменные циклов
 	int aN = numberOfLines(fileName) - 1; //подсчёт фактического кол-ва строк в файле (i - переменная цикла)
@@ -49,6 +50,7 @@ int main()
 	}
 	delete[] gadgetString; //отчистить массив строк
 	//.......................................................................................................................
+	/**/
 
 	//если библиотека подключилась, то используется следущий код(чтение происходит из файла "Test.xlsx"):
 	/*
@@ -156,7 +158,7 @@ int main()
 }
 
 //функция ввода времени ТО:
-int dateDialog(string& aWhere, string& aWhat, string& aWhen, string& lastChosenGadgetModel)
+int dateDialog(string& aWhere, string& aWhat, string& aWhen, string lastChosenGadgetModel)
 {
 	int tempDay; //временная переменная дня
 	int qWhen; //флажочек для циклов времени 
@@ -481,8 +483,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 				aWhat = A[arrWhere[0]].type; //найден ответ на вопрос "Что?"
 				qWhat = 0; //дальнейший опрос не требуется
 				lastChosenGadget = arrWhere[0]; //номер устр-ва
-				string lastChosenGadgetModel = A[lastChosenGadget].model;
-				dateDialog(aWhere, aWhat, aWhen, lastChosenGadgetModel);
+				dateDialog(aWhere, aWhat, aWhen, A[lastChosenGadget].model);
 				hoursDialog(A, lastChosenGadget, aWhen);
 				return 1;
 			}
@@ -495,15 +496,19 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					cout << "Выбрано:'" << aWhere << "' " << endl;
 					cout << "Что было сделано?" << endl;
 					cout << "0 - Назад" << endl;
+
 					bool flagKP = 0;
-					bool flagVD = 0;
-					bool flagOS = 0;
 					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[0])	flagKP = 1;
 					if (flagKP == 1) cout << "1 - Компрессор" << endl;
+
+					bool flagVD = 0;
 					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[1])	flagVD = 1;
 					if (flagVD == 1) cout << "2 - Воздуходувка" << endl;
+
+					bool flagOS = 0;
 					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[2])	flagOS = 1;
 					if (flagOS == 1) cout << "3 - Осушитель" << endl;
+
 					if ((flagKP + flagVD + flagOS) == 1) //если в списке только один из типов
 					{
 						if ((flagKP == 1) && (flagVD == 0) && (flagOS == 0)) aWhat = "КП";
@@ -529,7 +534,6 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 						if (A[arrWhere[i]].type == aWhat)
 						{
 							arrWhat[arrWhatN] = stoi(A[arrWhere[i]].number);
-							//cout << ArrWhat[ArrWhatN] << endl; //всё отлично работает
 							arrWhatN++;
 						}
 					system("cls");
@@ -537,8 +541,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 						 << "' на '" << aWhere
 						 << "'" << endl;
 					lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
-					string lastChosenGadgetModel = A[lastChosenGadget].model;
-					dateDialog(aWhere, aWhat, aWhen, lastChosenGadgetModel);
+					dateDialog(aWhere, aWhat, aWhen, A[lastChosenGadget].model);
 					hoursDialog(A, lastChosenGadget, aWhen);
 					return 1;
 				}

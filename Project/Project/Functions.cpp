@@ -1,6 +1,6 @@
 #include "Header.h" //подключение заголовка
 
-//подсчёт кол-ва строк в файле и вывод в формате int:
+//подсчёт кол-ва строк в файле CSV и вывод в формате int:
 int numberOfLines(string fileName)
 {
 	char* str = new char[1024];
@@ -23,17 +23,17 @@ string dateToSixNumbers(int day, int month, int year)
 	string date;
 	if (year > 2000)
 	{
-		if ((day < 10) && (month < 10)) date = '0' + to_string(day) + '0' + to_string(month) + to_string(year - 2000);
-		if ((day < 10) && (month >= 10)) date = '0' + to_string(day) + to_string(month) + to_string(year - 2000);
-		if ((day >= 10) && (month < 10)) date = to_string(day) + '0' + to_string(month) + to_string(year - 2000);
-		if ((day >= 10) && (month >= 10)) date = to_string(day) + to_string(month) + to_string(year - 2000);
+		if ((day <  10) && (month <  10)) date = '0' + to_string(day) + '0' + to_string(month) + to_string(year - 2000);
+		if ((day <  10) && (month >= 10)) date = '0' + to_string(day) +		  to_string(month) + to_string(year - 2000);
+		if ((day >= 10) && (month <  10)) date =	   to_string(day) + '0' + to_string(month) + to_string(year - 2000);
+		if ((day >= 10) && (month >= 10)) date =	   to_string(day) +		  to_string(month) + to_string(year - 2000);
 	}
 	else
 	{
 		if ((day <  10) && (month <  10)) date = '0' + to_string(day) + '0' + to_string(month) + to_string(year);
-		if ((day <  10) && (month >= 10)) date = '0' + to_string(day) + to_string(month) + to_string(year);
-		if ((day >= 10) && (month <  10)) date = to_string(day) + '0' + to_string(month) + to_string(year);
-		if ((day >= 10) && (month >= 10)) date = to_string(day) + to_string(month) + to_string(year);
+		if ((day <  10) && (month >= 10)) date = '0' + to_string(day) +		  to_string(month) + to_string(year);
+		if ((day >= 10) && (month <  10)) date =	   to_string(day) + '0' + to_string(month) + to_string(year);
+		if ((day >= 10) && (month >= 10)) date =	   to_string(day) +		  to_string(month) + to_string(year);
 	}
 	return date;
 }
@@ -100,6 +100,5 @@ string toRus(string utf)
 	WideCharToMultiByte(1251, 0, bstrWide, -1, oem1251Str, nLength, nullptr, nullptr);
 	SysFreeString(bstrWide);
 	string str = string(oem1251Str);
-	//if (str.size() == 0) str = utf;
 	return str;
 }
