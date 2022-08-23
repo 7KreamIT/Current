@@ -1,5 +1,22 @@
 #include "Header.h" //подключение заголовка
 
+//подсчЄт кол-ва строк в файле и вывод в формате int:
+int numberOfLines(string fileName)
+{
+	char* str = new char[1024];
+	int i = 0;
+	ifstream file(fileName);
+	while (!file.eof())
+	{
+		file.getline(str, 1024, '\n');
+		if (str[0] == ';') return i; //на случай если закончились установки
+		else i++;
+	}
+	file.close();
+	delete[] str;
+	return i;
+}
+
 //приведение дат в формат ƒƒћћ√√:
 string dateToSixNumbers(int day, int month, int year)
 {

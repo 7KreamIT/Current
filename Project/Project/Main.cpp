@@ -10,11 +10,52 @@ int main()
 	SetConsoleOutputCP(1251);     //..
 	system("mode con cols=100 lines=20"); //размер консоли
 
+	//если библиотека не подключилась, то используется следущий код(чтение происходит из файла "Справка.csv"):
+	//.......................................................................................................................
+	int i, j; //переменные циклов
+	int aN = numberOfLines(fileName) - 1; //подсчёт фактического кол-ва строк в файле (i - переменная цикла)
+	//чтение таблицы:
+	ifstream fileRead(fileName); //открытие файла
+	string* gadgetString = new string[aN]; //массив строк файла
+	for (i = 0; i < aN; i++) getline(fileRead, gadgetString[i]); //читает всю строку
+	fileRead.close(); //закрытие файла
+	//заполнение структуры:
+	gadget* A = new gadget[aN];
+	for (i = 0; i < aN; i++) //нулевая строка это заголовки
+	{
+		j = 0;
+		while (gadgetString[i][j] != ';')  A[i].number   	 += gadgetString[i][j++]; j++; //01
+		while (gadgetString[i][j] != ';')  A[i].type   		 += gadgetString[i][j++]; j++; //02
+		while (gadgetString[i][j] != ';')  A[i].model   	 += gadgetString[i][j++]; j++; //03
+		while (gadgetString[i][j] != ';')  A[i].place   	 += gadgetString[i][j++]; j++; //04
+		while (gadgetString[i][j] != ';')  A[i].oil   		 += gadgetString[i][j++]; j++; //05
+		while (gadgetString[i][j] != ';')  A[i].tools   	 += gadgetString[i][j++]; j++; //06
+		while (gadgetString[i][j] != ';')  A[i].password   	 += gadgetString[i][j++]; j++; //07
+		while (gadgetString[i][j] != ';')  A[i].qtAF   		 += gadgetString[i][j++]; j++; //08
+		while (gadgetString[i][j] != ';')  A[i].qtOF   		 += gadgetString[i][j++]; j++; //09
+		while (gadgetString[i][j] != ';')  A[i].qtOS   		 += gadgetString[i][j++]; j++; //10
+		while (gadgetString[i][j] != ';')  A[i].qtBelt   	 += gadgetString[i][j++]; j++; //11
+		while (gadgetString[i][j] != ';')  A[i].info   		 += gadgetString[i][j++]; j++; //12
+		while (gadgetString[i][j] != ';')  A[i].lastDateTO   += gadgetString[i][j++]; j++; //13
+		while (gadgetString[i][j] != ';')  A[i].lastHoursTO  += gadgetString[i][j++]; j++; //14
+		while (gadgetString[i][j] != ';')  A[i].owner   	 += gadgetString[i][j++]; j++; //15
+		while (gadgetString[i][j] != ';')  A[i].serialNumber += gadgetString[i][j++]; j++; //16
+		while (gadgetString[i][j] != ';')  A[i].AF   		 += gadgetString[i][j++]; j++; //17
+		while (gadgetString[i][j] != ';')  A[i].OF   		 += gadgetString[i][j++]; j++; //18
+		while (gadgetString[i][j] != ';')  A[i].OS   		 += gadgetString[i][j++]; j++; //19
+		while (gadgetString[i][j] != ';')  A[i].Belt   		 += gadgetString[i][j++]; j++; //20
+										   A[i].SHD			 += gadgetString[i][j++];	   //21
+	}
+	delete[] gadgetString; //отчистить массив строк
+	//.......................................................................................................................
+
+	//если библиотека подключилась, то используется следущий код(чтение происходит из файла "Test.xlsx"):
+	/*
+	//.......................................................................................................................
 	//открытие файла xlsx:
 	xlnt::workbook wb;
 	wb.load("Test.xlsx");
 	auto ws = wb.active_sheet();
-
 	//подсчёт количества столбцов:
 	bool endRepeat = 0; //выйти из цикла?
 	int tempABC = 0; //номер текущей буквы
@@ -27,7 +68,6 @@ int main()
 		if (ws.cell(tempCell).value<string>() != "") nCol++; // если ячейка не пустая
 		else endRepeat = 1;
 	}
-
 	//подсчёт количества строк:
 	endRepeat = 0; //выйти из цикла?
 	int tempNumber = 1; //номер текущей цифры (первая не 0 потому, что отсчёт строк в экселе начинается с 1)
@@ -40,7 +80,6 @@ int main()
 		if (ws.cell(tempCell).value<string>() != "") aN++;
 		else endRepeat = 1;
 	}
-
 	//считывание всей таблицы + заполнение структуры:
 	tempABC = 0; //номер текущей буквы
 	tempNumber = 1; //номер текущей цифры (первая не 0 потому, что отсчёт строк в экселе начинается с 1)
@@ -71,6 +110,8 @@ int main()
 		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].Belt 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//20
 		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].SHD 		 = toRus(ws.cell(tempCell).value<string>()); tempABC++;	//21
 	}
+	//.......................................................................................................................
+	*/
 	
 	//опрос Что? Где? Когда?: 
 	string aWhere;        //ответ:  Где?
