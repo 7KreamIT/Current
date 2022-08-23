@@ -25,33 +25,7 @@ int main()
 	int findMode = 1;	  //вариант работы функции findDialog
 	findDialog(A, aN, aWhere, aWhat, aWhen, lastChosenGadget, findMode);
 
-	//вывод в файл:
-	ofstream fileWrite(fileNameOutCsv); //объявим вывод в файл csv
-	for (int i = 0; i < aN; i++)
-	{
-		fileWrite << A[i].number		<< ";";  //01
-		fileWrite << A[i].type			<< ";";  //02
-		fileWrite << A[i].model			<< ";";  //03
-		fileWrite << A[i].place			<< ";";  //04
-		fileWrite << A[i].oil			<< ";";  //05
-		fileWrite << A[i].tools			<< ";";  //06
-		fileWrite << A[i].password		<< ";";  //07
-		fileWrite << A[i].qtAF			<< ";";  //08
-		fileWrite << A[i].qtOF			<< ";";  //09
-		fileWrite << A[i].qtOS			<< ";";  //10
-		fileWrite << A[i].qtBelt		<< ";";  //11
-		fileWrite << A[i].info			<< ";";  //12
-		fileWrite << A[i].lastDateTO	<< ";";  //13
-		fileWrite << A[i].lastHoursTO	<< ";";  //14
-		fileWrite << A[i].owner			<< ";";  //15
-		fileWrite << A[i].serialNumber  << ";";  //16
-		fileWrite << A[i].AF			<< ";";  //17
-		fileWrite << A[i].OF			<< ";";  //18
-		fileWrite << A[i].OS			<< ";";  //19
-		fileWrite << A[i].Belt			<< ";";  //20
-		fileWrite << A[i].SHD			<< endl; //21
-	}
-	fileWrite.close(); //закрытие файла
+	setToCsv(A, aN, fileNameOutCsv); //вывод в файл csv
 
 	delete[] A; //отчистить память
 	exitProgram();
@@ -207,11 +181,10 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode)
 {
 	//мод 1 - Первый запуск с возможностью перехода к настройкам
-	//мод 2 - Запуск без возврата 4
-	//мод 3 - Поиск по серийному номеру
+	//мод 2 - ??
 	//функция возвращает:
-	//0 - если возникла какая-нибудь ошибка
-	//1 - если успешно найдена одна машина
+	//0 - если ??
+	//1 - если ??
 	int qWhere = 17; //объявление флажочка вопроса "Где?" и разрешение на следующий раздел
 	int qWhereFirst = 0; //объявления флажочка для углубленного вопроса "Где?"
 	int qWhat = 0; //объявление флажочка вопроса "Что?"
@@ -369,7 +342,6 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 		}
 		if ((qWhere >= 1) && (qWhere <= 9)) //переход на следующий раздел с созданием массива подходящих устр-в
 		{
-			qWhat = 17;
 			int* arrWhere = new int[aN] {0}; //массив устр-в с подходящим местоположением
 			int arrWhereN = 0; //их кол-во
 			for (int i = 0; i < aN; i++)
@@ -384,37 +356,58 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 				aWhat = A[arrWhere[0]].type; //найден ответ на вопрос "Что?"
 				qWhat = 0; //дальнейший опрос не требуется
 				lastChosenGadget = arrWhere[0]; //номер устр-ва
-				dateDialog(aWhere, aWhat, aWhen, A[lastChosenGadget].model);
-				hoursDialog(A, lastChosenGadget, aWhen);
-				return 1;
 			}
 			else
 			{
+				system("cls");
+				qWhat = 17; //разрешение на опрос
 				while (qWhat == 17)
 				{
-					string What[3]{ "КП","ВД","ОС" }; //массив со всеми типами
-					system("cls");
+					string what[3]{ "КП","ВД","ОС" }; //массив со всеми типами
 					cout << "Выбрано:'" << aWhere << "' " << endl;
 					cout << "Что было сделано?" << endl;
 					cout << "0 - Назад" << endl;
 
 					bool flagKP = 0;
-					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[0])	flagKP = 1;
+					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == what[0])	flagKP = 1;
 					if (flagKP == 1) cout << "1 - Компрессор" << endl;
 
 					bool flagVD = 0;
-					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[1])	flagVD = 1;
+					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == what[1])	flagVD = 1;
 					if (flagVD == 1) cout << "2 - Воздуходувка" << endl;
 
 					bool flagOS = 0;
-					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == What[2])	flagOS = 1;
+					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == what[2])	flagOS = 1;
 					if (flagOS == 1) cout << "3 - Осушитель" << endl;
 
 					if ((flagKP + flagVD + flagOS) == 1) //если в списке только один из типов
 					{
-						if ((flagKP == 1) && (flagVD == 0) && (flagOS == 0)) aWhat = "КП";
-						if ((flagKP == 0) && (flagVD == 1) && (flagOS == 0)) aWhat = "ВД";
-						if ((flagKP == 0) && (flagVD == 0) && (flagOS == 1)) aWhat = "ОС";
+						if ((flagKP == 1) && (flagVD == 0) && (flagOS == 0))
+						{
+							aWhat = "КП";
+							qWhat = 0; //конец опроса
+						}
+						if ((flagKP == 0) && (flagVD == 1) && (flagOS == 0))
+						{
+							aWhat = "ВД";
+							qWhat = 0; //конец опроса
+						}
+							
+						if ((flagKP == 0) && (flagVD == 0) && (flagOS == 1))
+						{
+							aWhat = "ОС";
+							qWhat = 0; //конец опроса
+						}
+						int* arrWhat = new int[arrWhereN] {0}; //массив устр-в с подходящим местоположением
+						int arrWhatN = 0; //их кол-во
+						for (int i = 0; i < arrWhereN; i++)
+							if (A[arrWhere[i]].type == aWhat)
+								arrWhat[arrWhatN++] = stoi(A[arrWhere[i]].number);
+						system("cls");
+						cout << "Выбрано:'" << aWhat
+							 << "' на '" << aWhere
+							 << "'" << endl;
+						lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
 					}
 					else
 					{
@@ -425,29 +418,52 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 							qWhere = 17;
 							system("cls");
 						}
-						if (qWhat == 1) aWhat = "КП";
-						if (qWhat == 2) aWhat = "ВД";
-						if (qWhat == 3) aWhat = "ОС";
-					}
-					int* arrWhat = new int[arrWhereN] {0}; //массив устр-в с подходящим местоположением
-					int arrWhatN = 0; //их кол-во
-					for (int i = 0; i < arrWhereN; i++)
-						if (A[arrWhere[i]].type == aWhat)
+						if (qWhat == 1)
 						{
-							arrWhat[arrWhatN] = stoi(A[arrWhere[i]].number);
-							arrWhatN++;
+							aWhat = "КП";
 						}
-					system("cls");
-					cout << "Выбрано:'" << aWhat
-						 << "' на '" << aWhere
-						 << "'" << endl;
-					lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
-					dateDialog(aWhere, aWhat, aWhen, A[lastChosenGadget].model);
-					hoursDialog(A, lastChosenGadget, aWhen);
-					return 1;
+						if (qWhat == 2)
+						{
+							aWhat = "ВД";
+						}
+						if (qWhat == 3)
+						{
+							aWhat = "ОС";							
+						}
+						//обработка ошибочного ввода:
+						if ((qWhat == 1) && (flagKP == 0) ||
+							(qWhat == 2) && (flagVD == 0) ||
+							(qWhat == 3) && (flagOS == 0) || 
+							(qWhat < 0 ) || (qWhat > 3))
+						{
+							system("cls");
+							cout << "Вы выбрали число, которого нет в списке!" << endl;
+							qWhat = 17; //опрос заново
+						}
+						if ((qWhat == 1) && (flagKP == 1) ||
+							(qWhat == 2) && (flagVD == 1) ||
+							(qWhat == 3) && (flagOS == 1))
+						{
+							int* arrWhat = new int[arrWhereN] {0}; //массив устр-в с подходящим местоположением
+							int arrWhatN = 0; //их кол-во
+							for (int i = 0; i < arrWhereN; i++)
+								if (A[arrWhere[i]].type == aWhat)
+									arrWhat[arrWhatN++] = stoi(A[arrWhere[i]].number);
+							system("cls");
+							cout << "Выбрано:'" << aWhat
+								 << "' на '" << aWhere
+								 << "'" << endl;
+							lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
+						}
+					}
 				}
+			}
+			if (qWhere != 17)
+			{
+				dateDialog(aWhere, aWhat, aWhen, A[lastChosenGadget].model);
+				hoursDialog(A, lastChosenGadget, aWhen);
+				return 1;
 			}
 		}
 	}
-	return 1;
 }

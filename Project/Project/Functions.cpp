@@ -39,27 +39,27 @@ gadget* getByXlsx(int& aN, string fileNameXlsx)
 	for (i = 0; i < aN; i++) //нулева€ строка это заголовки
 	{
 		tempABC = 0;
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].number  	 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //01
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].type  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //02
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].model  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //03
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].place  	     = toRus(ws.cell(tempCell).value<string>()); tempABC++; //04
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].oil  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //05
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].tools  	     = toRus(ws.cell(tempCell).value<string>()); tempABC++; //06
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].password  	 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //07
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtAF   		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //08
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtOF  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //09
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtOS  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //10
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].qtBelt  	 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //11
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].info  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //12
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].lastDateTO   = toRus(ws.cell(tempCell).value<string>()); tempABC++; //13
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].lastHoursTO  = toRus(ws.cell(tempCell).value<string>()); tempABC++; //14
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].owner  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //15
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].serialNumber = toRus(ws.cell(tempCell).value<string>()); tempABC++; //16
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].AF  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //17
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].OF  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //18
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].OS  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //19
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].Belt  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //20
-		tempCell = englishABC[tempABC] + to_string(i + 1); A[i].SHD  		 = toRus(ws.cell(tempCell).value<string>()); tempABC++; //21
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].number  	   = toRus(ws.cell(tempCell).value<string>()); //01
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].type  	   = toRus(ws.cell(tempCell).value<string>()); //02
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].model  	   = toRus(ws.cell(tempCell).value<string>()); //03
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].place  	   = toRus(ws.cell(tempCell).value<string>()); //04
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].oil  		   = toRus(ws.cell(tempCell).value<string>()); //05
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].tools  	   = toRus(ws.cell(tempCell).value<string>()); //06
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].password     = toRus(ws.cell(tempCell).value<string>()); //07
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].qtAF   	   = toRus(ws.cell(tempCell).value<string>()); //08
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].qtOF  	   = toRus(ws.cell(tempCell).value<string>()); //09
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].qtOS  	   = toRus(ws.cell(tempCell).value<string>()); //10
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].qtBelt  	   = toRus(ws.cell(tempCell).value<string>()); //11
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].info  	   = toRus(ws.cell(tempCell).value<string>()); //12
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].lastDateTO   = toRus(ws.cell(tempCell).value<string>()); //13
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].lastHoursTO  = toRus(ws.cell(tempCell).value<string>()); //14
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].owner  	   = toRus(ws.cell(tempCell).value<string>()); //15
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].serialNumber = toRus(ws.cell(tempCell).value<string>()); //16
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].AF  		   = toRus(ws.cell(tempCell).value<string>()); //17
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].OF  		   = toRus(ws.cell(tempCell).value<string>()); //18
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].OS  		   = toRus(ws.cell(tempCell).value<string>()); //19
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].Belt  	   = toRus(ws.cell(tempCell).value<string>()); //20
+		tempCell = englishABC[tempABC++] + to_string(i + 1); A[i].SHD  		   = toRus(ws.cell(tempCell).value<string>()); //21
 	}
 	return A;
 }
@@ -104,6 +104,37 @@ gadget* getByCsv(int& aN, string fileNameCsv)
 	}
 	delete[] gadgetString; //отчистить массив строк
 	return A;
+}
+
+//вывод в файл Csv:
+void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
+{
+	ofstream fileWrite(fileNameOutCsv); //объ€вим вывод в файл csv
+	for (int i = 0; i < aN; i++)
+	{
+		fileWrite << A[i].number		<< ";";  //01
+		fileWrite << A[i].type			<< ";";  //02
+		fileWrite << A[i].model			<< ";";  //03
+		fileWrite << A[i].place			<< ";";  //04
+		fileWrite << A[i].oil			<< ";";  //05
+		fileWrite << A[i].tools			<< ";";  //06
+		fileWrite << A[i].password		<< ";";  //07
+		fileWrite << A[i].qtAF			<< ";";  //08
+		fileWrite << A[i].qtOF			<< ";";  //09
+		fileWrite << A[i].qtOS			<< ";";  //10
+		fileWrite << A[i].qtBelt		<< ";";  //11
+		fileWrite << A[i].info			<< ";";  //12
+		fileWrite << A[i].lastDateTO	<< ";";  //13
+		fileWrite << A[i].lastHoursTO	<< ";";  //14
+		fileWrite << A[i].owner			<< ";";  //15
+		fileWrite << A[i].serialNumber  << ";";  //16
+		fileWrite << A[i].AF			<< ";";  //17
+		fileWrite << A[i].OF			<< ";";  //18
+		fileWrite << A[i].OS			<< ";";  //19
+		fileWrite << A[i].Belt			<< ";";  //20
+		fileWrite << A[i].SHD			<< endl; //21
+	}
+	fileWrite.close(); //закрытие файла
 }
 
 //подсчЄт кол-ва строк в файле CSV и вывод в формате int:

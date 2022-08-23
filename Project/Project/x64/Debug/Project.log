@@ -1,6 +1,5 @@
 ﻿  Functions.cpp
-E:\Coding\Current\Project\Project\Functions.cpp(201,85): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-E:\Coding\Current\Project\Project\Functions.cpp(203,78): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
   Main.cpp
   Создание кода...
+E:\Coding\Current\Project\Project\Main.cpp(469): warning C4715: findDialog: значение возвращается не при всех путях выполнения
   Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe

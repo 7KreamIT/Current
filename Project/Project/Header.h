@@ -1,4 +1,7 @@
 #pragma once
+#pragma warning(disable : 26495) //отключение предупреждени€ по библиотеке xlnt
+#pragma warning(disable : 6387)  //отключение предупреждений по кодировке
+#pragma warning(disable : 4267)  //..
 #include <xlnt/xlnt.hpp> //подключение долгожданной библиотеки
 #include <iostream>      //дл€ потока консоли
 #include <fstream>       //дл€ потока файла						дл€ временного вывода в CSV
@@ -26,6 +29,7 @@ const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в мес€цах
 class gadget
 {
 public:
+	int aN; //кол-во элементов
 	string number;       //пор€дковый номер установки		   //01
 	string type;         //тип установки					   //02
 	string model;	     //название модели					   //03
@@ -55,6 +59,7 @@ public:
 //объ€влени€ функций vvv
 gadget* getByXlsx(int& aN, string fileNameXlsx);
 gadget* getByCsv(int& aN, string fileNameCsv);
+void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
 int numberOfLines(string fileName);
 int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode);
 int winGadget(gadget* A, int* x, int n);
