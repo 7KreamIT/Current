@@ -192,7 +192,7 @@ void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
 }
 
 //функция для красивого завершения программы:
-bool exitProgram()
+void exitProgram()
 {
 	char a;
 	int b;
@@ -208,5 +208,4 @@ bool exitProgram()
 		}
 		else continue;
 	}
-	return 0;
 }

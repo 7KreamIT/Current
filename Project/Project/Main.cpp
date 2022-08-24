@@ -13,9 +13,9 @@ int main()
 
 	int aN = 0;//кол-во строк
 	gadget* A; //основной массив устройств
-
+	
 	//A = getByXlsx(aN, fileNameXlsx); //если библиотека подключилась
-	A = getByCsv(aN, fileNameCsv); //если библиотека НЕ подключилась
+	A = getByCsv(aN, fileNameCsv);	   //если библиотека НЕ подключилась
 	
 	//опрос Что? Где? Когда?: 
 	string aWhere;        //ответ:  Где?
