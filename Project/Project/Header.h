@@ -2,6 +2,7 @@
 #pragma warning(disable : 26495) //отключение предупреждени€ по библиотеке xlnt
 #pragma warning(disable : 6387)  //отключение предупреждений по кодировке
 #pragma warning(disable : 4267)  //..
+#include <xlnt/xlnt.hpp>
 #include <iostream>      //дл€ потока консоли
 #include <fstream>       //дл€ потока файла						дл€ временного вывода в CSV
 #include <conio.h>       //дл€ cout
@@ -9,18 +10,12 @@
 #include <Windows.h>     //дл€ –усского €зыка
 #include <ctime>		 //дл€ вывода времени
 
-//проверка на наличие библиотеки:
-#ifdef __has_include
-#  if __has_include(<xlnt/xlnt.hpp>)
-#    include <xlnt/xlnt.hpp>
-#    define haveXlnt 1 //либа есть
-#  else
-#    define haveXlnt 0 //либы нет
-#endif
-#endif
-//(возможно в будущем стоит мен€ть объ€влени€ ввода данных)
-
 using namespace std;
+
+const string fileNameXlsx = "Test.xlsx"; //им€ файла Xlsx дл€ ввода
+const string fileNameOutXlsx = "TestOut.xlsx"; //им€ файла Xlsx дл€ вывода
+const string fileNameCsv = "—правка.csv"; //им€ файла Csv дл€ ввода
+const string fileNameOutCsv = "—правка-Out.csv"; //им€ файла Csv дл€ вывода
 
 const int maxSymbol = 100; //максимальное кол-во символов в €чейке
 const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -68,12 +63,13 @@ public:
 };
 
 //объ€влени€ функций:
-//gadget* getByXlsx(int& aN, string fileNameXlsx);	//если библиотека подключилась
-gadget* getByCsv(int& aN, string fileNameCsv);		//если библиотека Ќ≈ подключилась
+gadget* getByXlsx(int& aN, string fileNameXlsx);	//если библиотека подключилась
+//gadget* getByCsv(int& aN, string fileNameCsv);		//если библиотека Ќ≈ подключилась
 string toRus(string utf);
 int numberOfLines(string fileName);
 string dateToSixNumbers(int day, int month, int year);
-void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
+void setToXlsx(gadget*& A, int& lastChosenGadget, string fileNameOutXlsx);
+//void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
 void exitProgram();
 
 //объ€влени€ диалогов:

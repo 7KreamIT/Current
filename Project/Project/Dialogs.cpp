@@ -451,6 +451,7 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 		A[lastChosenGadget].lastDateTO = aWhen;
 		A[lastChosenGadget].lastHoursTO = to_string(aHowMuch);
 		cout << "Данные успешно внесены!" << endl;
+		setToXlsx(A, lastChosenGadget, fileNameOutXlsx);
 		break;
 	default:
 		exit(0); //обиделся

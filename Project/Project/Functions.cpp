@@ -1,7 +1,6 @@
 #include "Header.h" //подключение заголовка
 
 //если библиотека подключилась, то используетс€ следущий код(чтение из файла "Test.xlsx"):
-/*
 gadget* getByXlsx(int& aN, string fileNameXlsx)
 {
 	//открытие файла xlsx:
@@ -64,9 +63,9 @@ gadget* getByXlsx(int& aN, string fileNameXlsx)
 	}
 	return A;
 }
-*/
 
 //если библиотека не подключилась, то используетс€ следущий код(чтение из файла "—правка.csv"):
+/*
 gadget* getByCsv(int& aN, string fileNameCsv)
 {
 	int i, j; //переменные циклов
@@ -107,6 +106,7 @@ gadget* getByCsv(int& aN, string fileNameCsv)
 	delete[] gadgetString; //отчистить массив строк
 	return A;
 }
+*/
 
 //конвертаци€ UTF-8 в OEM1251 с помощью WinApi: (называетс€ утилитой)
 string toRus(string utf)
@@ -160,7 +160,26 @@ string dateToSixNumbers(int day, int month, int year)
 	return date;
 }
 
+//вывод в файл Xlsx:
+void setToXlsx(gadget*& A, int& lastChosenGadget, string fileNameOutXlsx)
+{
+	//открытие файла xlsx:
+	xlnt::workbook wb;
+	wb.load(fileNameXlsx);
+	auto ws = wb.active_sheet();
+
+	string nameCellDate = "M" + to_string(lastChosenGadget - 1);
+	ws.cell(nameCellDate).value(A[lastChosenGadget].lastDateTO);
+
+	string nameCellHours = "N" + to_string(lastChosenGadget - 1);
+	ws.cell(nameCellHours).value(A[lastChosenGadget].lastHoursTO);
+
+	//wb.save(fileNameOutXlsx);
+}
+
+
 //вывод в файл Csv:
+/*
 void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
 {
 	ofstream fileWrite(fileNameOutCsv); //объ€вим вывод в файл csv
@@ -190,6 +209,7 @@ void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
 	}
 	fileWrite.close(); //закрытие файла
 }
+*/
 
 //функци€ дл€ красивого завершени€ программы:
 void exitProgram()

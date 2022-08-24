@@ -1,9 +1,5 @@
 #include "Header.h"	//подключение заголовка
 
-const string fileNameXlsx = "Test.xlsx"; //имя файла Xlsx для ввода
-const string fileNameCsv = "Справка.csv"; //имя файла Csv для ввода
-const string fileNameOutCsv = "Справка-Out.csv"; //имя файла Csv для вывода
-
 int main()
 {
 	setlocale(LC_ALL, "Russian");		  //настройка консоли
@@ -14,8 +10,8 @@ int main()
 	int aN = 0;//кол-во строк
 	gadget* A; //основной массив устройств
 	
-	//A = getByXlsx(aN, fileNameXlsx); //если библиотека подключилась
-	A = getByCsv(aN, fileNameCsv);	   //если библиотека НЕ подключилась
+	A = getByXlsx(aN, fileNameXlsx); //если библиотека подключилась
+	//A = getByCsv(aN, fileNameCsv);	   //если библиотека НЕ подключилась
 	
 	//опрос Что? Где? Когда?: 
 	string aWhere;        //ответ:  Где?
@@ -25,7 +21,9 @@ int main()
 	int findMode = 1;	  //вариант работы функции findDialog
 	findDialog(A, aN, aWhere, aWhat, aWhen, lastChosenGadget, findMode);
 
-	setToCsv(A, aN, fileNameOutCsv); //вывод в файл csv
+	setToXlsx(A, lastChosenGadget, fileNameOutXlsx);
+
+	//setToCsv(A, aN, fileNameOutCsv); //вывод в файл csv
 
 	delete[] A; //отчистить память
 	exitProgram();
