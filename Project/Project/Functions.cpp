@@ -173,7 +173,7 @@ void setToXlsx(gadget*& A, int& lastChosenGadget, string fileNameOutXlsx)
 
 	string nameCellHours = "N" + to_string(lastChosenGadget - 1);
 	ws.cell(nameCellHours).value(A[lastChosenGadget].lastHoursTO);
-
+	
 	//wb.save(fileNameOutXlsx);
 }
 
