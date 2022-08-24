@@ -1,6 +1,7 @@
 #include "Header.h" //подключение заголовка
 
 //если библиотека подключилась, то используется следущий код(чтение из файла "Test.xlsx"):
+/*
 gadget* getByXlsx(int& aN, string fileNameXlsx)
 {
 	//открытие файла xlsx:
@@ -63,6 +64,7 @@ gadget* getByXlsx(int& aN, string fileNameXlsx)
 	}
 	return A;
 }
+*/
 
 //если библиотека не подключилась, то используется следущий код(чтение из файла "Справка.csv"):
 gadget* getByCsv(int& aN, string fileNameCsv)
@@ -106,35 +108,18 @@ gadget* getByCsv(int& aN, string fileNameCsv)
 	return A;
 }
 
-//вывод в файл Csv:
-void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
+//конвертация UTF-8 в OEM1251 с помощью WinApi: (называется утилитой)
+string toRus(string utf)
 {
-	ofstream fileWrite(fileNameOutCsv); //объявим вывод в файл csv
-	for (int i = 0; i < aN; i++)
-	{
-		fileWrite << A[i].number		<< ";";  //01
-		fileWrite << A[i].type			<< ";";  //02
-		fileWrite << A[i].model			<< ";";  //03
-		fileWrite << A[i].place			<< ";";  //04
-		fileWrite << A[i].oil			<< ";";  //05
-		fileWrite << A[i].tools			<< ";";  //06
-		fileWrite << A[i].password		<< ";";  //07
-		fileWrite << A[i].qtAF			<< ";";  //08
-		fileWrite << A[i].qtOF			<< ";";  //09
-		fileWrite << A[i].qtOS			<< ";";  //10
-		fileWrite << A[i].qtBelt		<< ";";  //11
-		fileWrite << A[i].info			<< ";";  //12
-		fileWrite << A[i].lastDateTO	<< ";";  //13
-		fileWrite << A[i].lastHoursTO	<< ";";  //14
-		fileWrite << A[i].owner			<< ";";  //15
-		fileWrite << A[i].serialNumber  << ";";  //16
-		fileWrite << A[i].AF			<< ";";  //17
-		fileWrite << A[i].OF			<< ";";  //18
-		fileWrite << A[i].OS			<< ";";  //19
-		fileWrite << A[i].Belt			<< ";";  //20
-		fileWrite << A[i].SHD			<< endl; //21
-	}
-	fileWrite.close(); //закрытие файла
+	char oem1251Str[maxSymbol];
+	int nLength = MultiByteToWideChar(CP_UTF8, 0, utf.c_str(), utf.length(), nullptr, 0);
+	BSTR bstrWide = SysAllocStringLen(nullptr, nLength);
+	MultiByteToWideChar(CP_UTF8, 0, utf.c_str(), utf.length(), bstrWide, nLength);
+	nLength = WideCharToMultiByte(866, 0, bstrWide, -1, nullptr, 0, nullptr, 0);
+	WideCharToMultiByte(1251, 0, bstrWide, -1, oem1251Str, nLength, nullptr, nullptr);
+	SysFreeString(bstrWide);
+	string str = string(oem1251Str);
+	return str;
 }
 
 //подсчёт кол-ва строк в файле CSV и вывод в формате int:
@@ -175,35 +160,35 @@ string dateToSixNumbers(int day, int month, int year)
 	return date;
 }
 
-//функция выводит лишь один номер устройства, которое собираемся менять:
-int winGadget(gadget* A, int* x, int n) //x - это массив с подходящими под описание устройствами, n - их кол-во
+//вывод в файл Csv:
+void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
 {
-	bool uncorrectAnswer = 0; //неверный ответ
-	int chosenGadget = 0; //итоговый номер устройства
-	if (n > 1) //если машин больше чем 1
+	ofstream fileWrite(fileNameOutCsv); //объявим вывод в файл csv
+	for (int i = 0; i < aN; i++)
 	{
-		cout << "Список подходящих под описание машин:" << endl;
-		for (int i = 0; i < n; i++) cout << i + 1 << ":" << A[x[i]].model << endl;
-		cout << "Введите номер машины от 1 до " << n << ":" << endl;
-		do
-		{
-			uncorrectAnswer = 0;
-			cin >> chosenGadget;
-			if ((chosenGadget > n) || (chosenGadget < 1))
-			{
-				uncorrectAnswer = 1;
-				cout << "Введите пожалуйста число от 1 до " << n << endl;
-			}
-		} while (uncorrectAnswer == 1);
-		chosenGadget = stoi(A[x[chosenGadget - 1]].number); //отныне эта переменная является номером выбранной машины
+		fileWrite << A[i].number << ";";  //01
+		fileWrite << A[i].type << ";";  //02
+		fileWrite << A[i].model << ";";  //03
+		fileWrite << A[i].place << ";";  //04
+		fileWrite << A[i].oil << ";";  //05
+		fileWrite << A[i].tools << ";";  //06
+		fileWrite << A[i].password << ";";  //07
+		fileWrite << A[i].qtAF << ";";  //08
+		fileWrite << A[i].qtOF << ";";  //09
+		fileWrite << A[i].qtOS << ";";  //10
+		fileWrite << A[i].qtBelt << ";";  //11
+		fileWrite << A[i].info << ";";  //12
+		fileWrite << A[i].lastDateTO << ";";  //13
+		fileWrite << A[i].lastHoursTO << ";";  //14
+		fileWrite << A[i].owner << ";";  //15
+		fileWrite << A[i].serialNumber << ";";  //16
+		fileWrite << A[i].AF << ";";  //17
+		fileWrite << A[i].OF << ";";  //18
+		fileWrite << A[i].OS << ";";  //19
+		fileWrite << A[i].Belt << ";";  //20
+		fileWrite << A[i].SHD << endl; //21
 	}
-	else chosenGadget = stoi(A[x[0]].number);
-	system("cls");
-	cout << "Выбрано:'" << A[chosenGadget].type
-		<< "' на '" << A[chosenGadget].place
-		<< "' модели '" << A[chosenGadget].model
-		<< "'" << endl;
-	return chosenGadget;
+	fileWrite.close(); //закрытие файла
 }
 
 //функция для красивого завершения программы:
@@ -224,18 +209,4 @@ bool exitProgram()
 		else continue;
 	}
 	return 0;
-}
-
-//конвертация UTF-8 в OEM1251 с помощью WinApi: (называется утилитой)
-string toRus(string utf)
-{
-	char oem1251Str[maxSymbol];
-	int nLength = MultiByteToWideChar(CP_UTF8, 0, utf.c_str(), utf.length(), nullptr, 0);
-	BSTR bstrWide = SysAllocStringLen(nullptr, nLength);
-	MultiByteToWideChar(CP_UTF8, 0, utf.c_str(), utf.length(), bstrWide, nLength);
-	nLength = WideCharToMultiByte(866, 0, bstrWide, -1, nullptr, 0, nullptr, 0);
-	WideCharToMultiByte(1251, 0, bstrWide, -1, oem1251Str, nLength, nullptr, nullptr);
-	SysFreeString(bstrWide);
-	string str = string(oem1251Str);
-	return str;
 }
