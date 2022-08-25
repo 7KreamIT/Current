@@ -14,8 +14,8 @@ using namespace std;
 
 const string fileNameXlsx = "Test.xlsx"; //им€ файла Xlsx дл€ ввода
 const string fileNameOutXlsx = "TestOut.xlsx"; //им€ файла Xlsx дл€ вывода
-const string fileNameCsv = "—правка.csv"; //им€ файла Csv дл€ ввода
-const string fileNameOutCsv = "—правка-Out.csv"; //им€ файла Csv дл€ вывода
+const string fileNameCsv = "Test.csv"; //им€ файла Csv дл€ ввода
+const string fileNameOutCsv = "TestOut.csv"; //им€ файла Csv дл€ вывода
 
 const int maxSymbol = 100; //максимальное кол-во символов в €чейке
 const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -35,7 +35,6 @@ const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в мес€цах
 class gadget
 {
 public:
-	int aN; //кол-во элементов
 	string number;       //пор€дковый номер установки		   //01
 	string type;         //тип установки					   //02
 	string model;	     //название модели					   //03
@@ -57,8 +56,34 @@ public:
 	string OS;			 //вариант модели масл€ного сепаратора //19
 	string Belt;		 //вариант модели ремн€				   //20
 	string SHD;			 //шагова€ доступность (Ўƒ)			   //21
+
+	//метод, возвращающий переменную:
+	string name(int i)
+	{
+		if (i == 1)  return number;
+		if (i == 2)  return type;
+		if (i == 3)  return model;
+		if (i == 4)  return place;
+		if (i == 5)  return oil;
+		if (i == 6)  return tools;
+		if (i == 7)  return password;
+		if (i == 8)  return qtAF;
+		if (i == 9)  return qtOF;
+		if (i == 10) return qtOS;
+		if (i == 11) return qtBelt;
+		if (i == 12) return info;
+		if (i == 13) return lastDateTO;
+		if (i == 14) return lastHoursTO;
+		if (i == 15) return owner;
+		if (i == 16) return serialNumber;
+		if (i == 17) return AF;
+		if (i == 18) return OF;
+		if (i == 19) return OS;
+		if (i == 20) return Belt;
+		if (i == 21) return SHD;
+	}
+
 	~gadget() {};        //деструктор	
-	//написать массив дл€ строк (это будет метод)  ++
 	//в будущем нужно будет рассчитывать наработки ++				
 };
 
@@ -69,7 +94,7 @@ string toRus(string utf);
 int numberOfLines(string fileName);
 string dateToSixNumbers(int day, int month, int year);
 void setToXlsx(gadget*& A, int& lastChosenGadget, string fileNameOutXlsx);
-//void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
+void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
 void exitProgram();
 
 //объ€влени€ диалогов:
