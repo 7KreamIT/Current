@@ -9,10 +9,13 @@ int main()
 
 	int aN = 0;//кол-во строк
 	gadget* A; //основной массив устройств
-	
-	A = getByXlsx(aN, fileNameXlsx); //если библиотека подключилась
-	//A = getByCsv(aN, fileNameCsv); //если библиотека НЕ подключилась
-	
+
+#ifdef haveXlnt // если либа подключилась
+	A = getByXlsx(aN, fileNameXlsx); //считать структуру с файла Xlsx
+#else
+	A = getByCsv(aN, fileNameCsv); //считать структуру с файла Csv
+#endif // если либа установлена
+		
 	//опрос Что? Где? Когда?: 
 	string aWhere;        //ответ:  Где?
 	string aWhat;         //ответ:  Что?
@@ -23,7 +26,7 @@ int main()
 
 	setToXlsx(A, lastChosenGadget, fileNameOutXlsx); //вывод в файл xlsx
 
-	setToCsv(A, aN, fileNameOutCsv); //вывод в файл csv для проверки
+	setToCsv(A, aN, fileNameOutCsv); //вывод в файл csv
 
 	delete[] A; //отчистить память
 	exitProgram();

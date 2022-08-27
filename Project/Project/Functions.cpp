@@ -1,6 +1,7 @@
 #include "Header.h" //подключение заголовка
 
-//если библиотека подключилась, то используется следущий код(чтение из файла "Test.xlsx"):
+//если библиотека подключилась, то структура заполняется данными из файла Test.xlsx, иначе из Test.csv:
+#ifdef haveXlnt
 gadget* getByXlsx(int& aN, string fileNameXlsx)
 {
 	//открытие файла xlsx:
@@ -36,21 +37,20 @@ gadget* getByXlsx(int& aN, string fileNameXlsx)
 	int i = 0; // переменная цикла
 	//заполнение структуры:
 	gadget* A = new gadget[aN]; //нулевой элемент - это название столбцов
-	for (i = 0; i < aN; i++) //нулевая строка это заголовки
+	for (i = 0; i < aN; i++)
 	{
 		tempABC = 0;
-		for (int currentNumCol = 1; currentNumCol < nCol; currentNumCol++)
+		for (int currentNumCol = 1; currentNumCol < nCol + 1; currentNumCol++)
 		{
 			tempCell = englishABC[tempABC] + to_string(i + 1);
 			tempABC++;
-			A[i].setName(currentNumCol, toRus(ws.cell(tempCell).value<string>()));
+			A[i].setValueByIndex(toRus(ws.cell(tempCell).value<string>()), currentNumCol);
 		}			
 	}
+	cout << "Структура успешно заполнена данными из файла " << fileNameXlsx << endl;
 	return A;
 }
-
-//если библиотека не подключилась, то используется следущий код(чтение из файла "Справка.csv"):
-/*
+#else
 gadget* getByCsv(int& aN, string fileNameCsv)
 {
 	int i, j; //переменные циклов
@@ -63,35 +63,26 @@ gadget* getByCsv(int& aN, string fileNameCsv)
 
 	//заполнение структуры:
 	gadget* A = new gadget[aN]; //основной массив устройств
+	string tempWord;
 	for (i = 0; i < aN; i++) //нулевая строка это заголовки
 	{
 		j = 0;
-		while (gadgetString[i][j] != ';') A[i].number  		+= gadgetString[i][j++]; j++; //01
-		while (gadgetString[i][j] != ';') A[i].type  		+= gadgetString[i][j++]; j++; //02
-		while (gadgetString[i][j] != ';') A[i].model  		+= gadgetString[i][j++]; j++; //03
-		while (gadgetString[i][j] != ';') A[i].place  		+= gadgetString[i][j++]; j++; //04
-		while (gadgetString[i][j] != ';') A[i].oil  		+= gadgetString[i][j++]; j++; //05
-		while (gadgetString[i][j] != ';') A[i].tools  		+= gadgetString[i][j++]; j++; //06
-		while (gadgetString[i][j] != ';') A[i].password  	+= gadgetString[i][j++]; j++; //07
-		while (gadgetString[i][j] != ';') A[i].qtAF  		+= gadgetString[i][j++]; j++; //08
-		while (gadgetString[i][j] != ';') A[i].qtOF  		+= gadgetString[i][j++]; j++; //09
-		while (gadgetString[i][j] != ';') A[i].qtOS  		+= gadgetString[i][j++]; j++; //10
-		while (gadgetString[i][j] != ';') A[i].qtBelt  		+= gadgetString[i][j++]; j++; //11
-		while (gadgetString[i][j] != ';') A[i].info  		+= gadgetString[i][j++]; j++; //12
-		while (gadgetString[i][j] != ';') A[i].lastDateTO   += gadgetString[i][j++]; j++; //13
-		while (gadgetString[i][j] != ';') A[i].lastHoursTO  += gadgetString[i][j++]; j++; //14
-		while (gadgetString[i][j] != ';') A[i].owner  		+= gadgetString[i][j++]; j++; //15
-		while (gadgetString[i][j] != ';') A[i].serialNumber += gadgetString[i][j++]; j++; //16
-		while (gadgetString[i][j] != ';') A[i].AF  			+= gadgetString[i][j++]; j++; //17
-		while (gadgetString[i][j] != ';') A[i].OF  			+= gadgetString[i][j++]; j++; //18
-		while (gadgetString[i][j] != ';') A[i].OS  			+= gadgetString[i][j++]; j++; //19
-		while (gadgetString[i][j] != ';') A[i].Belt  		+= gadgetString[i][j++]; j++; //20
-										  A[i].SHD 			+= gadgetString[i][j++]; j++; //21
+		for (int currentNumCol = 1; currentNumCol < nCol - 1; currentNumCol++)
+		{
+			while (gadgetString[i][j] != ';') tempWord += gadgetString[i][j++];
+			j++;
+			A[i].setValueByIndex(tempWord, currentNumCol);
+			tempWord = "";
+		}
+		//для последнего поля класса проведём отдельное заполнение (т.к. после него в файле csv не стоит ";"
+		while (gadgetString[i][j] != ';') tempWord += gadgetString[i][j++];
+		A[i].setValueByIndex(tempWord, nCol);
 	}
 	delete[] gadgetString; //отчистить массив строк
+	cout << "Структура успешно заполнена данными из файла " << fileNameCsv << endl;
 	return A;
 }
-*/
+#endif
 
 //конвертация UTF-8 в OEM1251 с помощью WinApi: (называется утилитой)
 string toRus(string utf)
@@ -166,29 +157,16 @@ void setToXlsx(gadget*& A, int& lastChosenGadget, string fileNameOutXlsx)
 void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
 {
 	ofstream fileWrite(fileNameOutCsv); //объявим вывод в файл csv
+
 	for (int i = 0; i < aN; i++)
 	{
-		fileWrite << A[i].number << ";";  //01
-		fileWrite << A[i].type << ";";  //02
-		fileWrite << A[i].model << ";";  //03
-		fileWrite << A[i].place << ";";  //04
-		fileWrite << A[i].oil << ";";  //05
-		fileWrite << A[i].tools << ";";  //06
-		fileWrite << A[i].password << ";";  //07
-		fileWrite << A[i].qtAF << ";";  //08
-		fileWrite << A[i].qtOF << ";";  //09
-		fileWrite << A[i].qtOS << ";";  //10
-		fileWrite << A[i].qtBelt << ";";  //11
-		fileWrite << A[i].info << ";";  //12
-		fileWrite << A[i].lastDateTO << ";";  //13
-		fileWrite << A[i].lastHoursTO << ";";  //14
-		fileWrite << A[i].owner << ";";  //15
-		fileWrite << A[i].serialNumber << ";";  //16
-		fileWrite << A[i].AF << ";";  //17
-		fileWrite << A[i].OF << ";";  //18
-		fileWrite << A[i].OS << ";";  //19
-		fileWrite << A[i].Belt << ";";  //20
-		fileWrite << A[i].SHD << endl; //21
+		int currentNumCol = 1;
+		while (A[i].getValueByIndex(currentNumCol) != "error")
+		{
+			fileWrite << A[i].getValueByIndex(currentNumCol) << ";";
+			currentNumCol++;
+		}
+		fileWrite << endl;
 	}
 	fileWrite.close(); //закрытие файла
 }

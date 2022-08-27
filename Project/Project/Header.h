@@ -2,13 +2,24 @@
 #pragma warning(disable : 26495) //отключение предупреждения по библиотеке xlnt
 #pragma warning(disable : 6387)  //отключение предупреждений по кодировке
 #pragma warning(disable : 4267)  //..
-#include <xlnt/xlnt.hpp>
 #include <iostream>      //для потока консоли
 #include <fstream>       //для потока файла						для временного вывода в CSV
 #include <conio.h>       //для cout
 #include <string>        //для работы со строками
-#include <Windows.h>     //для Русского языка
 #include <ctime>		 //для вывода времени
+
+//проверка на наличие библиотеки:
+#ifdef __has_include
+#	if __has_include(<xlnt/xlnt.hpp>)
+#		define haveXlnt 1 //либа есть
+#		include <xlnt/xlnt.hpp>
+#		include <Windows.h>     //для Русского языка и std
+		using namespace std;
+#	else
+#		define haveXlnt 0 //либы нет
+#		include <Windows.h>     //для Русского языка и std
+#	endif
+#endif
 
 using namespace std;
 
@@ -57,39 +68,78 @@ public:
 	string Belt;		 //вариант модели ремня				   //20
 	string SHD;			 //шаговая доступность (ШД)			   //21
 
-	//метод, возвращающий переменную:
-	void setName(int i, string text)
+	//метод, заполняющий поле по индексу:
+	int setValueByIndex(string text, int i)
 	{
-		if (i == 1)  number		  = text;
-		if (i == 2)  type		  = text;
-		if (i == 3)  model		  = text;
-		if (i == 4)  place		  = text;
-		if (i == 5)  oil		  = text;
-		if (i == 6)  tools		  = text;
-		if (i == 7)  password	  = text;
-		if (i == 8)  qtAF		  = text;
-		if (i == 9)  qtOF		  = text;
-		if (i == 10) qtOS		  = text;
-		if (i == 11) qtBelt		  = text;
-		if (i == 12) info		  = text;
-		if (i == 13) lastDateTO	  = text;
-		if (i == 14) lastHoursTO  = text;
-		if (i == 15) owner		  = text;
-		if (i == 16) serialNumber = text;
-		if (i == 17) AF			  = text;
-		if (i == 18) OF			  = text;
-		if (i == 19) OS			  = text;
-		if (i == 20) Belt		  = text;
-		if (i == 21) SHD		  = text;
+		switch (i)
+		{
+		case 1:	 number		  = text; return 1;	break;
+		case 2:	 type		  = text; return 1;	break;
+		case 3:	 model		  = text; return 1;	break;
+		case 4:	 place		  = text; return 1;	break;
+		case 5:	 oil		  = text; return 1;	break;
+		case 6:	 tools		  = text; return 1;	break;
+		case 7:	 password	  = text; return 1;	break;
+		case 8:	 qtAF		  = text; return 1;	break;
+		case 9:	 qtOF		  = text; return 1;	break;
+		case 10: qtOS		  = text; return 1;	break;
+		case 11: qtBelt		  = text; return 1;	break;
+		case 12: info		  = text; return 1;	break;
+		case 13: lastDateTO	  = text; return 1;	break;
+		case 14: lastHoursTO  = text; return 1;	break;
+		case 15: owner		  = text; return 1;	break;
+		case 16: serialNumber = text; return 1;	break;
+		case 17: AF			  = text; return 1;	break;
+		case 18: OF			  = text; return 1;	break;
+		case 19: OS			  = text; return 1;	break;
+		case 20: Belt		  = text; return 1;	break;
+		case 21: SHD		  = text; return 1;	break;
+		default:					  return 0;	break;
+		}
+	}
+
+	//метод, выдающий поле по индексу:
+	string getValueByIndex(int i)
+	{
+		switch (i)
+		{			
+		case 1:	 return number		 ; break;
+		case 2:	 return type		 ; break;
+		case 3:	 return model		 ; break;
+		case 4:	 return place		 ; break;
+		case 5:	 return oil			 ; break;
+		case 6:	 return tools		 ; break;
+		case 7:	 return password	 ; break;
+		case 8:	 return qtAF		 ; break;
+		case 9:	 return qtOF		 ; break;
+		case 10: return qtOS		 ; break;
+		case 11: return qtBelt		 ; break;
+		case 12: return info		 ; break;
+		case 13: return lastDateTO	 ; break;
+		case 14: return lastHoursTO  ; break;
+		case 15: return owner		 ; break;
+		case 16: return serialNumber ; break;
+		case 17: return AF			 ; break;
+		case 18: return OF			 ; break;
+		case 19: return OS			 ; break;
+		case 20: return Belt		 ; break;
+		case 21: return SHD			 ; break;
+		default: return "error"		 ; break;
+		}
 	}
 
 	~gadget() {};        //деструктор	
-	//в будущем нужно будет рассчитывать наработки ++				
+	//в будущем можно будет рассчитывать наработки ++				
 };
 
+//объявления считывающих функций:
+#ifdef haveXlnt // если либа подключилась
+gadget* getByXlsx(int& aN, string fileNameXlsx);
+#else
+gadget* getByCsv(int& aN, string fileNameCsv);
+#endif 
+
 //объявления функций:
-gadget* getByXlsx(int& aN, string fileNameXlsx);	//если библиотека подключилась
-//gadget* getByCsv(int& aN, string fileNameCsv);		//если библиотека НЕ подключилась
 string toRus(string utf);
 int numberOfLines(string fileName);
 string dateToSixNumbers(int day, int month, int year);

@@ -1,6 +1,2 @@
-﻿  Dialogs.cpp
-  Functions.cpp
-  Main.cpp
-  Создание кода...
-E:\Coding\Current\Project\Project\Dialogs.cpp(283): warning C4715: findDialog: значение возвращается не при всех путях выполнения
+﻿  Functions.cpp
   Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe
