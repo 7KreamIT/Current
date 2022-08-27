@@ -39,11 +39,11 @@ gadget* getByXlsx(int& aN, string fileNameXlsx)
 	for (i = 0; i < aN; i++) //нулевая строка это заголовки
 	{
 		tempABC = 0;
-		for (int tempName = 1; tempName < nCol; tempName++)
+		for (int currentNumCol = 1; currentNumCol < nCol; currentNumCol++)
 		{
 			tempCell = englishABC[tempABC] + to_string(i + 1);
 			tempABC++;
-			A[i].name(tempName) = toRus(ws.cell(tempCell).value<string>());
+			A[i].setName(currentNumCol, toRus(ws.cell(tempCell).value<string>()));
 		}			
 	}
 	return A;

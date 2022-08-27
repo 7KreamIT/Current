@@ -58,29 +58,29 @@ public:
 	string SHD;			 //шаговая доступность (ШД)			   //21
 
 	//метод, возвращающий переменную:
-	string name(int i)
+	void setName(int i, string text)
 	{
-		if (i == 1)  return number;
-		if (i == 2)  return type;
-		if (i == 3)  return model;
-		if (i == 4)  return place;
-		if (i == 5)  return oil;
-		if (i == 6)  return tools;
-		if (i == 7)  return password;
-		if (i == 8)  return qtAF;
-		if (i == 9)  return qtOF;
-		if (i == 10) return qtOS;
-		if (i == 11) return qtBelt;
-		if (i == 12) return info;
-		if (i == 13) return lastDateTO;
-		if (i == 14) return lastHoursTO;
-		if (i == 15) return owner;
-		if (i == 16) return serialNumber;
-		if (i == 17) return AF;
-		if (i == 18) return OF;
-		if (i == 19) return OS;
-		if (i == 20) return Belt;
-		if (i == 21) return SHD;
+		if (i == 1)  number		  = text;
+		if (i == 2)  type		  = text;
+		if (i == 3)  model		  = text;
+		if (i == 4)  place		  = text;
+		if (i == 5)  oil		  = text;
+		if (i == 6)  tools		  = text;
+		if (i == 7)  password	  = text;
+		if (i == 8)  qtAF		  = text;
+		if (i == 9)  qtOF		  = text;
+		if (i == 10) qtOS		  = text;
+		if (i == 11) qtBelt		  = text;
+		if (i == 12) info		  = text;
+		if (i == 13) lastDateTO	  = text;
+		if (i == 14) lastHoursTO  = text;
+		if (i == 15) owner		  = text;
+		if (i == 16) serialNumber = text;
+		if (i == 17) AF			  = text;
+		if (i == 18) OF			  = text;
+		if (i == 19) OS			  = text;
+		if (i == 20) Belt		  = text;
+		if (i == 21) SHD		  = text;
 	}
 
 	~gadget() {};        //деструктор	
