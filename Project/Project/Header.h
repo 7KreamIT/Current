@@ -144,8 +144,8 @@ void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
 #endif 
 
 // объ€влени€ функций:
-string toOEM1251(string utf);
-string toUTF8(string oem);
+string toOEM1251(string utf); //кодировка, использующа€с€ в IDE
+string toUTF8(string oem); //кодировка, понимаема€ программой
 int numberOfLines(string fileName);
 string dateToSixNumbers(int day, int month, int year);
 void exitProgram();

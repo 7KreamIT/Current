@@ -82,9 +82,13 @@ void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx)
 
 	// ws.merge_cells("C3:C4"); // вот так можно объединить €чейки
 	// ws.cell("C3").formula("=RAND()"); // вот так вводитс€ формула
-	
+
+	ws.cell(tempCell).fill().solid(); // ??????????????????????????????
 	// форматирование таблицы:
 	ws.freeze_panes("E2"); // закрепл€ем панели
+	setlocale(LC_ALL, "Russian"); // установка названи€ страницы
+	ws.title(toUTF8("—правка"));  // ..
+	setlocale(LC_ALL, "en-US");	  // ..
 
 	wb.save(fileNameOutXlsx); // сохран€ем файл
 }
