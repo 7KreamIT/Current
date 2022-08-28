@@ -1,36 +1,12 @@
 #pragma once
-#pragma warning(disable : 26495) //отключение предупреждения по библиотеке xlnt
-#pragma warning(disable : 6387)  //отключение предупреждений по кодировке
-#pragma warning(disable : 4267)  //..
-#include <iostream>      //для потока консоли
-#include <fstream>       //для потока файла						для временного вывода в CSV
-#include <conio.h>       //для cout
-#include <string>        //для работы со строками
-#include <ctime>		 //для вывода времени
-
-//проверка на наличие библиотеки:
-#ifdef __has_include
-#	if __has_include(<xlnt/xlnt.hpp>)
-#		define haveXlnt 1 //либа есть
-#		include <xlnt/xlnt.hpp>
-#		include <Windows.h>     //для Русского языка и std
-		using namespace std;
-#	else
-#		define haveXlnt 0 //либы нет
-#		include <Windows.h>     //для Русского языка и std
-#	endif
-#endif
-
-using namespace std;
-
-const string fileNameXlsx = "Test.xlsx"; //имя файла Xlsx для ввода
-const string fileNameOutXlsx = "TestOut.xlsx"; //имя файла Xlsx для вывода
-const string fileNameCsv = "Test.csv"; //имя файла Csv для ввода
-const string fileNameOutCsv = "TestOut.csv"; //имя файла Csv для вывода
-
-const int maxSymbol = 100; //максимальное кол-во символов в ячейке
-const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в месяцах
+#pragma warning(disable : 26495) // отключение предупреждения по библиотеке xlnt
+#pragma warning(disable : 6387)  // отключение предупреждений по кодировке
+#pragma warning(disable : 4267)  // ..
+#include <iostream>      // для потока консоли
+#include <fstream>       // для потока файла						для временного вывода в CSV
+#include <conio.h>       // для cout
+#include <string>        // для работы со строками
+#include <ctime>		 // для вывода времени
 
 // правила пользования таблицей:
 // менять кол-во столбцов запрещено
@@ -39,36 +15,62 @@ const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; //дни в месяцах
 // нельзя оставлять пустые ячейчи в названиях столбцов и номерах строк
 // программа не взаимодействует с выведенными из эксплотации устройствами
 // не более 100 символов в клетке
-// для корректной работы программы с числами необходимо чтобы все ячейки были в текстовом формате! (у цифр был зелёный треугольник в углу)
+// все ячейки должны быть в текстовом формате! (был зелёный треугольник в углу)
 // 
 
-//структура с данными об устройстве:
+// проверка на наличие библиотеки:
+#ifdef __has_include
+#	if __has_include(<xlnt/xlnt.hpp>)
+#		define haveXlnt 1 // либа есть
+#		include <xlnt/xlnt.hpp>
+#		include <Windows.h>     // для Русского языка и std
+		using namespace std;
+#	else
+#		define haveXlnt 0 // либы нет
+#		include <Windows.h>     // для Русского языка и std
+		using namespace std;
+#	endif
+#endif
+
+#ifdef haveXlnt // если либа подключилась
+const string fileNameXlsx = "Test.xlsx"; // имя файла Xlsx для ввода
+const string fileNameOutXlsx = "Test.xlsx"; // имя файла Xlsx для вывода
+#else
+const string fileNameCsv = "Test.csv"; // имя файла Csv для ввода
+const string fileNameOutCsv = "TestOut.csv"; // имя файла Csv для вывода
+#endif 
+
+const int maxSymbol = 100; // максимальное кол-во символов в ячейке
+const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; // дни в месяцах
+
+// структура с данными об устройстве:
 class gadget
 {
 public:
-	string number;       //порядковый номер установки		   //01
-	string type;         //тип установки					   //02
-	string model;	     //название модели					   //03
-	string place;        //место							   //04
-	string oil;          //масло							   //05
-	string tools;        //инструменты						   //06
-	string password;     //пароль							   //07
-	string qtAF;	     //кол-во ВФ						   //08
-	string qtOF;	     //кол-во МФ						   //09
-	string qtOS;	     //кол-во масляных сепараторов		   //10
-	string qtBelt;	     //кол-во ремней;					   //11
-	string info;	     //дополнительная информация		   //12
-	string lastDateTO;   //дата последнего ТО				   //13
-	string lastHoursTO;  //часы наработки после последнего ТО  //14
-	string owner;		 //чья установка					   //15
-	string serialNumber; //полный серийный номер			   //16
-	string AF;			 //вариант модели воздушного фильтра   //17
-	string OF;			 //вариант модели масляного фильтра	   //18
-	string OS;			 //вариант модели масляного сепаратора //19
-	string Belt;		 //вариант модели ремня				   //20
-	string SHD;			 //шаговая доступность (ШД)			   //21
+	string number;       // порядковый номер установки		   // 01
+	string type;         // тип установки					   // 02
+	string model;	     // название модели					   // 03
+	string place;        // место							   // 04
+	string oil;          // масло							   // 05
+	string tools;        // инструменты						   // 06
+	string password;     // пароль							   // 07
+	string qtAF;	     // кол-во ВФ						   // 08
+	string qtOF;	     // кол-во МФ						   // 09
+	string qtOS;	     // кол-во масляных сепараторов		   // 10
+	string qtBelt;	     // кол-во ремней;					   // 11
+	string info;	     // дополнительная информация		   // 12
+	string lastDateTO;   // дата последнего ТО				   // 13
+	string lastHoursTO;  // часы наработки после последнего ТО  // 14
+	string owner;		 // чья установка					   // 15
+	string serialNumber; // полный серийный номер			   // 16
+	string AF;			 // вариант модели воздушного фильтра   // 17
+	string OF;			 // вариант модели масляного фильтра	   // 18
+	string OS;			 // вариант модели масляного сепаратора // 19
+	string Belt;		 // вариант модели ремня				   // 20
+	string SHD;			 // шаговая доступность (ШД)			   // 21
 
-	//метод, заполняющий поле по индексу:
+	// метод, заполняющий поле по индексу:
 	int setValueByIndex(string text, int i)
 	{
 		switch (i)
@@ -98,7 +100,7 @@ public:
 		}
 	}
 
-	//метод, выдающий поле по индексу:
+	// метод, выдающий поле по индексу:
 	string getValueByIndex(int i)
 	{
 		switch (i)
@@ -128,26 +130,27 @@ public:
 		}
 	}
 
-	~gadget() {};        //деструктор	
-	//в будущем можно будет рассчитывать наработки ++				
+	~gadget() {};        // деструктор	
+	// в будущем можно будет рассчитывать наработки ++				
 };
 
-//объявления считывающих функций:
+// объявления считывающих функций:
 #ifdef haveXlnt // если либа подключилась
 gadget* getByXlsx(int& aN, string fileNameXlsx);
+void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx);
 #else
 gadget* getByCsv(int& aN, string fileNameCsv);
+void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
 #endif 
 
-//объявления функций:
-string toRus(string utf);
+// объявления функций:
+string toOEM1251(string utf);
+string toUTF8(string oem);
 int numberOfLines(string fileName);
 string dateToSixNumbers(int day, int month, int year);
-void setToXlsx(gadget*& A, int& lastChosenGadget, string fileNameOutXlsx);
-void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
 void exitProgram();
 
-//объявления диалогов:
+// объявления диалогов:
 int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode);
 int winGadget(gadget* A, int* x, int n);
 int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, string& aWhen);

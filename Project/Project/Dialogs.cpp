@@ -1,34 +1,34 @@
-#include "Header.h"	//подключение заголовка
+#include "Header.h"	// подключение заголовка
 
-//функция основного диалога, которая изменяет все переменные:
+// функция основного диалога, которая изменяет все переменные:
 int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen, int& lastChosenGadget, int& findMode)
 {
-	//мод 1 - Первый запуск с возможностью перехода к настройкам
-	//мод 2 - ??
-	//функция возвращает:
-	//0 - если ??
-	//1 - если ??
-	int qWhere = 17; //объявление флажочка вопроса "Где?" и разрешение на следующий раздел
-	int qWhereFirst = 0; //объявления флажочка для углубленного вопроса "Где?"
-	int qWhat = 0; //объявление флажочка вопроса "Что?"
+	// мод 1 - Первый запуск с возможностью перехода к настройкам
+	// мод 2 - ??
+	// функция возвращает:
+	// 0 - если ??
+	// 1 - если ??
+	int qWhere = 17; // объявление флажочка вопроса "Где?" и разрешение на следующий раздел
+	int qWhereFirst = 0; // объявления флажочка для углубленного вопроса "Где?"
+	int qWhat = 0; // объявление флажочка вопроса "Что?"
 	while (qWhere == 17)
 	{
 		cout << "Где находится? (Пешая доступность)" << endl;
 		cout << "0 - Выход из программы" << endl;
-		cout << "1 - Очереди: 1-ая(обжиг), 2-ая или 3-я" << endl; //доп ветка
+		cout << "1 - Очереди: 1-ая(обжиг), 2-ая или 3-я" << endl; // доп ветка
 		cout << "2 - ДОФ" << endl;
 		cout << "3 - Шихта" << endl;
-		cout << "4 - Готовая продукция" << endl; //доп ветка
+		cout << "4 - Готовая продукция" << endl; // доп ветка
 		cout << "5 - Перегрузка" << endl;
 		cout << "6 - Пульпанасосная" << endl;
-		cout << "7 - Сгущение" << endl; //доп ветка
+		cout << "7 - Сгущение" << endl; // доп ветка
 		cout << "8 - КСМД" << endl;
-		cout << "9 - Станция Комбинатская" << endl; //в будущем будет "Станции" с доп веткой
+		cout << "9 - Станция Комбинатская" << endl; // в будущем будет "Станции" с доп веткой
 		cin >> qWhere;
 		switch (qWhere)
 		{
 		case 0:
-			exitProgram(); //красиво выйти из программы
+			exitProgram(); // красиво выйти из программы
 			break;
 		case 1:
 			qWhereFirst = 17;
@@ -62,10 +62,10 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					system("cls");
 					break;
 				}
-				if ((qWhereFirst >= 1) && (qWhereFirst <= 3)) //закрытие доп ветки всвязи с получением ответа
+				if ((qWhereFirst >= 1) && (qWhereFirst <= 3)) // закрытие доп ветки всвязи с получением ответа
 				{
 					qWhereFirst = 0;
-					qWhere = 1; //это просто номер кейса
+					qWhere = 1; // это просто номер кейса
 				}
 			}
 			break;
@@ -103,10 +103,10 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					system("cls");
 					break;
 				}
-				if ((qWhereFirst >= 1) && (qWhereFirst <= 2)) //закрытие доп ветки всвязи с получением ответа
+				if ((qWhereFirst >= 1) && (qWhereFirst <= 2)) // закрытие доп ветки всвязи с получением ответа
 				{
 					qWhereFirst = 0;
-					qWhere = 4; //это просто номер кейса
+					qWhere = 4; // это просто номер кейса
 				}
 			}
 			break;
@@ -144,10 +144,10 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					system("cls");
 					break;
 				}
-				if ((qWhereFirst >= 1) && (qWhereFirst <= 2)) //закрытие доп ветки всвязи с получением ответа
+				if ((qWhereFirst >= 1) && (qWhereFirst <= 2)) // закрытие доп ветки всвязи с получением ответа
 				{
 					qWhereFirst = 0;
-					qWhere = 7; //это просто номер кейса
+					qWhere = 7; // это просто номер кейса
 				}
 			}
 			break;
@@ -163,30 +163,29 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 			cout << "Введите число от 0 до 9!" << endl;
 			break;
 		}
-		if ((qWhere >= 1) && (qWhere <= 9)) //переход на следующий раздел с созданием массива подходящих устр-в
+		if ((qWhere >= 1) && (qWhere <= 9)) // переход на следующий раздел с созданием массива подходящих устр-в
 		{
-			int* arrWhere = new int[aN] {0}; //массив устр-в с подходящим местоположением
-			int arrWhereN = 0; //их кол-во
+			int* arrWhere = new int[aN] {0}; // массив устр-в с подходящим местоположением
+			int arrWhereN = 0; // их кол-во
 			for (int i = 0; i < aN; i++)
 				if (A[i].place == aWhere)
 				{
 					arrWhere[arrWhereN] = stoi(A[i].number);
-					//cout << ArrWhere[ArrWhereN] << endl; //всё отлично работает
 					arrWhereN++;
 				}
-			if (arrWhereN == 1) //если машина одна, то
+			if (arrWhereN == 1) // если машина одна, то
 			{
-				aWhat = A[arrWhere[0]].type; //найден ответ на вопрос "Что?"
-				qWhat = 0; //дальнейший опрос не требуется
-				lastChosenGadget = arrWhere[0]; //номер устр-ва
+				aWhat = A[arrWhere[0]].type; // найден ответ на вопрос "Что?"
+				qWhat = 0; // дальнейший опрос не требуется
+				lastChosenGadget = arrWhere[0]; // номер устр-ва
 			}
 			else
 			{
 				system("cls");
-				qWhat = 17; //разрешение на опрос
+				qWhat = 17; // разрешение на опрос
 				while (qWhat == 17)
 				{
-					string what[3]{ "КП","ВД","ОС" }; //массив со всеми типами
+					string what[3]{ "КП","ВД","ОС" }; // массив со всеми типами
 					cout << "Выбрано:'" << aWhere << "' " << endl;
 					cout << "Что было сделано?" << endl;
 					cout << "0 - Назад" << endl;
@@ -203,26 +202,26 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					for (int i = 0; i < arrWhereN; i++) if (A[arrWhere[i]].type == what[2])	flagOS = 1;
 					if (flagOS == 1) cout << "3 - Осушитель" << endl;
 
-					if ((flagKP + flagVD + flagOS) == 1) //если в списке только один из типов
+					if ((flagKP + flagVD + flagOS) == 1) // если в списке только один из типов
 					{
 						if ((flagKP == 1) && (flagVD == 0) && (flagOS == 0))
 						{
 							aWhat = "КП";
-							qWhat = 0; //конец опроса
+							qWhat = 0; // конец опроса
 						}
 						if ((flagKP == 0) && (flagVD == 1) && (flagOS == 0))
 						{
 							aWhat = "ВД";
-							qWhat = 0; //конец опроса
+							qWhat = 0; // конец опроса
 						}
 
 						if ((flagKP == 0) && (flagVD == 0) && (flagOS == 1))
 						{
 							aWhat = "ОС";
-							qWhat = 0; //конец опроса
+							qWhat = 0; // конец опроса
 						}
-						int* arrWhat = new int[arrWhereN] {0}; //массив устр-в с подходящим местоположением
-						int arrWhatN = 0; //их кол-во
+						int* arrWhat = new int[arrWhereN] {0}; // массив устр-в с подходящим местоположением
+						int arrWhatN = 0; // их кол-во
 						for (int i = 0; i < arrWhereN; i++)
 							if (A[arrWhere[i]].type == aWhat)
 								arrWhat[arrWhatN++] = stoi(A[arrWhere[i]].number);
@@ -235,21 +234,21 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					else
 					{
 						cin >> qWhat;
-						if (qWhat == 0) //назад
+						if (qWhat == 0) // назад
 						{
 							qWhat = 0;
 							qWhere = 17;
 							system("cls");
 						}
-						//обработка ошибочного ввода:
+						// обработка ошибочного ввода:
 						if ((qWhat == 1) && (flagKP == 0) ||
 							(qWhat == 2) && (flagVD == 0) ||
 							(qWhat == 3) && (flagOS == 0) ||
-							(qWhat < 0) || (qWhat > 3))
+							(qWhat <  0) || (qWhat  >  3))
 						{
 							system("cls");
 							cout << "Вы выбрали число, которого нет в списке!" << endl;
-							qWhat = 17; //опрос заново
+							qWhat = 17; // опрос заново
 						}
 						if ((qWhat == 1) && (flagKP == 1) ||
 							(qWhat == 2) && (flagVD == 1) ||
@@ -258,8 +257,8 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 							if (qWhat == 1) aWhat = "КП";
 							if (qWhat == 2) aWhat = "ВД";
 							if (qWhat == 3) aWhat = "ОС";
-							int* arrWhat = new int[arrWhereN]; //массив устр-в с подходящим местоположением
-							int arrWhatN = 0; //их кол-во
+							int* arrWhat = new int[arrWhereN]; // массив устр-в с подходящим местоположением
+							int arrWhatN = 0; // их кол-во
 							for (int i = 0; i < arrWhereN; i++)
 								if (A[arrWhere[i]].type == aWhat)
 									arrWhat[arrWhatN++] = stoi(A[arrWhere[i]].number);
@@ -282,12 +281,12 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 	}
 }
 
-//функция выводит лишь один номер устройства, которое собираемся менять:
-int winGadget(gadget* A, int* x, int n) //x - это массив с подходящими под описание устройствами, n - их кол-во
+// функция выводит лишь один номер устройства, которое собираемся менять:
+int winGadget(gadget* A, int* x, int n) // x - это массив с подходящими под описание устройствами, n - их кол-во
 {
-	bool uncorrectAnswer = 0; //неверный ответ
-	int chosenGadget = 0; //итоговый номер устройства
-	if (n > 1) //если машин больше чем 1
+	bool uncorrectAnswer = 0; // неверный ответ
+	int chosenGadget = 0; // итоговый номер устройства
+	if (n > 1) // если машин больше чем 1
 	{
 		cout << "Список подходящих под описание машин:" << endl;
 		for (int i = 0; i < n; i++) cout << i + 1 << ":" << A[x[i]].model << endl;
@@ -302,7 +301,7 @@ int winGadget(gadget* A, int* x, int n) //x - это массив с подходящими под описа
 				cout << "Введите пожалуйста число от 1 до " << n << endl;
 			}
 		} while (uncorrectAnswer == 1);
-		chosenGadget = stoi(A[x[chosenGadget - 1]].number); //отныне эта переменная является номером выбранной машины
+		chosenGadget = stoi(A[x[chosenGadget - 1]].number); // отныне эта переменная является номером выбранной машины
 	}
 	else chosenGadget = stoi(A[x[0]].number);
 	system("cls");
@@ -313,14 +312,14 @@ int winGadget(gadget* A, int* x, int n) //x - это массив с подходящими под описа
 	return chosenGadget;
 }
 
-//функция ввода времени ТО:
+// функция ввода времени ТО:
 int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, string& aWhen)
 {
-	int tempDay; //временная переменная дня
-	int qWhen; //флажочек для циклов времени 
-	SYSTEMTIME t;	  //для вывода времени(может в int):
-	GetLocalTime(&t); //..
-	qWhen = 17; //разрешение даётся автоматически при вызове функции
+	int tempDay; // временная переменная дня
+	int qWhen; // флажочек для циклов времени 
+	SYSTEMTIME t;	  // для вывода времени(может в int):
+	GetLocalTime(&t); // ..
+	qWhen = 17; // разрешение даётся автоматически при вызове функции
 	while (qWhen == 17)
 	{
 		system("cls");
@@ -331,19 +330,19 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 			<< "' с серийным номером '" << A[lastChosenGadget].serialNumber
 			<< "'" << endl;
 		cout << "Когда сделано ТО?" << endl;
-		//cout << "0 - Назад" << endl;
+		// cout << "0 - Назад" << endl;
 		cout << "1 - Сегодня" << endl;
 		cout << "2 - Вчера" << endl;
 		cout << "3 - Ввести дату" << endl;
-		//cout << "4 - Позавчера" << endl; //можно поделать если станет скучно
+		// cout << "4 - Позавчера" << endl; // можно поделать если станет скучно
 		cin >> qWhen;
 		switch (qWhen)
 		{
 		case 0:
-			qWhen = 17; //Временное
+			qWhen = 17; // Временное
 			break;
 		case 1:
-			//запоминаем дату в формате ДДММГГ:
+			// запоминаем дату в формате ДДММГГ:
 			aWhen = dateToSixNumbers(t.wDay, t.wMonth, t.wYear);
 			break;
 		case 2:
@@ -353,7 +352,7 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 					aWhen = to_string(31) + to_string(12) + to_string(t.wYear - 2001);
 				else
 				{
-					if ((monthSize[t.wMonth - 1] == 1) && ((t.wYear - 2000) % 4 == 0)) tempDay = 29; //если високосный
+					if ((monthSize[t.wMonth - 1] == 1) && ((t.wYear - 2000) % 4 == 0)) tempDay = 29; // если високосный
 					else tempDay = 28;
 					aWhen = dateToSixNumbers(tempDay, t.wMonth - 1, t.wYear);
 				}
@@ -370,68 +369,68 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 				if (aWhen.length() != 6)
 				{
 					system("cls");
-					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010407" << endl; //ошибка
+					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010407" << endl; // ошибка
 				}
 				else
 				{
 					int aWhenInt = stoi(aWhen);
-					if (aWhenInt < 9999) //ошибка в вводе (день не может быть = 00)
+					if (aWhenInt < 9999) // ошибка в вводе (день не может быть = 00)
 					{
 						cout << "День = 00!" << endl;
 						i = 1;
 					}
 					else
 					{
-						if ((aWhenInt % 10000) < 99) //ошибка в вводе (месяц не может быть = 00)
+						if ((aWhenInt % 10000) < 99) // ошибка в вводе (месяц не может быть = 00)
 						{
 							cout << "Месяц = 00!" << endl;
 							i = 1;
 						}
 						else
 						{
-							if ((aWhenInt % 10000 / 100) == 2) //если месяц вдруг - февраль, то..
+							if ((aWhenInt % 10000 / 100) == 2) // если месяц вдруг - февраль, то..
 							{
-								int dayInFeb; //кол-во дней в феврале
-								if ((aWhenInt % 100) % 4 == 0) dayInFeb = 29; //если год високосный, то..
+								int dayInFeb; // кол-во дней в феврале
+								if ((aWhenInt % 100) % 4 == 0) dayInFeb = 29; // если год високосный, то..
 								else dayInFeb = 28;
 								if ((aWhenInt / 10000) > dayInFeb) i = 1;
-								else i = 0; //данные введены корректно
+								else i = 0; // данные введены корректно
 							}
 							else
 							{
-								int currentMonth; //какой месяц? (для массива дней)
+								int currentMonth; // какой месяц? (для массива дней)
 								currentMonth = (aWhenInt % 10000 / 100) - 1;
-								if (currentMonth > 11) i = 1; //ошибка если месяц оказался больше 12-го
+								if (currentMonth > 11) i = 1; // ошибка если месяц оказался больше 12-го
 								else
 								{
 									if ((aWhenInt / 10000) > monthSize[currentMonth]) i = 1;
-									else i = 0; //данные введены корректно
+									else i = 0; // данные введены корректно
 								}
 							}
-							//aWhenInt = aWhenInt % 100; //достать год
-							//aWhenInt = aWhenInt % 10000 /100; //достать месяц
-							//aWhenInt = aWhenInt / 10000; //достать день
+							// aWhenInt = aWhenInt % 100; // достать год
+							// aWhenInt = aWhenInt % 10000 /100; // достать месяц
+							// aWhenInt = aWhenInt / 10000; // достать день
 						}
 					}
 				}
 			}
 			break;
 		default:
-			qWhen = 17; //Временное
+			qWhen = 17; // Временное
 			break;
 		}
 	}
 	return 1;
 }
 
-//функция ввода ТО:
+// функция ввода ТО:
 int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 {
-	unsigned long int aHowMuch;	//ответ: Какая наработка?
+	unsigned long int aHowMuch;	// ответ: Какая наработка?
 	cout << "Какая наработка после ТО?" << endl;
 	cin >> aHowMuch;
 
-	//первое заполнение ячейки наработки и времени:
+	// первое заполнение ячейки наработки и времени:
 	system("cls");
 	cout << "Выбрано:'" << A[lastChosenGadget].type
 		<< "' на '" << A[lastChosenGadget].place
@@ -445,7 +444,7 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 	switch (ready)
 	{
 	case 0:
-		exit(0); //обиделся
+		exit(0); // обиделся
 		break;
 	case 1:
 		A[lastChosenGadget].lastDateTO = aWhen;
@@ -454,7 +453,7 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 		setToXlsx(A, lastChosenGadget, fileNameOutXlsx);
 		break;
 	default:
-		exit(0); //обиделся
+		exit(0); // обиделся
 		break;
 	}
 	return 1;
