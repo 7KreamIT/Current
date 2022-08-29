@@ -32,9 +32,13 @@
 #	endif
 #endif
 
+const string fontName = "Times New Roman"; // название шрифта
+const int fontHeight = 12; // высота шрифта
+const string modelSymbol = "C"; // буква столбца с моделью
+
 #ifdef haveXlnt // если либа подключилась
 const string fileNameXlsx = "Test.xlsx"; // имя файла Xlsx для ввода
-const string fileNameOutXlsx = "Test.xlsx"; // имя файла Xlsx для вывода
+const string fileNameOutXlsx = "TestOut.xlsx"; // имя файла Xlsx для вывода
 #else
 const string fileNameCsv = "Test.csv"; // имя файла Csv для ввода
 const string fileNameOutCsv = "TestOut.csv"; // имя файла Csv для вывода
@@ -48,27 +52,27 @@ const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; // дни в месяцах
 class gadget
 {
 public:
-	string number;       // порядковый номер установки		   // 01
-	string type;         // тип установки					   // 02
-	string model;	     // название модели					   // 03
-	string place;        // место							   // 04
-	string oil;          // масло							   // 05
-	string tools;        // инструменты						   // 06
-	string password;     // пароль							   // 07
-	string qtAF;	     // кол-во ВФ						   // 08
-	string qtOF;	     // кол-во МФ						   // 09
-	string qtOS;	     // кол-во масляных сепараторов		   // 10
-	string qtBelt;	     // кол-во ремней;					   // 11
-	string info;	     // дополнительная информация		   // 12
-	string lastDateTO;   // дата последнего ТО				   // 13
+	string number;       // порядковый номер установки		    // 01
+	string type;         // тип установки					    // 02
+	string model;	     // название модели					    // 03
+	string place;        // место							    // 04
+	string oil;          // масло							    // 05
+	string tools;        // инструменты						    // 06
+	string password;     // пароль							    // 07
+	string qtAF;	     // кол-во ВФ						    // 08
+	string qtOF;	     // кол-во МФ						    // 09
+	string qtOS;	     // кол-во масляных сепараторов		    // 10
+	string qtBelt;	     // кол-во ремней;					    // 11
+	string info;	     // дополнительная информация		    // 12
+	string lastDateTO;   // дата последнего ТО				    // 13
 	string lastHoursTO;  // часы наработки после последнего ТО  // 14
-	string owner;		 // чья установка					   // 15
-	string serialNumber; // полный серийный номер			   // 16
+	string owner;		 // чья установка					    // 15
+	string serialNumber; // полный серийный номер			    // 16
 	string AF;			 // вариант модели воздушного фильтра   // 17
-	string OF;			 // вариант модели масляного фильтра	   // 18
+	string OF;			 // вариант модели масляного фильтра	// 18
 	string OS;			 // вариант модели масляного сепаратора // 19
-	string Belt;		 // вариант модели ремня				   // 20
-	string SHD;			 // шаговая доступность (ШД)			   // 21
+	string Belt;		 // вариант модели ремня				// 20
+	string SHD;			 // шаговая доступность (ШД)			// 21
 
 	// метод, заполняющий поле по индексу:
 	int setValueByIndex(string text, int i)

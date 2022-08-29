@@ -24,9 +24,6 @@
     <ClCompile Include="Comments.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="Rudiments.cpp">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
     <ClCompile Include="Dialogs.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>

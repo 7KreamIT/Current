@@ -56,6 +56,7 @@ gadget* getByXlsx(int& aN, string fileNameXlsx)
 // вывод в файл Xlsx:
 void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx)
 {
+	// объ€вление книги и страницы:
 	xlnt::workbook wb;
 	xlnt::worksheet ws = wb.active_sheet();
 
@@ -63,12 +64,21 @@ void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx)
 	int nCol = 1; // не факт что равна 1
 	while (A[0].getValueByIndex(nCol) != "error") nCol++;
 
-	// заполнение таблицы данными из структуры:
+	// заполнение таблицы данными из структуры, попутно форматиру€ таблицу:
 	int tempABC = 0; // номер текущей буквы
-	// int tempNumber = 1; // номер текущей цифры (перва€ не 0 потому, что отсчЄт строк в экселе начинаетс€ с 1)
 	int i = 0; // переменна€ цикла
 	int currentNumCol; // текущий номер столбца
 	string tempCell;
+	xlnt::alignment alignment;								  // дл€ выравнивани€
+	alignment.horizontal(xlnt::horizontal_alignment::center); // ..
+	alignment.vertical(xlnt::vertical_alignment::center);	  // ..
+	xlnt::border border;
+	xlnt::border::border_property border_pro;			// дл€ границ
+	border_pro.style(xlnt::border_style::thin);			// ..
+	border.side(xlnt::border_side::start, border_pro);	// ..
+	border.side(xlnt::border_side::end, border_pro);	// ..
+	border.side(xlnt::border_side::top, border_pro);	// ..
+	border.side(xlnt::border_side::bottom, border_pro);	// ..
 	for (i = 0; i < aN; i++)
 	{
 		tempABC = 0;
@@ -77,13 +87,49 @@ void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx)
 			tempCell = englishABC[tempABC] + to_string(i + 1);
 			tempABC++;
 			ws.cell(tempCell).value(toUTF8(A[i].getValueByIndex(currentNumCol)));
+			ws.cell(tempCell).alignment(alignment);
+			ws.cell(tempCell).border(border);
+			ws.cell(tempCell).font(xlnt::font().name(fontName).size(fontHeight));
 		}
 	}
 
-	// ws.merge_cells("C3:C4"); // вот так можно объединить €чейки
-	// ws.cell("C3").formula("=RAND()"); // вот так вводитс€ формула
+	// отдельно выравниваем столбик устройст по левому краю:
+	alignment.horizontal(xlnt::horizontal_alignment::left);
+	for (i = 0; i < aN; i++)
+	{
+		tempCell = modelSymbol + to_string(i + 1); 
+		ws.cell(tempCell).alignment(alignment);
+	}
 
-	ws.cell(tempCell).fill().solid(); // ??????????????????????????????
+	// оркашиваем весь первый столбик в оранжевый:
+	for (i = 0; i < aN; i++)
+	{
+		tempCell = "A" + to_string(i + 1);
+		ws.cell(tempCell).fill(xlnt::fill::solid(xlnt::rgb_color(237, 125, 49)));
+	}
+
+	// оркашиваем всю первую строчку в оранжевый:
+	tempABC = 0;
+	for (currentNumCol = 1; currentNumCol < nCol; currentNumCol++)
+	{
+		tempCell = englishABC[tempABC] + to_string(1);
+		tempABC++;
+		ws.cell(tempCell).fill(xlnt::fill::solid(xlnt::rgb_color(237, 125, 49)));
+	}
+
+	// автоширина столбцов:
+	int maxLength = 0;
+	for (currentNumCol = 1; currentNumCol < nCol; currentNumCol++)
+	{
+		for (i = 0; i < aN; i++)
+		{
+			if (A[i].getValueByIndex(currentNumCol).length() > maxLength)
+				maxLength = A[i].getValueByIndex(currentNumCol).length();
+		}
+		ws.column_properties(currentNumCol).width = maxLength + 1; // добавл€ем единицу прозапас
+		maxLength = 0;
+	}
+	
 	// форматирование таблицы:
 	ws.freeze_panes("E2"); // закрепл€ем панели
 	setlocale(LC_ALL, "Russian"); // установка названи€ страницы
