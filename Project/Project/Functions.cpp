@@ -1,6 +1,6 @@
 #include "Header.h" // подключение заголовка
 
-#ifdef haveXlnt // если библиотека подключилась
+#if haveXlnt // если библиотека подключилась
 
 // заполнение структуры данными из файла xlsx:
 gadget* getByXlsx(int& aN, string fileNameXlsx)
@@ -138,58 +138,6 @@ void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx)
 
 	wb.save(fileNameOutXlsx); // сохраняем файл
 }
-#else
-// заполнение структуры данными из файла csv:
-gadget* getByCsv(int& aN, string fileNameCsv)
-{
-	int i, j; // переменные циклов
-	aN = numberOfLines(fileNameCsv) - 1; // подсчёт фактического кол-ва строк в файле (i - переменная цикла)
-	// чтение таблицы:
-	ifstream fileRead(fileNameCsv); // открытие файла
-	string* gadgetString = new string[aN]; // массив строк файла
-	for (i = 0; i < aN; i++) getline(fileRead, gadgetString[i]); // читает всю строку
-	fileRead.close(); // закрытие файла
-
-	// заполнение структуры:
-	gadget* A = new gadget[aN]; // основной массив устройств
-	string tempWord;
-	for (i = 0; i < aN; i++) // нулевая строка это заголовки
-	{
-		j = 0;
-		for (int currentNumCol = 1; currentNumCol < nCol - 1; currentNumCol++)
-		{
-			while (gadgetString[i][j] != ';') tempWord += gadgetString[i][j++];
-			j++;
-			A[i].setValueByIndex(tempWord, currentNumCol);
-			tempWord = "";
-		}
-		// для последнего поля класса проведём отдельное заполнение (т.к. после него в файле csv не стоит ";"
-		while (gadgetString[i][j] != ';') tempWord += gadgetString[i][j++];
-		A[i].setValueByIndex(tempWord, nCol);
-	}
-	delete[] gadgetString; // отчистить массив строк
-	cout << "Структура успешно заполнена данными из файла " << fileNameCsv << endl;
-	return A;
-}
-
-// вывод данных в файл csv:
-void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
-{
-	ofstream fileWrite(fileNameOutCsv); // объявим вывод в файл csv
-
-	for (int i = 0; i < aN; i++)
-	{
-		int currentNumCol = 1;
-		while (A[i].getValueByIndex(currentNumCol) != "error")
-		{
-			fileWrite << A[i].getValueByIndex(currentNumCol) << ";";
-			currentNumCol++;
-		}
-		fileWrite << endl;
-	}
-	fileWrite.close(); // закрытие файла
-}
-#endif
 
 // утилита для конвертации из UTF-8 в OEM1251 с помощью WinApi:
 string toOEM1251(string utf)
@@ -233,6 +181,71 @@ string toUTF8(string oem)
 	delete[] cres;
 	return res;
 }
+#else
+
+// заполнение структуры данными из файла csv:
+gadget* getByCsv(int& aN, string fileNameCsv)
+{
+	int i, j; // переменные циклов
+	aN = numberOfLines(fileNameCsv) - 1; // подсчёт фактического кол-ва строк в файле (i - переменная цикла)
+	// чтение таблицы:
+	ifstream fileRead(fileNameCsv); // открытие файла
+	string* gadgetString = new string[aN]; // массив строк файла
+	for (i = 0; i < aN; i++) getline(fileRead, gadgetString[i]); // читает всю строку
+	fileRead.close(); // закрытие файла
+
+	// подчсёт кол-ва столбцов в А:
+	int nCol = 0;
+	string a = gadgetString[0];
+	nCol = count(a.begin(), a.end(), ';') + 1; // ищет кол-во столбцов
+
+	// заполнение структуры:
+	gadget* A = new gadget[aN]; // основной массив устройств
+	string tempWord;
+	int gadgetStringLength; // длина строки
+	for (i = 0; i < aN; i++) // нулевая строка это заголовки
+	{
+		gadgetStringLength = gadgetString[i].length();
+
+		j = 0;
+		for (int currentNumCol = 1; currentNumCol < nCol; currentNumCol++)
+		{
+			while (gadgetString[i][j] != ';') tempWord += gadgetString[i][j++];
+			j++;
+			A[i].setValueByIndex(tempWord, currentNumCol);
+			tempWord = "";
+		}
+		// последнее поле класса заполним оставшимися символами:
+		for (int k = j; k < gadgetStringLength; k++)
+		{
+			tempWord += gadgetString[i][j];
+			j++;
+		}
+		A[i].setValueByIndex(tempWord, nCol);
+		tempWord = "";
+	}
+	delete[] gadgetString; // отчистить массив строк
+	cout << "Структура успешно заполнена данными из файла " << fileNameCsv << endl;
+	return A;
+}
+
+// вывод данных в файл csv:
+void setToCsv(gadget*& A, int& aN, string fileNameOutCsv)
+{
+	ofstream fileWrite(fileNameOutCsv); // объявим вывод в файл csv
+
+	for (int i = 0; i < aN; i++)
+	{
+		int currentNumCol = 1;
+		while (A[i].getValueByIndex(currentNumCol) != "error")
+		{
+			fileWrite << A[i].getValueByIndex(currentNumCol) << ";";
+			currentNumCol++;
+		}
+		fileWrite << endl;
+	}
+	fileWrite.close(); // закрытие файла
+}
 
 // подсчёт кол-ва строк в файле CSV и вывод в формате int:
 int numberOfLines(string fileName)
@@ -250,6 +263,7 @@ int numberOfLines(string fileName)
 	delete[] str;
 	return i;
 }
+#endif
 
 // приведение дат в формат ДДММГГ:
 string dateToSixNumbers(int day, int month, int year)

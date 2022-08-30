@@ -1,7 +1,3 @@
-﻿  Dialogs.cpp
-  Functions.cpp
-  Main.cpp
-  Создание кода...
-E:\Coding\Current\Project\Project\Dialogs.cpp(282): warning C4715: findDialog: значение возвращается не при всех путях выполнения
-  LINK : не найден или не выполнена сборка E:\Coding\Current\Project\x64\Debug\Project.exe при последней инкрементной компоновке; выполняется полная компоновка
-  Project.vcxproj -> E:\Coding\Current\Project\x64\Debug\Project.exe
+﻿  Functions.cpp
+D:\Nik\Coding\7KreamIT\Current\Project\Project\Functions.cpp(200,40): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+  Project.vcxproj -> D:\Nik\Coding\7KreamIT\Current\Project\x64\Debug\Project.exe

@@ -32,20 +32,19 @@
 #	endif
 #endif
 
+#if haveXlnt // если либа подключилась
+const string fileNameXlsx = "Test.xlsx"; // им€ файла Xlsx дл€ ввода
+const string fileNameOutXlsx = "TestOut.xlsx"; // им€ файла Xlsx дл€ вывода
 const string fontName = "Times New Roman"; // название шрифта
 const int fontHeight = 12; // высота шрифта
 const string modelSymbol = "C"; // буква столбца с моделью
-
-#ifdef haveXlnt // если либа подключилась
-const string fileNameXlsx = "Test.xlsx"; // им€ файла Xlsx дл€ ввода
-const string fileNameOutXlsx = "TestOut.xlsx"; // им€ файла Xlsx дл€ вывода
+const int maxSymbol = 100; // максимальное кол-во символов в €чейке
+const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 #else
 const string fileNameCsv = "Test.csv"; // им€ файла Csv дл€ ввода
 const string fileNameOutCsv = "TestOut.csv"; // им€ файла Csv дл€ вывода
 #endif 
 
-const int maxSymbol = 100; // максимальное кол-во символов в €чейке
-const string englishABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const int monthSize[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 }; // дни в мес€цах
 
 // структура с данными об устройстве:
@@ -139,18 +138,18 @@ public:
 };
 
 // объ€влени€ считывающих функций:
-#ifdef haveXlnt // если либа подключилась
+#if haveXlnt // если либа подключилась
 gadget* getByXlsx(int& aN, string fileNameXlsx);
 void setToXlsx(gadget*& A, int& aN, string fileNameOutXlsx);
+string toOEM1251(string utf); //кодировка, использующа€с€ в IDE
+string toUTF8(string oem);	  //кодировка, понимаема€ программой
 #else
 gadget* getByCsv(int& aN, string fileNameCsv);
 void setToCsv(gadget*& A, int& aN, string fileNameOutCsv);
+int numberOfLines(string fileName);
 #endif 
 
 // объ€влени€ функций:
-string toOEM1251(string utf); //кодировка, использующа€с€ в IDE
-string toUTF8(string oem); //кодировка, понимаема€ программой
-int numberOfLines(string fileName);
 string dateToSixNumbers(int day, int month, int year);
 void exitProgram();
 
