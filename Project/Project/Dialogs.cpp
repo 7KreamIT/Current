@@ -323,7 +323,7 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 	while (qWhen == 17)
 	{
 		system("cls");
-		int i;
+		bool repeatWhile; // переменная для цикла
 		cout << "Выбрано:'" << A[lastChosenGadget].type
 			<< "' на '" << A[lastChosenGadget].place
 			<< "' модели '" << A[lastChosenGadget].model
@@ -360,31 +360,36 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 			else aWhen = dateToSixNumbers(t.wDay - 1, t.wMonth, t.wYear);
 			break;
 		case 3:
-			i = 1;
 			system("cls");
-			while (i == 1)
+			repeatWhile = 1;
+			while (repeatWhile == 1)
 			{
+				cout << "Выбрано:'" << A[lastChosenGadget].type
+					 << "' на '" << A[lastChosenGadget].place
+					 << "' модели '" << A[lastChosenGadget].model
+					 << "' с серийным номером '" << A[lastChosenGadget].serialNumber
+					 << "'" << endl;
 				cout << "Дата Тех. обслуживания(ДДММГГ):" << endl;
 				cin >> aWhen;
 				if (aWhen.length() != 6)
 				{
 					system("cls");
-					cout << "Введите дату с левыми нулями, пожалуйста! \nНапример, так: 010407" << endl; // ошибка
+					cout << "Пожалуйста, введите дату с левыми нулями! (например, так: 010407)" << endl; // ошибка
 				}
 				else
 				{
 					int aWhenInt = stoi(aWhen);
 					if (aWhenInt < 9999) // ошибка в вводе (день не может быть = 00)
 					{
+						system("cls");
 						cout << "День = 00!" << endl;
-						i = 1;
 					}
 					else
 					{
 						if ((aWhenInt % 10000) < 99) // ошибка в вводе (месяц не может быть = 00)
 						{
+							system("cls");
 							cout << "Месяц = 00!" << endl;
-							i = 1;
 						}
 						else
 						{
@@ -393,18 +398,55 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 								int dayInFeb; // кол-во дней в феврале
 								if ((aWhenInt % 100) % 4 == 0) dayInFeb = 29; // если год високосный, то..
 								else dayInFeb = 28;
-								if ((aWhenInt / 10000) > dayInFeb) i = 1;
-								else i = 0; // данные введены корректно
+								if ((aWhenInt / 10000) > dayInFeb)
+								{
+									system("cls");
+									cout << "В этом феврале всего " << dayInFeb << " дней!";
+								}
+								else repeatWhile = 0; // данные введены корректно
 							}
 							else
 							{
 								int currentMonth; // какой месяц? (для массива дней)
-								currentMonth = (aWhenInt % 10000 / 100) - 1;
-								if (currentMonth > 11) i = 1; // ошибка если месяц оказался больше 12-го
+								currentMonth = (aWhenInt % 10000 / 100);
+								if (currentMonth > 12)
+								{
+									system("cls");
+									cout << "В году всего 12 месяцев." << endl;
+									repeatWhile = 1; // ошибка если месяц оказался больше 12-го
+								}
 								else
 								{
-									if ((aWhenInt / 10000) > monthSize[currentMonth]) i = 1;
-									else i = 0; // данные введены корректно
+									if ((aWhenInt / 10000) > monthSize[currentMonth - 1])
+									{
+										system("cls");
+										string currentMonthName;
+										switch (currentMonth)
+										{
+										case  1: currentMonthName = "Январь";   break;
+										case  2: currentMonthName = "Февраль";  break;
+										case  3: currentMonthName = "Март";     break;
+										case  4: currentMonthName = "Апрель";   break;
+										case  5: currentMonthName = "Май";      break;
+										case  6: currentMonthName = "Июнь";     break;
+										case  7: currentMonthName = "Июль";     break;
+										case  8: currentMonthName = "Август";   break;
+										case  9: currentMonthName = "Сентябрь"; break;
+										case 10: currentMonthName = "Октябрь";  break;
+										case 11: currentMonthName = "Ноябрь";   break;
+										case 12: currentMonthName = "Декабрь";  break;
+										default:							    break;	
+										}
+										//тернарный оператор для красивого словца :)
+										string niceName = monthSize[currentMonth - 1] == 31 ? " день" : " дней";
+										cout << "В " << currentMonth
+											 << "-м месяце (" << currentMonthName
+											 << ") всего " << monthSize[currentMonth - 1]
+											 << niceName
+											 << endl;
+										repeatWhile = 1; // ошибка если дней оказалось больше
+									}
+									else repeatWhile = 0; // данные введены корректно
 								}
 							}
 							// aWhenInt = aWhenInt % 100; // достать год
