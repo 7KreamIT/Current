@@ -13,6 +13,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 	int qWhat = 0; // объявление флажочка вопроса "Что?"
 	while (qWhere == 17)
 	{
+		cout << "Начало программы" << endl;
 		cout << "Где находится? (Пешая доступность)" << endl;
 		cout << "0 - Выход из программы" << endl;
 		cout << "1 - Очереди: 1-ая(обжиг), 2-ая или 3-я" << endl; // доп ветка
@@ -24,23 +25,23 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 		cout << "7 - Сгущение" << endl; // доп ветка
 		cout << "8 - КСМД" << endl;
 		cout << "9 - Станция Комбинатская" << endl; // в будущем будет "Станции" с доп веткой
-		cin >> qWhere;
+		qWhere = _getch() - 48; // ввод без нажатия Enter (ф-я возвращает код символа, значит, если задан диапозон, буквы исключаются)
 		switch (qWhere)
 		{
 		case 0:
 			exitProgram(); // красиво выйти из программы
 			break;
 		case 1:
+			system("cls");
 			qWhereFirst = 17;
 			while (qWhereFirst == 17)
 			{
-				system("cls");
 				cout << "Можно поконкретнее? Пожалуйста :)" << endl;
 				cout << "0 - Назад" << endl;
 				cout << "1 - Обжиг" << endl;
 				cout << "2 - Вторая" << endl;
 				cout << "3 - Третья" << endl;
-				cin >> qWhereFirst;
+				qWhereFirst = _getch() - 48;
 				switch (qWhereFirst)
 				{
 				case 0:
@@ -60,6 +61,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 				default:
 					qWhereFirst = 17;
 					system("cls");
+					cout << "Вы ввели число, которого нет в списке!" << endl;
 					break;
 				}
 				if ((qWhereFirst >= 1) && (qWhereFirst <= 3)) // закрытие доп ветки всвязи с получением ответа
@@ -76,15 +78,15 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 			aWhere = "Шихта";
 			break;
 		case 4:
+			system("cls");
 			qWhereFirst = 17;
 			while (qWhereFirst == 17)
 			{
-				system("cls");
 				cout << "Какой бункер из двух?" << endl;
 				cout << "0 - Назад" << endl;
 				cout << "1 - Первый (Ближе)" << endl;
 				cout << "2 - Второй (Дальше)" << endl;
-				cin >> qWhereFirst;
+				qWhereFirst = _getch() - 48;
 				switch (qWhereFirst)
 				{
 				case 0:
@@ -101,6 +103,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 				default:
 					qWhereFirst = 17;
 					system("cls");
+					cout << "Вы ввели число, которого нет в списке!" << endl;
 					break;
 				}
 				if ((qWhereFirst >= 1) && (qWhereFirst <= 2)) // закрытие доп ветки всвязи с получением ответа
@@ -117,15 +120,15 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 			aWhere = "Пульпа-ная";
 			break;
 		case 7:
+			system("cls");
 			qWhereFirst = 17;
 			while (qWhereFirst == 17)
 			{
-				system("cls");
 				cout << "Какое сгущение-то?" << endl;
 				cout << "0 - Назад" << endl;
 				cout << "1 - Ну то, что рядом с ДОФом" << endl;
 				cout << "2 - Новое" << endl;
-				cin >> qWhereFirst;
+				qWhereFirst = _getch() - 48;
 				switch (qWhereFirst)
 				{
 				case 0:
@@ -142,6 +145,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 				default:
 					qWhereFirst = 17;
 					system("cls");
+					cout << "Вы ввели число, которого нет в списке!" << endl;
 					break;
 				}
 				if ((qWhereFirst >= 1) && (qWhereFirst <= 2)) // закрытие доп ветки всвязи с получением ответа
@@ -229,11 +233,29 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 						cout << "Выбрано:'" << aWhat
 							<< "' на '" << aWhere
 							<< "'" << endl;
-						lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
+						int returnValue;
+						returnValue = winGadget(A, arrWhat, arrWhatN);
+						while (returnValue == 17)
+						{
+							system("cls");
+							cout << "Вы ввели число, которого нет в списке!" << endl;
+							cout << "Выбрано:'" << aWhat
+								 << "' на '" << aWhere
+								 << "'" << endl;
+							returnValue = winGadget(A, arrWhat, arrWhatN);
+						}
+						if (returnValue == 0)
+						{
+							qWhere = 17;
+							qWhat = 0; // опрос заново
+							system("cls");
+						}
+						else
+							lastChosenGadget = returnValue;
 					}
 					else
 					{
-						cin >> qWhat;
+						qWhat = _getch() - 48;
 						if (qWhat == 0) // назад
 						{
 							qWhat = 0;
@@ -247,7 +269,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 							(qWhat <  0) || (qWhat  >  3))
 						{
 							system("cls");
-							cout << "Вы выбрали число, которого нет в списке!" << endl;
+							cout << "Вы ввели число, которого нет в списке!" << endl;
 							qWhat = 17; // опрос заново
 						}
 						if ((qWhat == 1) && (flagKP == 1) ||
@@ -264,9 +286,26 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 									arrWhat[arrWhatN++] = stoi(A[arrWhere[i]].number);
 							system("cls");
 							cout << "Выбрано:'" << aWhat
-								<< "' на '" << aWhere
-								<< "'" << endl;
-							lastChosenGadget = winGadget(A, arrWhat, arrWhatN);
+								 << "' на '" << aWhere
+								 << "'" << endl;
+							int returnValue;
+							returnValue = winGadget(A, arrWhat, arrWhatN);
+							while (returnValue == 17)
+							{
+								system("cls");
+								cout << "Вы ввели число, которого нет в списке!" << endl;
+								cout << "Выбрано:'" << aWhat
+									 << "' на '" << aWhere
+									 << "'" << endl;
+								returnValue = winGadget(A, arrWhat, arrWhatN);
+							}
+							if (returnValue == 0)
+							{
+								qWhat = 17; // опрос заново
+								system("cls");
+							}
+							else
+								lastChosenGadget = returnValue;
 						}
 					}
 				}
@@ -288,23 +327,23 @@ int winGadget(gadget* A, int* x, int n) // x - это массив с подходящими под опис
 	int chosenGadget = 0; // итоговый номер устройства
 	if (n > 1) // если машин больше чем 1
 	{
-		cout << "Список подходящих под описание машин:" << endl;
-		for (int i = 0; i < n; i++) cout << i + 1 << ":" << A[x[i]].model << endl;
-		cout << "Введите номер машины от 1 до " << n << ":" << endl;
+		cout << "Какая именно установка?" << endl;
+		cout << "0 - Назад" << endl;
+		for (int i = 0; i < n; i++) cout << i + 1 << " - " << A[x[i]].model << endl;
 		do
 		{
 			uncorrectAnswer = 0;
-			cin >> chosenGadget;
-			if ((chosenGadget > n) || (chosenGadget < 1))
+			chosenGadget = _getch() - 48;
+			if (chosenGadget == 0) return 0; // в случае ввода нуля выполняется возврат на предыдущий раздел
+			if ((chosenGadget > n) || (chosenGadget < 0))
 			{
 				uncorrectAnswer = 1;
-				cout << "Введите пожалуйста число от 1 до " << n << endl;
+				return 17;
 			}
 		} while (uncorrectAnswer == 1);
 		chosenGadget = stoi(A[x[chosenGadget - 1]].number); // отныне эта переменная является номером выбранной машины
 	}
 	else chosenGadget = stoi(A[x[0]].number);
-	system("cls");
 	cout << "Выбрано:'" << A[chosenGadget].type
 		<< "' на '" << A[chosenGadget].place
 		<< "' модели '" << A[chosenGadget].model
@@ -334,8 +373,7 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 		cout << "1 - Сегодня" << endl;
 		cout << "2 - Вчера" << endl;
 		cout << "3 - Ввести дату" << endl;
-		// cout << "4 - Позавчера" << endl; // можно поделать если станет скучно
-		cin >> qWhen;
+		qWhen = _getch() - 48;
 		switch (qWhen)
 		{
 		case 0:
@@ -374,7 +412,7 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 				if (aWhen.length() != 6)
 				{
 					system("cls");
-					cout << "Пожалуйста, введите дату с левыми нулями! (например, так: 010407)" << endl; // ошибка
+					cout << "Пожалуйста, введите дату с левыми нулями! (пример: 010407)" << endl; // ошибка
 				}
 				else
 				{
@@ -401,7 +439,7 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 								if ((aWhenInt / 10000) > dayInFeb)
 								{
 									system("cls");
-									cout << "В этом феврале всего " << dayInFeb << " дней!";
+									cout << "В этом феврале всего " << dayInFeb << " дней!" << endl;
 								}
 								else repeatWhile = 0; // данные введены корректно
 							}
@@ -437,8 +475,8 @@ int dateDialog(gadget*& A, int lastChosenGadget, string& aWhere, string& aWhat, 
 										case 12: currentMonthName = "Декабрь";  break;
 										default:							    break;	
 										}
-										//тернарный оператор для красивого словца :)
-										string niceName = monthSize[currentMonth - 1] == 31 ? " день" : " дней";
+										// тернарный оператор для изменения окончания:
+										string niceName = monthSize[currentMonth - 1] == 31 ? " день!" : " дней!";
 										cout << "В " << currentMonth
 											 << "-м месяце (" << currentMonthName
 											 << ") всего " << monthSize[currentMonth - 1]
@@ -482,7 +520,7 @@ int hoursDialog(gadget*& A, int& lastChosenGadget, string& aWhen)
 		<< "Введена дата: " << aWhen << endl
 		<< "Вы уверены что ходите внести изменения? (1-да, 0-нет)" << endl;
 	int ready;
-	cin >> ready;
+	ready = _getch() - 48;
 	switch (ready)
 	{
 	case 0:
