@@ -7,7 +7,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 	// мод 2 - ??
 	// функци€ возвращает:
 	// 0 - если ??
-	// 1 - если ??
+	// 1 - если все ответы получены
 	int qWhere = 17; // объ€вление флажочка вопроса "√де?" и разрешение на следующий раздел
 	int qWhereFirst = 0; // объ€влени€ флажочка дл€ углубленного вопроса "√де?"
 	int qWhat = 0; // объ€вление флажочка вопроса "„то?"
@@ -310,12 +310,7 @@ int findDialog(gadget*& A, int& aN, string& aWhere, string& aWhat, string& aWhen
 					}
 				}
 			}
-			if (qWhere != 17)
-			{
-				dateDialog(A, lastChosenGadget, aWhere, aWhat, aWhen);
-				hoursDialog(A, lastChosenGadget, aWhen);
-				return 1;
-			}
+			if (qWhere != 17) return 1;
 		}
 	}
 }

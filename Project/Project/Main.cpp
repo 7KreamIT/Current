@@ -16,13 +16,17 @@ int main()
 	A = getByCsv(aN, fileNameCsv); // считать структуру с файла Csv
 #endif
 		
-	// опрос Что? Где? Когда?: 
-	string aWhere;        // ответ:  Где?
-	string aWhat;         // ответ:  Что?
+	// опрос Где? Что? Когда?: 
+	string aWhere;        // ответ: Где?
+	string aWhat;         // ответ: Что?
 	string aWhen;		  // ответ: Когда?
 	int lastChosenGadget; // окончательный номер выбранного устройства
 	int findMode = 1;	  // вариант работы функции findDialog
-	findDialog(A, aN, aWhere, aWhat, aWhen, lastChosenGadget, findMode);
+	if (findDialog(A, aN, aWhere, aWhat, aWhen, lastChosenGadget, findMode) == 1)
+	{
+		dateDialog(A, lastChosenGadget, aWhere, aWhat, aWhen);
+		hoursDialog(A, lastChosenGadget, aWhen);
+	};
 
 #if haveXlnt // если либа подключилась
 	// для корректной работы вывода нужно сменить локаль на английскую:
